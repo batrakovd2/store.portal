@@ -104,7 +104,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/field/*') || \Illuminate\Support\Facades\Request::is('admin/field')) {{'active'}}  @endif">
+                                <a href="{{url('admin/product')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/*') || \Illuminate\Support\Facades\Request::is('admin/product')) {{'active'}}  @endif">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Товары</p>
                                 </a>

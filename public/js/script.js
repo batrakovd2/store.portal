@@ -1,11 +1,10 @@
 $(document).ready(function () {
 
+    const PORTAL = 'https://portal.loc/';
+
+    /* Common functions */
     function axiosPostRequest(api, params, responseFunc) {
-        axios({
-            url: api,
-            params: params,
-            method: "POST"
-        }).then((response) => {
+        axios.post(api, params).then((response) => {
             responseFunc(response);
         });
     }
@@ -26,15 +25,122 @@ $(document).ready(function () {
             Toast.fire({
                 icon: 'success',
                 title: response.data['desc']
-            })
+            });
         }
         if (response.data['status'] == 'error') {
-            Toast.fire({
-                icon: 'error',
-                title: response.data['desc']
-            })
+            if(response.data['desc'].length > 1) {
+                response.data['desc'].forEach(function (item) {
+                    toastr.error(item)
+                });
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: response.data['desc']
+                });
+            }
+
+
         }
     }
+
+    function parentChecker(list, chips, fieldId,  api) {
+        $(list).change(function () {
+            const self = $(this);
+            id = $(this).val();
+            title = $(this).find(`[value=${id}]`).text();
+            url = api;
+            params = { id: id };
+
+            function changeListResponse(response) {
+                $(chips).append('<div class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $(list + ' option:selected').val() + '">' + $(list + ' option:selected').text() +'</div>');
+                $(fieldId).val(id);
+                if(response.data && response.data.length > 0) {
+                    $(list).children().remove();
+                    optionStr = '<option value="0">Нет</option>';
+                    response.data.forEach(function (item) {
+                        optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
+                    });
+                    $(list).html(optionStr);
+                } else {
+                    $(list).children().remove();
+                    $(list).html('<option value="0">Нет</option>');
+                    self.attr('disabled', true);
+                }
+            }
+            axiosPostRequest(url, params, changeListResponse);
+
+        });
+
+        $('body').on('click', chips + ' .chips-btn', function(){
+            let block = $(this), count = 1;
+            $(list).attr('disabled', false);
+            $('.chips-btn').each(function (i, f) {
+
+                if($(f).data('id') == block.data('id')) {
+                    count = i;
+                }
+            });
+            let id = 0;
+            if($('.chips-btn:nth-child('+(count)+')').length) {
+                id = $('.chips-btn:nth-child('+(count)+')').data('id');
+            }
+            url = api;
+            params = { id: id };
+
+            function clickChipsResponse(response) {
+                $(fieldId).val(id);
+                if(response.data && response.data.length > 0) {
+                    $(list).children().remove();
+                    optionStr = '<option value="0">Нет</option>';
+                    response.data.forEach(function (item) {
+                        optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
+                    });
+                    $(list).html(optionStr);
+                    $('.chips-btn').each(function (i, f) {
+                        if(i >= count) {
+                            $(f).remove();
+                        }
+                    })
+                }
+            }
+
+            axiosPostRequest(url, params, clickChipsResponse);
+
+        });
+    }
+
+    function deleteItemFromList(removeClass, api) {
+        $('body').on('click', removeClass, function () {
+            const id = $(this).data('id');
+            url = api;
+            const self = $(this);
+            params = { id: id };
+            function removeResponseFunc(responce) {
+                if (responce.data['status'] == 'success') {
+                    Toast.fire({
+                        icon: 'success',
+                        title: responce.data['desc']
+                    });
+                    self.closest('tr').remove();
+                }
+                if (responce.data['status'] == 'error') {
+                    Toast.fire({
+                        icon: 'error',
+                        title: responce.data['desc']
+                    });
+                }
+            }
+            axiosPostRequest(url, params, removeResponseFunc);
+        });
+
+    }
+
+    function getAnyPageParameters(formselector) {
+        const form = document.querySelector(formselector);
+        const formdata = new FormData(form);
+        return formdata;
+    }
+
 
     /* Rubric page events */
 
@@ -648,92 +754,65 @@ $(document).ready(function () {
         axiosPostRequest(url, params, modalSweetAlert);
     });
 
-    $('body').on('click', '.remove-category-btn', function () {
-        const id = $(this).data('id');
-        url = '/api/category/remove';
-        params = { id: id };
-        function removeResponseFunc(responce) {
-            if (responce.data['status'] == 'success') {
-                Toast.fire({
-                    icon: 'success',
-                    title: responce.data['desc']
-                });
-                $(this).closest('tr').remove();
-            }
-            if (responce.data['status'] == 'error') {
-                Toast.fire({
-                    icon: 'error',
-                    title: responce.data['desc']
-                });
-            }
-        }
-        axiosPostRequest(url, params, removeResponseFunc);
+    deleteItemFromList('.remove-category-btn', '/api/category/remove');
+
+    parentChecker("#category-list", "#category_array", "#category-id", "/api/category/getChild");
+
+    /* Product page events */
+
+    $('.createProduct').click(function () {
+        const params = getAnyPageParameters('#productForm');
+        const url = '/api/product/add';
+        axiosPostRequest(url, params, modalSweetAlert);
     });
 
-    $("#category-list").change(function () {
-        id = $(this).val();
-        title = $(this).find(`[value=${id}]`).text();
-        url = '/api/category/getChild';
-        params = { id: id };
-
-        function changeListResponse(response) {
-            $('#category_array').append('<a href="javascipt:void(0)" class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#category-list option:selected').val() + '">' + $('#category-list option:selected').text() +'</a>');
-            $('#category-id').val(id);
-            if(response.data && response.data.length > 0) {
-                $('#category-list').children().remove();
-                optionStr = '<option value="0">Нет</option>';
-                response.data.forEach(function (item) {
-                    optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
-                });
-                $('#category-list').html(optionStr);
-            } else {
-                $('#category-list').children().remove();
-                $('#category-list').html('<option value="0">Нет</option>');
-                $(this).attr('disabled', true);
-            }
-        }
-        axiosPostRequest(url, params, changeListResponse);
-
+    $('.editProduct').click(function () {
+        const params = getAnyPageParameters('#productForm');
+        const url = '/api/product/edit/' + params.get('productid');
+        axiosPostRequest(url, params, modalSweetAlert);
     });
 
-    $('body').on('click', '#category_array .chips-btn', function(){
-        let block = $(this), count = 1;
-        $('#category-list').attr('disabled', false);
-        $('.chips-btn').each(function (i, f) {
+    //get fields from portal if fieldInput exist
+    // if($('#fieldInput').length) {
+    //     const id = $('#productid').val();
+    //     function renderFieldsApi(response) {
+    //         let text = '';
+    //         if(response.data && response.data.length > 0) {
+    //             response.data.forEach(function (item) {
+    //                 text = text + '<div class="col-md-4">\n' +
+    //                     '                    <div class="form-check">\n' +
+    //                     '                        <input class="form-check-input field-checkbox" name="fields[]" type="checkbox" id="flexCheckDefault_'+ item.id + '" value="'+ item.id + '">' +
+    //                     '                        <label class="form-check-label" for="flexCheckDefault_' + item.id + '">\n' +
+    //                     '                            '+ item.title +
+    //                     '                        </label>\n' +
+    //                     '                    </div>\n' +
+    //                     '                </div>';
+    //             });
+    //             $('#fieldInput').append(text);
+    //
+    //             if($('#fieldInput .col-md-4').length) {
+    //                 axiosPostRequest('/api/product/fields/' + id, {}, setCheckedOnInput);
+    //             }
+    //         }
+    //     }
+    //
+    //     function setCheckedOnInput(response) {
+    //         if(response.data && response.data.length > 0) {
+    //             console.log(response.data)
+    //             $('#fieldInput .col-md-4').each(function () {
+    //
+    //                 // if($(this).find('.field-checkbox').val() == )
+    //                 console.log($(this).find('.field-checkbox').val());
+    //             });
+    //         }
+    //
+    //     }
+    //     axiosPostRequest(PORTAL + 'api/field/get', {}, renderFieldsApi);
+    //
+    //
+    // }
 
-            if($(f).data('id') == block.data('id')) {
-                count = i;
-            }
-        });
-        let id = 0;
-        if($('.chips-btn:nth-child('+(count)+')').length) {
-            id = $('.chips-btn:nth-child('+(count)+')').data('id');
-        }
 
-        url = '/api/category/getChild';
-        params = { id: id };
-
-        function clickChipsResponse(response) {
-            $('#category-id').val(id);
-            if(response.data && response.data.length > 0) {
-                $('#category-list').children().remove();
-                optionStr = '<option value="0">Нет</option>';
-                response.data.forEach(function (item) {
-                    optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
-                });
-                $('#category-list').html(optionStr);
-                $('.chips-btn').each(function (i, f) {
-                    console.log(count, f, i)
-                    if(i >= count) {
-                        $(f).remove();
-                    }
-                })
-            }
-        }
-
-        axiosPostRequest(url, params, clickChipsResponse);
-
-    });
 
 
 });
