@@ -16,21 +16,21 @@
 <div class="form-group">
     <label for="inputStatus">Рубрика</label>
     <div id="rubric_array" class="form-group">
-        @if(!empty($parentRubric))
-            @forelse($parentRubric as $prb)
-                <button class="btn btn-info btn-sm mr-2 chips-btn" data-id="{{$prb['id']}}">{{$prb['title']}}</button>
-            @empty
-            @endforelse
+        @if(!empty($rubric))
+            @foreach($rubric as $prb)
+                <button class="btn btn-info btn-sm mr-2 chips-btn" data-id="{{$prb->id}}">{{$prb->title}}</button>
+            @endforeach
         @endif
 
     </div>
-    <input id="rubric-id" name="rubric_id" type="hidden" @if(!empty($parentRubric)) value="{{$prb['id']}}" @else value="0"  @endif>
-    <select id="rubric-list" class="form-control custom-select" @if(!empty($parentRubric)) disabled  @endif>
+    <input id="rubric-id" name="rubric_id" type="hidden" @if(!empty($rubric)) value="{{$prb->id}}" @else value="0"  @endif>
+    <select id="rubric-list" class="form-control custom-select" @if(!empty($rubric)) disabled  @endif>
         <option value="0">Нет</option>
-        @forelse($rubric as $rb)
-            <option value="{{$rb->id}}">{{$rb->title}}</option>
-        @empty
-        @endforelse
+        @if(!empty($rubricChild))
+            @foreach($rubricChild as $rb)
+                <option value="{{$rb['id']}}">{{$rb['title']}}</option>
+            @endforeach
+        @endif
 
     </select>
 </div>
@@ -44,7 +44,7 @@
             @endforelse
         @endif
     </div>
-    <input id="category-id" name="categopry_id" type="hidden" @if(!empty($parentCategory)) value="{{$pcat['id']}}" @else value="0"  @endif>
+    <input id="category-id" name="category_id" type="hidden" @if(!empty($parentCategory)) value="{{$pcat['id']}}" @else value="0"  @endif>
     <select id="category-list" class="form-control custom-select" @if(!empty($parentCategory)) disabled  @endif>
         <option value="0">Нет</option>
         @if(!empty($categories))

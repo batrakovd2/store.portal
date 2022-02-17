@@ -92,6 +92,11 @@ class ProductController extends Controller
         $fields = $prt->getFields();
         $units = $prt->getUnits();
         $product = Product::getProduct($id);
+        $request = new Request();
+        $request['id'] = $product && $product->rubric_id ? $product->rubric_id : 0;
+        $rubricChild = $prt->getRubricChild($request);
+        $rubric = $product->rubric_id ? $prt->getRubric($product->rubric_id) : [];
+        $rubric = $rubric ? $prt->getRubricChildChain($product->rubric_id) : [];
         $checkedFields = $product && $product->fields ? json_decode($product->fields) : 0;
         $categoryId = $product ? $product->category_id : 0;
         $parentCategory = Category::getCategory($categoryId);
@@ -103,7 +108,9 @@ class ProductController extends Controller
             'categories' => $categories,
             'fields' => $fields,
             'checkedFields' => $checkedFields,
-            'units' => $units
+            'units' => $units,
+            'rubricChild' => $rubricChild,
+            'rubric' => $rubric
         ]);
     }
 
