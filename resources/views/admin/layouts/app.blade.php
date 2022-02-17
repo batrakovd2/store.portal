@@ -104,27 +104,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{url('admin/product')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/*') || \Illuminate\Support\Facades\Request::is('admin/product')) {{'active'}}  @endif">
+                                <a href="{{url('admin/product')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/') || \Illuminate\Support\Facades\Request::is('admin/product')) {{'active'}}  @endif">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Товары</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/unit/*') || \Illuminate\Support\Facades\Request::is('admin/unit')) {{'active'}}  @endif">
+                                <a href="{{url('admin/product/create')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/create*') || \Illuminate\Support\Facades\Request::is('admin/product/create')) {{'active'}}  @endif">
                                     <i class="far fa-dot-circle nav-icon"></i>
                                     <p>Добавить товар</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/unit/*') || \Illuminate\Support\Facades\Request::is('admin/unit')) {{'active'}}  @endif">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Импорт товаров</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/unit/*') || \Illuminate\Support\Facades\Request::is('admin/unit')) {{'active'}}  @endif">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Экспорт товаров</p>
                                 </a>
                             </li>
                         </ul>

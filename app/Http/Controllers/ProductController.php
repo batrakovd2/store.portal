@@ -34,12 +34,12 @@ class ProductController extends Controller
         $units = $prt->getUnits();
         $request = new Request();
         $request['id'] = 0;
-        $rubric = $prt->getRubricChild($request);
+        $rubricChild = $prt->getRubricChild($request);
         return view('admin.product.create', [
             'categories' => Category::getAllParentCategories(),
             'fields' => $fields,
             'units' => $units,
-            'rubric' => $rubric
+            'rubricChild' => $rubricChild
         ]);
     }
 
