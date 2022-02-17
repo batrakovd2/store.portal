@@ -16,11 +16,10 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-10">
-                            <div class="card card-primary">
                                 <!-- /.card-header -->
+
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Список товаров</h3>
@@ -56,9 +55,12 @@
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        {!! $products->onEachSide(1)->appends(request()->query())->links('admin.layouts.pagination') !!}
+
+                                    </div>
                                 </div>
                                 <!-- /.card-body -->
-                            </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="card card-primary card-outline">
@@ -68,8 +70,9 @@
                                 <!-- /.card-body -->
                             </div>
                         </div>
+
                     </div>
-                </div>
+
             </div>
         </div>
 

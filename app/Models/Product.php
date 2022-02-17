@@ -31,7 +31,7 @@ class Product extends Model
     ];
 
     public function getAllProducts() {
-        return Product::limit(60)->paginate(20);
+        return Product::orderBy('created_at', 'desc')->paginate(20);
     }
 
     public function getProduct($id) {

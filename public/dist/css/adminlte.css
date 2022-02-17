@@ -21822,7 +21822,7 @@ body.text-sm .control-sidebar {
 
 .pagination-month .page-item:first-child .page-link, .pagination-month .page-item:last-child .page-link {
   height: 100%;
-  font-size: 1.25rem;
+  /*font-size: 1.25rem;*/
 }
 
 .pagination-month .page-item .page-month {
