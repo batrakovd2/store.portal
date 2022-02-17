@@ -32,10 +32,14 @@ class ProductController extends Controller
         $prt = new PortalConnectionController();
         $fields = $prt->getFields();
         $units = $prt->getUnits();
+        $request = new Request();
+        $request['id'] = 0;
+        $rubric = $prt->getRubricChild($request);
         return view('admin.product.create', [
             'categories' => Category::getAllParentCategories(),
             'fields' => $fields,
-            'units' => $units
+            'units' => $units,
+            'rubric' => $rubric
         ]);
     }
 
@@ -47,15 +51,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = $this->validator($request->all());
-
         $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
         $fields = $request->input('fields');
         $request['fields'] = $fields ? json_encode($fields) : NULL;
         try {
             $validator->validate();
-
             Product::create($request->all());
             $result = 'success';
             $description = "Товар добавлен";
@@ -137,11 +138,21 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string[]
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->input('id');
+        try {
+            Product::where('id', $id)->delete();
+            $result = 'success';
+            $description = "Товар удален";
+        } catch (\Exception $e) {
+            $result = 'error';
+            $description = "Произошла ошибка при удалении товара";
+        }
+
+        return array("status" => $result, "desc" => $description);
     }
 
     public function getProductFields($id) {
@@ -152,8 +163,21 @@ class ProductController extends Controller
 
     private function validator($data) {
         return Validator::make($data, [
-            'title' => ['required', 'max:15'],
-            'up_text' => ['required', 'max:15'],
+            'title' => ['required', 'max:255'],
+            'up_text' => ['max:300'],
+            'price' => ['max:100'],
+            'photo' => ['max:255'],
+            'stock' => ['max:255'],
+            'meta_title' => ['max:255'],
+            'meta_description' => ['max:255'],
+            'meta_keywords' => ['max:255'],
+            'prod_id' => ['digits_between:0,11'],
+            'category_id' => ['digits_between:0,11'],
+            'rubric_id' => ['digits_between:0,11'],
+            'units' => ['digits_between:0,11'],
+            'view' => ['digits_between:0,11'],
+            'priority' => ['digits_between:0,11'],
+            'rating' => ['digits_between:0,11']
         ]);
     }
 }
