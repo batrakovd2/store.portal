@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Faker\Provider\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -30,7 +31,8 @@ class CategoryController extends Controller
     public function create()
     {
         return view('admin.category.create',[
-            'categories' => Category::getAllParentCategories()
+            'categories' => Category::getAllParentCategories(),
+            'categoryList' => Category::getCategories(5)
         ]);
     }
 
@@ -42,17 +44,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = $this->validator($request->all());
         $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
         try {
-            Category::create($request->all());
+            $validator->validate();
+            $item = Category::create($request->all());
             $result = 'success';
             $description = "Категория добавлена";
         } catch (\Exception $e) {
+            $errors = $validator->errors();
             $result = 'error';
-            $description = "Произошла ошибка при добавлении категории";
+            $description = $errors ? $errors->all() : "Произошла ошибка при добавлении категории";
         }
 
-        return array("status" => $result, "desc" => $description);
+        return array("status" => $result, "desc" => $description, "item" => $item);
     }
 
     /**
@@ -81,7 +86,8 @@ class CategoryController extends Controller
         return view('admin.category.edit', [
             'category' => $category,
             'parentCategory' => $parentCategory,
-            'categories' => $categories
+            'categories' => $categories,
+            'categoryList' => Category::getCategories(5)
         ]);
     }
 
@@ -94,17 +100,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $validator = $this->validator($request->all());
         try {
+            $validator->validate();
             $category = Category::find($category->id);
             $category->update($request->except('slug'));
             $result = 'success';
             $description = "Категория изменена";
         } catch (\Exception $e) {
+            $errors = $validator->errors();
             $result = 'error';
-            $description = "Произошла ошибка при изменении категории";
+            $description = $errors ? $errors->all() : "Произошла ошибка при изменении категории";
         }
 
-        return array("status" => $result, "desc" => $description);
+        return array("status" => $result, "desc" => $description, "item" => $category);
     }
 
     /**
@@ -154,4 +163,18 @@ class CategoryController extends Controller
         $category = Category::where('parent_id', $id)->get();
         return $category;
     }
+
+    private function validator($data) {
+        return Validator::make($data, [
+            'title' => ['required', 'max:250'],
+            'description' => ['max:800'],
+            'photo' => ['max:500'],
+            'meta_title' => ['max:255'],
+            'meta_description' => ['max:255'],
+            'meta_keywords' => ['max:255'],
+            'parent_id' => ['digits_between:0,11'],
+            'categoryid' => ['digits_between:0,11']
+        ]);
+    }
+
 }

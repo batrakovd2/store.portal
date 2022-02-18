@@ -150,10 +150,21 @@ $(document).ready(function () {
     }
 
     function renderAdminItemList(item) {
-        str = $('.card-item-list').find('td').text()
+        const itemList = $('.card-item-list').find('td');
+        const str = itemList.text();
+        const oldTitle = $('input[name="title"]').data('title');
+        if(str.includes(oldTitle)){
+            itemList.each(function (el) {
+                const strEl = $(this).text();
+                if(oldTitle && strEl.includes(oldTitle)){
+                    $(this).text(item.title);
+                }
+            })
+        } else {
+            let element =  '<tr><td>' + item.title +'</td> <td><a href="#" data-id="' + item.id +'" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2 remove-product-btn"><i class="fas fa-trash"></i></a> <a href="/admin/product/' + item.id +'/edit" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2"><i class="fas fa-pencil-alt"></i></a></td></tr>';
+            $('.card-item-list').find('tbody').prepend(element);
+        }
 
-        let element =  '<tr><td>' + item.title +'</td> <td><a href="#" data-id="' + item.id +'" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2 remove-product-btn"><i class="fas fa-trash"></i></a> <a href="/admin/product/' + item.id +'/edit" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2"><i class="fas fa-pencil-alt"></i></a></td></tr>';
-        $('.card-item-list').find('tbody').prepend(element);
     }
 
 
@@ -610,49 +621,15 @@ $(document).ready(function () {
     /* Category page events */
 
     $('.createCategory').click(function () {
-        title = $('#inputName').val();
-        description = $('#inputDescription').val();
-        photo = $('#inputPhoto').val();
-        metaName = $('#inputMetaTitle').val();
-        metaDescription = $('#inputMetaDescription').val();
-        metaKeywords = $('#inputMetaKeywords').val();
-        parentId = $('#category-id').val();
-
-        url = '/api/category/add';
-        params = {
-            title: title,
-            description: description,
-            photo: photo,
-            meta_name: metaName,
-            meta_description: metaDescription,
-            meta_keywords: metaKeywords,
-            parent_id: parentId
-        }
-        axiosPostRequest(url, params, modalSweetAlert)
-
+        const url = '/api/category/add';
+        const params = getAnyPageParameters('#categoryForm');
+        axiosPostRequest(url, params, addAdminItemList)
     });
 
     $('.editCategory').click(function () {
-        id = $('#categoryid').val();
-        title = $('#inputName').val();
-        description = $('#inputDescription').val();
-        photo = $('#inputPhoto').val();
-        metaName = $('#inputMetaTitle').val();
-        metaDescription = $('#inputMetaDescription').val();
-        metaKeywords = $('#inputMetaKeywords').val();
-        parentId = $('#category-id').val();
-
-        url = '/api/category/edit/' + id;
-        params = {
-            title: title,
-            description: description,
-            photo: photo,
-            meta_name: metaName,
-            meta_description: metaDescription,
-            meta_keywords: metaKeywords,
-            parent_id: parentId
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
+        const params = getAnyPageParameters('#categoryForm');
+        const url = '/api/category/edit/' + params.get('categoryid');
+        axiosPostRequest(url, params, addAdminItemList);
     });
 
     deleteItemFromList('.remove-category-btn', '/api/category/remove');
@@ -670,7 +647,7 @@ $(document).ready(function () {
     $('.editProduct').click(function () {
         const params = getAnyPageParameters('#productForm');
         const url = '/api/product/edit/' + params.get('productid');
-        axiosPostRequest(url, params, editAdminItemList);
+        axiosPostRequest(url, params, addAdminItemList);
     });
 
     deleteItemFromList('.remove-product-btn', '/api/product/remove');

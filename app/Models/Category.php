@@ -24,9 +24,10 @@ class Category extends Model
         return Category::where('id', $id)->first();
     }
 
-    public function getCategories() {
-        return Category::get();
+    public function getCategories($limit = 20) {
+        return Category::orderBy('created_at', 'desc')->paginate($limit);
     }
+
 
     public function getAllParentCategories() {
         return Category::where("parent_id", null)->orWhere("parent_id", 0)->get();
