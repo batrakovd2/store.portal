@@ -55,15 +55,15 @@
 </div>
 <div class="form-group">
     <label for="inputUpText">Краткое описание</label>
-    <input type="text" class="form-control" id="inputUpText" name="up_text" placeholder="Краткое описание товара" value="@if(!empty($product) )  {{$product->up_text}} @endif" >
+    <input type="text" class="form-control" id="inputUpText" name="up_text" placeholder="Краткое описание товара" value="@if(!empty($product) ){{$product->up_text}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputDownText">Полное описание</label>
-    <input type="text" class="form-control" id="inputDownText" name="down_text"  placeholder="Описание товара" value="@if(!empty($product) )  {{$product->down_text}} @endif" >
+    <input type="text" class="form-control" id="inputDownText" name="down_text"  placeholder="Описание товара" value="@if(!empty($product) ){{$product->down_text}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputPrice">Цена</label>
-    <input type="text" class="form-control" id="inputPrice" name="price" placeholder="1000" value="@if(!empty($product) )  {{$product->price}} @endif" >
+    <input type="text" class="form-control" id="inputPrice" name="price" placeholder="1000" value="@if(!empty($product) ){{$product->price}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputStatus">Единицы</label>
@@ -98,11 +98,7 @@
 
 <div class="form-group">
     <label for="inputPhoto">Фото</label>
-    <input type="file" class="form-control" id="inputPhoto" name="photo" value="@if(!empty($product) )  {{$product->photo}} @endif" >
-</div>
-<div class="form-group">
-    <label for="inputPriority">Приоритет</label>
-    <input type="text" class="form-control" id="inputPriority" name="priority" placeholder="от 0 до 5" value="@if(!empty($product) )  {{$product->priority}} @endif" >
+    <input type="file" class="form-control" id="inputPhoto" name="photo" value="@if(!empty($product) ){{$product->photo}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputStock">Наличие</label>
@@ -110,15 +106,15 @@
 </div>
 <div class="form-group">
     <label for="inputMetaTitle">Мета заголовок</label>
-    <input type="text" class="form-control" id="inputMetaTitle" name="meta_name" placeholder="Заголовок страницы товара" value="@if(!empty($product) )  {{$product->meta_name}} @endif" >
+    <input type="text" class="form-control" id="inputMetaTitle" name="meta_name" placeholder="Заголовок страницы товара" value="@if(!empty($product) ){{$product->meta_name}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputMetaDescription">Мета Описание</label>
-    <input type="text" class="form-control" id="inputMetaDescription" name="meta_description" placeholder="Описание страницы товара" value="@if(!empty($product) )  {{$product->meta_description}} @endif" >
+    <input type="text" class="form-control" id="inputMetaDescription" name="meta_description" placeholder="Описание страницы товара" value="@if(!empty($product) ){{$product->meta_description}}@endif" >
 </div>
 <div class="form-group">
     <label for="inputMetaKeywords">Мета ключевые слова</label>
-    <input type="text" class="form-control" id="inputMetaKeywords" name="meta_keywords" placeholder="Ключевые слова для страницы товара" value="@if(!empty($product) )  {{$product->meta_keywords}} @endif" >
+    <input type="text" class="form-control" id="inputMetaKeywords" name="meta_keywords" placeholder="Ключевые слова для страницы товара" value="@if(!empty($product) ){{$product->meta_keywords}}@endif" >
 </div>
 </form>
 

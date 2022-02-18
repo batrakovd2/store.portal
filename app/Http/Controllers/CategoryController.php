@@ -150,7 +150,7 @@ class CategoryController extends Controller
 
     public function getChildCategory(Request $request) {
         $id = $request->input('id');
-        $id = $id ? $id : null;
+        $id = $id ? $id : 0;
         $category = Category::where('parent_id', $id)->get();
         return $category;
     }

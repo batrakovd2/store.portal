@@ -73,15 +73,15 @@ $(document).ready(function () {
         $('body').on('click', chips + ' .chips-btn', function () {
             let block = $(this), count = 1;
             $(list).attr('disabled', false);
-            $('.chips-btn').each(function (i, f) {
+            $(chips + ' .chips-btn').each(function (i, f) {
 
                 if ($(f).data('id') == block.data('id')) {
                     count = i;
                 }
             });
             let id = 0;
-            if ($('.chips-btn:nth-child(' + (count) + ')').length) {
-                id = $('.chips-btn:nth-child(' + (count) + ')').data('id');
+            if ($(chips + ' .chips-btn:nth-child(' + (count) + ')').length) {
+                id = $(chips + ' .chips-btn:nth-child(' + (count) + ')').data('id');
             }
             url = api;
             params = {id: id};
@@ -95,7 +95,7 @@ $(document).ready(function () {
                         optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
                     });
                     $(list).html(optionStr);
-                    $('.chips-btn').each(function (i, f) {
+                    $(chips + ' .chips-btn').each(function (i, f) {
                         if (i >= count) {
                             $(f).remove();
                         }
