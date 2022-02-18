@@ -110,15 +110,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.company.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/*') || \Illuminate\Support\Facades\Request::is('admin/company')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-globe-americas"></i>
-                            <p>
-                                Новости
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('admin.city.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/city/*') || \Illuminate\Support\Facades\Request::is('admin/city')) {{'active'}}  @endif">
+                        <a href="{{route('admin.page.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/page/*') || \Illuminate\Support\Facades\Request::is('admin/page')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-city"></i>
                             <p>
                                 Страницы
@@ -134,7 +126,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.page.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/page/*') || \Illuminate\Support\Facades\Request::is('admin/page')) {{'active'}}  @endif">
+                        <a href="{{route('admin.company.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/*') || \Illuminate\Support\Facades\Request::is('admin/company')) {{'active'}}  @endif">
+                            <i class="nav-icon fas fa-globe-americas"></i>
+                            <p>
+                                Новости
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('admin.user.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/user/*') || \Illuminate\Support\Facades\Request::is('admin/user')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-file"></i>
                             <p>
                                 Пользователи

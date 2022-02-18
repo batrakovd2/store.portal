@@ -11,7 +11,7 @@
     {{--@dd($categories)--}}
     <div class="form-group">
         <label for="inputSlug">Ссылка</label>
-        <input type="text" class="form-control" id="inputSlug" value="{{!empty($onceRubric) ? $onceRubric->slug : 'Генерируется автоматически'}}" disabled>
+        <input type="text" class="form-control" id="inputSlug" value="{{!empty($category) ? $category->slug : 'Генерируется автоматически'}}" disabled>
     </div>
     <div class="form-group">
         <label for="inputStatus">Родительская категория</label>
