@@ -79,14 +79,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url('admin/rubric')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/rubric/*') || \Illuminate\Support\Facades\Request::is('admin/rubric')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-bars"></i>
-                            <p>
-                                Рубрики
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{url('admin/category')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/category/*') || \Illuminate\Support\Facades\Request::is('admin/category')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-bars"></i>
                             <p>
@@ -94,7 +86,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item menu-open">
+                    <li class="nav-item ">
                         <a href="{{route('admin.index')}}" class="nav-link">
                             <i class="nav-icon fas fa-box"></i>
                             <p>

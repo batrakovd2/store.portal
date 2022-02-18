@@ -4,7 +4,7 @@
     <div class="form-group">
         <label for="inputName">Название категории</label>
 
-        <input type="text" id="inputName" name="title" data-title="{{$category->title}}" class="form-control" placeholder="Название категории" required
+        <input type="text" id="inputName" name="title" @if(!empty($category))data-title="{{$category->title}}"@endif class="form-control" placeholder="Название категории" required
                @if(!empty($category)) value="{{$category->title}}" @endif
         >
     </div>

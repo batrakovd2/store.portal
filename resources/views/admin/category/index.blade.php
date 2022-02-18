@@ -21,7 +21,6 @@
                         <div class="col-lg-10">
                             <div class="card card-primary">
                                 <!-- /.card-header -->
-                                <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Список категорий</h3>
                                     </div>
@@ -56,7 +55,9 @@
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
-                                </div>
+                                    <div class="card-footer">
+                                        {!! $category->onEachSide(1)->appends(request()->query())->links('admin.layouts.pagination') !!}
+                                    </div>
                                 <!-- /.card-body -->
                             </div>
                         </div>
