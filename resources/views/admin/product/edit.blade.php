@@ -32,6 +32,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        @include('admin.layouts.product-list')
+                    </div>
                 </div>
 
 

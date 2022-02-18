@@ -39,7 +39,8 @@ class ProductController extends Controller
             'categories' => Category::getAllParentCategories(),
             'fields' => $fields,
             'units' => $units,
-            'rubricChild' => $rubricChild
+            'rubricChild' => $rubricChild,
+            'products' => Product::getAllProducts(5)
         ]);
     }
 
@@ -57,7 +58,7 @@ class ProductController extends Controller
         $request['fields'] = $fields ? json_encode($fields) : NULL;
         try {
             $validator->validate();
-            Product::create($request->all());
+            $item = Product::create($request->all());
             $result = 'success';
             $description = "Товар добавлен";
         } catch (\Exception $e) {
@@ -66,7 +67,7 @@ class ProductController extends Controller
             $description = $errors ? $errors->all() : "Произошла ошибка при добавлении товара";
         }
 
-        return array("status" => $result, "desc" => $description);
+        return array("status" => $result, "desc" => $description, "item" => $item);
     }
 
     /**
@@ -110,7 +111,8 @@ class ProductController extends Controller
             'checkedFields' => $checkedFields,
             'units' => $units,
             'rubricChild' => $rubricChild,
-            'rubric' => $rubric
+            'rubric' => $rubric,
+            'products' => Product::getAllProducts(5)
         ]);
     }
 
@@ -138,7 +140,7 @@ class ProductController extends Controller
             $description = $errors ? $errors->all() : "Произошла ошибка при добавлении товара";
         }
 
-        return array("status" => $result, "desc" => $description);
+        return array("status" => $result, "desc" => $description, "item" => $prod);
     }
 
     /**

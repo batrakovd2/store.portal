@@ -30,8 +30,8 @@ class Product extends Model
         'meta_keywords',
     ];
 
-    public function getAllProducts() {
-        return Product::orderBy('created_at', 'desc')->paginate(20);
+    public function getAllProducts($limit = 20) {
+        return Product::orderBy('created_at', 'desc')->paginate($limit);
     }
 
     public function getProduct($id) {

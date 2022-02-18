@@ -28,7 +28,7 @@ $(document).ready(function () {
             });
         }
         if (response.data['status'] == 'error') {
-            if(response.data['desc'].length > 1) {
+            if (response.data['desc'].length > 1) {
                 response.data['desc'].forEach(function (item) {
                     toastr.error(item)
                 });
@@ -38,23 +38,21 @@ $(document).ready(function () {
                     title: response.data['desc']
                 });
             }
-
-
         }
     }
 
-    function parentChecker(list, chips, fieldId,  api) {
+    function parentChecker(list, chips, fieldId, api) {
         $(list).change(function () {
             const self = $(this);
             id = $(this).val();
             title = $(this).find(`[value=${id}]`).text();
             url = api;
-            params = { id: id };
+            params = {id: id};
 
             function changeListResponse(response) {
-                $(chips).append('<div class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $(list + ' option:selected').val() + '">' + $(list + ' option:selected').text() +'</div>');
+                $(chips).append('<div class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $(list + ' option:selected').val() + '">' + $(list + ' option:selected').text() + '</div>');
                 $(fieldId).val(id);
-                if(response.data && response.data.length > 0) {
+                if (response.data && response.data.length > 0) {
                     $(list).children().remove();
                     optionStr = '<option value="0">Нет</option>';
                     response.data.forEach(function (item) {
@@ -67,29 +65,30 @@ $(document).ready(function () {
                     self.attr('disabled', true);
                 }
             }
+
             axiosPostRequest(url, params, changeListResponse);
 
         });
 
-        $('body').on('click', chips + ' .chips-btn', function(){
+        $('body').on('click', chips + ' .chips-btn', function () {
             let block = $(this), count = 1;
             $(list).attr('disabled', false);
             $('.chips-btn').each(function (i, f) {
 
-                if($(f).data('id') == block.data('id')) {
+                if ($(f).data('id') == block.data('id')) {
                     count = i;
                 }
             });
             let id = 0;
-            if($('.chips-btn:nth-child('+(count)+')').length) {
-                id = $('.chips-btn:nth-child('+(count)+')').data('id');
+            if ($('.chips-btn:nth-child(' + (count) + ')').length) {
+                id = $('.chips-btn:nth-child(' + (count) + ')').data('id');
             }
             url = api;
-            params = { id: id };
+            params = {id: id};
 
             function clickChipsResponse(response) {
                 $(fieldId).val(id);
-                if(response.data && response.data.length > 0) {
+                if (response.data && response.data.length > 0) {
                     $(list).children().remove();
                     optionStr = '<option value="0">Нет</option>';
                     response.data.forEach(function (item) {
@@ -97,7 +96,7 @@ $(document).ready(function () {
                     });
                     $(list).html(optionStr);
                     $('.chips-btn').each(function (i, f) {
-                        if(i >= count) {
+                        if (i >= count) {
                             $(f).remove();
                         }
                     })
@@ -114,7 +113,8 @@ $(document).ready(function () {
             const id = $(this).data('id');
             url = api;
             const self = $(this);
-            params = { id: id };
+            params = {id: id};
+
             function removeResponseFunc(responce) {
                 if (responce.data['status'] == 'success') {
                     Toast.fire({
@@ -130,6 +130,7 @@ $(document).ready(function () {
                     });
                 }
             }
+
             axiosPostRequest(url, params, removeResponseFunc);
         });
 
@@ -139,6 +140,20 @@ $(document).ready(function () {
         const form = document.querySelector(formselector);
         const formdata = new FormData(form);
         return formdata;
+    }
+
+    function addAdminItemList(response) {
+        modalSweetAlert(response);
+        if (response.data['status'] == 'success' && response.data["item"]) {
+            renderAdminItemList(response.data["item"])
+        }
+    }
+
+    function renderAdminItemList(item) {
+        str = $('.card-item-list').find('td').text()
+
+        let element =  '<tr><td>' + item.title +'</td> <td><a href="#" data-id="' + item.id +'" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2 remove-product-btn"><i class="fas fa-trash"></i></a> <a href="/admin/product/' + item.id +'/edit" title="Edit" class="btn btn-secondary btn-sm edit float-right ml-2"><i class="fas fa-pencil-alt"></i></a></td></tr>';
+        $('.card-item-list').find('tbody').prepend(element);
     }
 
 
@@ -168,7 +183,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-field-btn', function () {
         const id = $(this).data('id');
         url = '/api/field/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -201,7 +216,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-unit-btn', function () {
         const id = $(this).data('id');
         url = '/api/unit/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -210,11 +225,12 @@ $(document).ready(function () {
         id = $(this).val();
         title = $(this).find(`[value=${id}]`).text();
         url = '/api/unit/getChild';
-        params = { id: id };
+        params = {id: id};
+
         function changeListResponse(response) {
-            $('#unit_array').append('<button class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#unit-list option:selected').val() + '">' + $('#unit-list option:selected').text() +'</button>');
+            $('#unit_array').append('<button class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#unit-list option:selected').val() + '">' + $('#unit-list option:selected').text() + '</button>');
             $('#parent-unit').val(id);
-            if(response.data && response.data.length > 0) {
+            if (response.data && response.data.length > 0) {
                 $('#unit-list').children().remove();
                 optionStr = '<option value="0">Нет</option>';
                 response.data.forEach(function (item) {
@@ -227,27 +243,29 @@ $(document).ready(function () {
                 $(this).attr('disabled', true);
             }
         }
+
         axiosPostRequest(url, params, changeListResponse);
 
     });
 
-    $('body').on('click', '#unit_array .chips-btn', function(){
+    $('body').on('click', '#unit_array .chips-btn', function () {
         let block = $(this), count = 0;
         $('#unit-list').attr('disabled', false);
         $('#unit_array .chips-btn').each(function (i, f) {
-            if($(f).data('id') == block.data('id')) {
+            if ($(f).data('id') == block.data('id')) {
                 count = i;
             }
         });
         let id = 0;
-        if($('#unit_array .chips-btn:nth-child('+(count)+')').length) {
-            id = $('#unit_array .chips-btn:nth-child('+(count)+')').data('id');
+        if ($('#unit_array .chips-btn:nth-child(' + (count) + ')').length) {
+            id = $('#unit_array .chips-btn:nth-child(' + (count) + ')').data('id');
         }
         url = '/api/unit/getChild';
-        params = { id: id };
+        params = {id: id};
+
         function clickChipsResponse(response) {
             $('#unit-list').val(id);
-            if(response.data && response.data.length > 0) {
+            if (response.data && response.data.length > 0) {
                 $('#unit-list').children().remove();
                 optionStr = '<option value="0">Нет</option>';
                 response.data.forEach(function (item) {
@@ -255,7 +273,7 @@ $(document).ready(function () {
                 });
                 $('#unit-list').html(optionStr);
                 $('.chips-btn').each(function (i, f) {
-                    if(i >= count) {
+                    if (i >= count) {
                         $(f).remove();
                     }
                 })
@@ -314,7 +332,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-city-btn', function () {
         const id = $(this).data('id');
         url = '/api/city/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -322,12 +340,12 @@ $(document).ready(function () {
     $("#city-list").change(function () {
         id = $(this).val();
         url = '/api/city/getChild';
-        params = { id: id };
+        params = {id: id};
 
         function changeListResponse(response) {
-            $('#city_array').append('<button class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#city-list option:selected').val() + '">' + $('#city-list option:selected').text() +'</button>');
+            $('#city_array').append('<button class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#city-list option:selected').val() + '">' + $('#city-list option:selected').text() + '</button>');
             $('#city-id').val(id);
-            if(response.data && response.data.length > 0) {
+            if (response.data && response.data.length > 0) {
                 $('#city-list').children().remove();
                 optionStr = '<option value="0">Нет</option>';
                 response.data.forEach(function (item) {
@@ -341,28 +359,30 @@ $(document).ready(function () {
                 $('#city-list').attr('disabled', true);
             }
         }
+
         axiosPostRequest(url, params, changeListResponse);
 
     });
 
-    $('body').on('click', '#city_array .chips-btn', function(){
+    $('body').on('click', '#city_array .chips-btn', function () {
         let block = $(this), count = 0;
         $('#city-list').attr('disabled', false);
         $('.chips-btn').each(function (i, f) {
-            if($(f).data('id') == block.data('id')) {
+            if ($(f).data('id') == block.data('id')) {
                 count = i;
             }
         });
         let id = 0;
-        if($('.chips-btn:nth-child('+(count)+')').length) {
-            id = $('.chips-btn:nth-child('+(count)+')').data('id');
+        if ($('.chips-btn:nth-child(' + (count) + ')').length) {
+            id = $('.chips-btn:nth-child(' + (count) + ')').data('id');
         }
         console.log(id)
         url = '/api/city/getChild';
-        params = { id: id };
+        params = {id: id};
+
         function clickChipsResponse(response) {
             $('#city-list').val(id);
-            if(response.data && response.data.length > 0) {
+            if (response.data && response.data.length > 0) {
                 $('#city-list').children().remove();
                 optionStr = '<option value="0">Нет</option>';
                 response.data.forEach(function (item) {
@@ -370,7 +390,7 @@ $(document).ready(function () {
                 });
                 $('#city-list').html(optionStr);
                 $('.chips-btn').each(function (i, f) {
-                    if(i >= count) {
+                    if (i >= count) {
                         $(f).remove();
                     }
                 })
@@ -433,7 +453,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-user-btn', function () {
         const id = $(this).data('id');
         url = '/api/user/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -486,7 +506,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-company-btn', function () {
         const id = $(this).data('id');
         url = '/api/company/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -532,7 +552,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-page-btn', function () {
         const id = $(this).data('id');
         url = '/api/page/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -582,7 +602,7 @@ $(document).ready(function () {
     $('body').on('click', '.remove-tariff-btn', function () {
         const id = $(this).data('id');
         url = '/api/tariff/remove';
-        params = { id: id };
+        params = {id: id};
         $(this).closest('tr').remove();
         axiosPostRequest(url, params, modalSweetAlert);
     });
@@ -644,13 +664,13 @@ $(document).ready(function () {
     $('.createProduct').click(function () {
         const params = getAnyPageParameters('#productForm');
         const url = '/api/product/add';
-        axiosPostRequest(url, params, modalSweetAlert);
+        axiosPostRequest(url, params, addAdminItemList);
     });
 
     $('.editProduct').click(function () {
         const params = getAnyPageParameters('#productForm');
         const url = '/api/product/edit/' + params.get('productid');
-        axiosPostRequest(url, params, modalSweetAlert);
+        axiosPostRequest(url, params, editAdminItemList);
     });
 
     deleteItemFromList('.remove-product-btn', '/api/product/remove');
