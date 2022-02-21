@@ -29,9 +29,10 @@ Route::group(['prefix' => 'admin','middleware' => 'auth', 'as' => 'admin.'], fun
     Route::resource('field', \App\Http\Controllers\FieldController::class);
     Route::resource('unit', \App\Http\Controllers\UnitController::class);
     Route::resource('city', \App\Http\Controllers\CityController::class);
-    Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('company', \App\Http\Controllers\CompanyController::class);
     Route::resource('tariff', \App\Http\Controllers\TariffController::class);
+    Route::get('user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+    Route::get('user/add', [App\Http\Controllers\UserController::class, 'add'])->name('user.add');
 });
 
 Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], function () {

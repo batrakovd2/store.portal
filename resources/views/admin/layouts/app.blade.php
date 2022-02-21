@@ -111,9 +111,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
                     <li class="nav-item">
                         <a href="{{route('admin.page.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/page/*') || \Illuminate\Support\Facades\Request::is('admin/page')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-city"></i>
+                            <i class="nav-icon fa fa-file"></i>
                             <p>
                                 Страницы
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('admin.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/news/*') || \Illuminate\Support\Facades\Request::is('admin/news')) {{'active'}}  @endif">
+                            <i class="nav-icon fas fa-globe-americas"></i>
+                            <p>
+                                Новости
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('admin.user.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/user/*') || \Illuminate\Support\Facades\Request::is('admin/user')) {{'active'}}  @endif">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Пользователи
                             </p>
                         </a>
                     </li>
@@ -126,32 +143,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.company.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/*') || \Illuminate\Support\Facades\Request::is('admin/company')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-globe-americas"></i>
-                            <p>
-                                Новости
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('admin.user.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/user/*') || \Illuminate\Support\Facades\Request::is('admin/user')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Пользователи
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{route('admin.tariff.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/tariff/*') || \Illuminate\Support\Facades\Request::is('admin/tariff')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Дизайн
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('admin.tariff.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/tariff/*') || \Illuminate\Support\Facades\Request::is('admin/tariff')) {{'active'}}  @endif">
-                            <i class="nav-icon fas fa-file"></i>
+                            <i class="nav-icon fa fa-cog"></i>
                             <p>
                                 Настройки
                                 <i class="fas fa-angle-left right"></i>
@@ -159,15 +152,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{url('admin/company')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/') || \Illuminate\Support\Facades\Request::is('admin/product')) {{'active'}}  @endif">
-                                    <i class="far fa-dot-circle nav-icon"></i>
+                                <a href="{{url('admin/company')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/') || \Illuminate\Support\Facades\Request::is('admin/company')) {{'active'}}  @endif">
+                                    <i class="far fa-building nav-icon"></i>
                                     <p>Компания</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('admin/product/create')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/create*') || \Illuminate\Support\Facades\Request::is('admin/product/create')) {{'active'}}  @endif">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Сайт</p>
+                                <a href="{{url('admin/product/create')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/create*') || \Illuminate\Support\Facades\Request::is('admin/company/create')) {{'active'}}  @endif">
+                                    <i class="nav-icon fa fa-picture-o"></i>
+                                    <p>Дизайн</p>
                                 </a>
                             </li>
                         </ul>
