@@ -43,11 +43,13 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('product/edit/{product}', [App\Http\Controllers\ProductController::class, 'update']);
     Route::post('product/remove', [App\Http\Controllers\ProductController::class, 'destroy']);
     Route::post('page/edit/{page}', [App\Http\Controllers\PageController::class, 'update']);
+    Route::post('company/edit/{company}', [App\Http\Controllers\CompanyController::class, 'update']);
 });
 
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);
 
 Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getRubricChild']);
+Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
 
 
 //Route::post('api/product/fields/{id}', [App\Http\Controllers\ProductController::class, 'getProductFields']);

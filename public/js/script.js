@@ -167,134 +167,6 @@ $(document).ready(function () {
 
     }
 
-
-    /* Rubric page events */
-
-    /* Field page events */
-
-    $('.createField').click(function () {
-        title = $('#inputName').val();
-        url = '/api/field/add';
-        params = {
-            title: title
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    $('.editField').click(function () {
-        id = $('#fieldid').val();
-        title = $('#inputName').val();
-        url = '/api/field/edit/' + id;
-        params = {
-            title: title
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    $('body').on('click', '.remove-field-btn', function () {
-        const id = $(this).data('id');
-        url = '/api/field/remove';
-        params = {id: id};
-        $(this).closest('tr').remove();
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    /* Unit page events */
-
-    $('.createUnit').click(function () {
-        title = $('#inputName').val();
-        meta = $('#inputMeta').val();
-        parentId = $('#parent-unit').val();
-        url = '/api/unit/add';
-        params = {
-            title: title,
-            meta: meta,
-            parent_id: parentId
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    $('.editUnit').click(function () {
-        id = $('#fieldid').val();
-        title = $('#inputName').val();
-        url = '/api/unit/edit/' + id;
-        params = {
-            title: title
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    $('body').on('click', '.remove-unit-btn', function () {
-        const id = $(this).data('id');
-        url = '/api/unit/remove';
-        params = {id: id};
-        $(this).closest('tr').remove();
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
-    $("#unit-list").change(function () {
-        id = $(this).val();
-        title = $(this).find(`[value=${id}]`).text();
-        url = '/api/unit/getChild';
-        params = {id: id};
-
-        function changeListResponse(response) {
-            $('#unit_array').append('<button class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $('#unit-list option:selected').val() + '">' + $('#unit-list option:selected').text() + '</button>');
-            $('#parent-unit').val(id);
-            if (response.data && response.data.length > 0) {
-                $('#unit-list').children().remove();
-                optionStr = '<option value="0">Нет</option>';
-                response.data.forEach(function (item) {
-                    optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
-                });
-                $('#unit-list').html(optionStr);
-            } else {
-                $('#unit-list').children().remove();
-                $('#unit-list').html('<option value="0">Нет</option>');
-                $(this).attr('disabled', true);
-            }
-        }
-
-        axiosPostRequest(url, params, changeListResponse);
-
-    });
-
-    $('body').on('click', '#unit_array .chips-btn', function () {
-        let block = $(this), count = 0;
-        $('#unit-list').attr('disabled', false);
-        $('#unit_array .chips-btn').each(function (i, f) {
-            if ($(f).data('id') == block.data('id')) {
-                count = i;
-            }
-        });
-        let id = 0;
-        if ($('#unit_array .chips-btn:nth-child(' + (count) + ')').length) {
-            id = $('#unit_array .chips-btn:nth-child(' + (count) + ')').data('id');
-        }
-        url = '/api/unit/getChild';
-        params = {id: id};
-
-        function clickChipsResponse(response) {
-            $('#unit-list').val(id);
-            if (response.data && response.data.length > 0) {
-                $('#unit-list').children().remove();
-                optionStr = '<option value="0">Нет</option>';
-                response.data.forEach(function (item) {
-                    optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
-                });
-                $('#unit-list').html(optionStr);
-                $('.chips-btn').each(function (i, f) {
-                    if (i >= count) {
-                        $(f).remove();
-                    }
-                })
-            }
-        }
-
-        axiosPostRequest(url, params, clickChipsResponse);
-
-    });
-
     /* User page events */
 
     $('.createUser').click(function () {
@@ -354,56 +226,13 @@ $(document).ready(function () {
 
     /* Company page events */
 
-    $('.createCompany').click(function () {
-        title = $('#inputTitle').val();
-        domain = $('#inputDomain').val();
-        phone = $('#inputPhone').val();
-        email = $('#inputEmail').val();
-        address = $('#inputAdress').val();
-        workTime = $('#inputWorkTime').val();
-        citiId = $('#city-id').val();
-        url = '/api/company/add';
-        params = {
-            title: title,
-            domain: domain,
-            city_id: citiId,
-            address: address,
-            phone: phone,
-            work_time: workTime,
-            email: email
-        }
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
-
     $('.editCompany').click(function () {
-        id = $('#companyid').val();
-        title = $('#inputTitle').val();
-        domain = $('#inputDomain').val();
-        phone = $('#inputPhone').val();
-        email = $('#inputEmail').val();
-        address = $('#inputAdress').val();
-        workTime = $('#inputWorkTime').val();
-        citiId = $('#city-id').val();
-        url = '/api/company/edit/' + id;
-        params = {
-            title: title,
-            domain: domain,
-            city_id: citiId,
-            address: address,
-            phone: phone,
-            work_time: workTime,
-            email: email
-        }
+        const params = getAnyPageParameters('#companyForm');
+        url = '/api/company/edit/' + params.get('companyid');
         axiosPostRequest(url, params, modalSweetAlert);
     });
 
-    $('body').on('click', '.remove-company-btn', function () {
-        const id = $(this).data('id');
-        url = '/api/company/remove';
-        params = {id: id};
-        $(this).closest('tr').remove();
-        axiosPostRequest(url, params, modalSweetAlert);
-    });
+    parentChecker("#city-list", "#city_array", "#city-id", "/api/city/getChild");
 
     /* Page events */
 

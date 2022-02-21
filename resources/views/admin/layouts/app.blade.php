@@ -154,8 +154,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="nav-icon fas fa-file"></i>
                             <p>
                                 Настройки
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{url('admin/company')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/') || \Illuminate\Support\Facades\Request::is('admin/product')) {{'active'}}  @endif">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Компания</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{url('admin/product/create')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/product/create*') || \Illuminate\Support\Facades\Request::is('admin/product/create')) {{'active'}}  @endif">
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Сайт</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                 </ul>

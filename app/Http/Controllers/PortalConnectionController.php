@@ -57,4 +57,25 @@ class PortalConnectionController extends Controller
         });
         return $rubric;
     }
+
+    public function getCities(Request $request) {
+        $id = $request->input('id');
+        $id = $id ?? 0;
+        $api =  $this->PORTAL_URL.'api/city/getChild/'.$id;
+        $city = Cache::remember('portal_cities_by_region_'.$id, now()->addDay(1), function () use ($api) {
+            $response = file_get_contents($api);
+            return $city = $response ? json_decode($response) : [];
+        });
+        return $city;
+    }
+
+    public function getCitiesChain($id) {
+        $id = $id ?? 0;
+        $api =  $this->PORTAL_URL.'api/city/getChain/'.$id;
+        $city = Cache::remember('portal_cities_chain_'.$id, now()->addDay(1), function () use ($api) {
+            $response = file_get_contents($api);
+            return $city = $response ? json_decode($response) : [];
+        });
+        return $city;
+    }
 }
