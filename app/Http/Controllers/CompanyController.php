@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\PortalCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -81,7 +82,9 @@ class CompanyController extends Controller
         try {
             $validator->validate();
             $company = Company::find($company->id);
+            $compPortal = PortalCompany::getCompany($company);
             $company->update($request->all());
+            if($compPortal) $compPortal->update($request->all());
             $result = 'success';
             $description = "Информация о компании изменена";
         } catch (\Exception $e) {
@@ -90,7 +93,7 @@ class CompanyController extends Controller
             $description = $errors ? $errors->all() : "Произошла ошибка при изменении информации о компании";
         }
 
-        return array("status" => $result, "desc" => $description);
+        return array("status" => $result, "desc" => $description, "items" => $company);
     }
 
     /**
