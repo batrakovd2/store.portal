@@ -26,11 +26,8 @@ Route::group(['prefix' => 'admin','middleware' => 'auth', 'as' => 'admin.'], fun
     Route::resource('category', App\Http\Controllers\CategoryController::class);
     Route::resource('product', App\Http\Controllers\ProductController::class);
     Route::resource('page', \App\Http\Controllers\PageController::class);
-    Route::resource('field', \App\Http\Controllers\FieldController::class);
-    Route::resource('unit', \App\Http\Controllers\UnitController::class);
-    Route::resource('city', \App\Http\Controllers\CityController::class);
+    Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('company', \App\Http\Controllers\CompanyController::class);
-    Route::resource('tariff', \App\Http\Controllers\TariffController::class);
     Route::get('user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('user/add', [App\Http\Controllers\UserController::class, 'add'])->name('user.add');
 });
@@ -47,6 +44,9 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('company/edit/{company}', [App\Http\Controllers\CompanyController::class, 'update']);
     Route::post('user/bind', [App\Http\Controllers\UserController::class, 'bindUser']);
     Route::post('user/detach', [App\Http\Controllers\UserController::class, 'detachUser']);
+    Route::post('news/add', [App\Http\Controllers\NewsController::class, 'store']);
+    Route::post('news/edit/{news}', [App\Http\Controllers\NewsController::class, 'update']);
+    Route::post('news/remove', [App\Http\Controllers\NewsController::class, 'destroy']);
 });
 
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);

@@ -167,6 +167,10 @@ $(document).ready(function () {
 
     }
 
+    $("input[data-bootstrap-switch]").each(function(){
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
     /* User page events */
 
     $('.createUser').click(function () {
@@ -291,6 +295,21 @@ $(document).ready(function () {
         const url = '/api/user/detach';
         axiosPostRequest(url, params, modalSweetAlert);
     });
+
+    $('.createNews').click(function () {
+        const params = getAnyPageParameters('#newsForm');
+        const url = '/api/news/add';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    $('.editNews').click(function () {
+        const params = getAnyPageParameters('#newsForm');
+        const url = '/api/news/edit/' + params.get('newsid');
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    deleteItemFromList('.remove-news-btn', '/api/news/remove');
+
 
 
 

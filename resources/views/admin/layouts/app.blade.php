@@ -119,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{route('admin.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/news/*') || \Illuminate\Support\Facades\Request::is('admin/news')) {{'active'}}  @endif">
+                        <a href="{{route('admin.news.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/news/*') || \Illuminate\Support\Facades\Request::is('admin/news')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-globe-americas"></i>
                             <p>
                                 Новости
@@ -135,7 +135,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.user.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/user/*') || \Illuminate\Support\Facades\Request::is('admin/user')) {{'active'}}  @endif">
+                        <a href="{{route('admin.index')}}" class="nav-link ">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Отзывы
@@ -143,7 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.tariff.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/tariff/*') || \Illuminate\Support\Facades\Request::is('admin/tariff')) {{'active'}}  @endif">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-cog"></i>
                             <p>
                                 Настройки
@@ -209,6 +209,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 {{--<script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>--}}
 {{--<script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>--}}
