@@ -285,6 +285,13 @@ $(document).ready(function () {
         axiosPostRequest(url, params, modalSweetAlert);
     });
 
+    $('.detachUser').click(function () {
+        const dataid = $(this).data('id');
+        const params = {id: dataid};
+        const url = '/api/user/detach';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
 
 
 

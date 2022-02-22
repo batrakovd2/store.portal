@@ -34,9 +34,25 @@ class UserController extends Controller
                 if($userId != $authUserId){
                     $owncompany = User::company($authUserId);
                     $compuser = PortalCompanyUser::getUsersId($userId);
-                    if($owncompany && $compuser) {
-                        $this->linkCheck($compuser, $owncompany[0]->id);
-                        $this->attachUserToCompany($userId, $owncompany[0]->id);
+                    if($owncompany) {
+                        $check = $this->linkCheck($compuser, $owncompany[0]->id);
+                        if($check) {
+                            try {
+                                $this->attachUserToCompany($userId, $owncompany[0]->id);
+                                $result = 'success';
+                                $description = "Указанный аккаунт успешно привязан к магазину";
+                                return array("status" => $result, "desc" => $description);
+                            } catch (\Exception $e) {
+                                $result = 'error';
+                                $description = "Произошла ошибка при привязке пользователя";
+                                return array("status" => $result, "desc" => $description);
+                            }
+                        } else {
+                            $result = 'error';
+                            $description = "Указанный аккаунт уже привязан к магазину";
+                            return array("status" => $result, "desc" => $description);
+                        }
+
                     }
                 } else {
                     $result = 'error';
@@ -51,30 +67,46 @@ class UserController extends Controller
         }
     }
 
+    public function detachUser(Request $request) {
+        $userId = $request->input('id');
+        $authUserId = Auth::user()->id;
+        $owncompany = User::company($authUserId);
+        $compuser = PortalCompanyUser::getUsersId($userId);
+        if($owncompany && $compuser) {
+            foreach ($compuser as $cpus) {
+                if($cpus->company_id == $owncompany[0]->id){
+                    try {
+                        $cpus->delete();
+                        $result = 'success';
+                        $description = "Указанный аккаунт успешно отвязан от магазина";
+                        return array("status" => $result, "desc" => $description);
+                    } catch (\Exception $e) {
+                        $result = 'error';
+                        $description = "Произошла ошибка при отвязке пользователя";
+                        return array("status" => $result, "desc" => $description);
+                    }
+
+                }
+            }
+        }
+    }
+
     private function attachUserToCompany($userId, $companyId) {
         $compUserArr = [
             "user_id" => $userId,
             "company_id" => $companyId
         ];
-        try {
-            PortalCompanyUser::insert($compUserArr);
-            $result = 'success';
-            $description = "Указанный аккаунт успешно привязан к магазину";
-            return array("status" => $result, "desc" => $description);
-        } catch (\Exception $e) {
-            $result = 'error';
-            $description = "Произошла ошибка при привязке пользователя";
-            return array("status" => $result, "desc" => $description);
-        }
+        PortalCompanyUser::insert($compUserArr);
     }
 
     private function linkCheck($compuser, $companyId) {
-        foreach ($compuser as $cpus) {
-            if($cpus->company_id == $companyId){
-                $result = 'error';
-                $description = "Указанный аккаунт уже привязан к магазину";
-                return array("status" => $result, "desc" => $description);
+        if($compuser) {
+            foreach ($compuser as $cpus) {
+                if ($cpus->company_id == $companyId) {
+                    return false;
+                }
             }
+            return true;
         }
     }
 }

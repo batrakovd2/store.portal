@@ -42,6 +42,11 @@
                                                 <td>{{$key+1}}</td>
                                                 <td>{{$us->name}}</td>
                                                 <td>{{$us->email}}</td>
+                                                <td>
+                                                    <a href="#" data-id="{{$us->id}}" class="btn btn-secondary btn-sm edit float-right ml-2 detachUser" title="Edit">
+                                                        <i class="fas fa-unlink"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
