@@ -43,4 +43,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getUserByEmail($email){
+        if($email) {
+            return User::where('email', $email)->first();
+        }
+    }
+
+    public function company($id) {
+        $companyIds = PortalCompanyUser::where('user_id', $id)->select('company_id')->get();
+        $compArr = [];
+        if($companyIds) {
+            foreach ($companyIds as $cids) {
+                $compArr[] = $cids->company_id;
+            }
+            return PortalCompany::whereIn('id', $compArr)->get();
+        }
+    }
+
 }

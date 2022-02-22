@@ -7,6 +7,7 @@ use App\Models\PortalCompany;
 use App\Models\PortalCompanyUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -21,5 +22,59 @@ class UserController extends Controller
 
     public function add() {
         return view('admin.user.add');
+    }
+
+    public function bindUser(Request $request) {
+        $email = $request->input('email');
+        if($email) {
+            $user = User::getUserByEmail($email);
+            if($user) {
+                $userId = $user->id;
+                $authUserId = Auth::user()->id;
+                if($userId != $authUserId){
+                    $owncompany = User::company($authUserId);
+                    $compuser = PortalCompanyUser::getUsersId($userId);
+                    if($owncompany && $compuser) {
+                        $this->linkCheck($compuser, $owncompany[0]->id);
+                        $this->attachUserToCompany($userId, $owncompany[0]->id);
+                    }
+                } else {
+                    $result = 'error';
+                    $description = "Ваш аккаунт уже привязан к магазину";
+                    return array("status" => $result, "desc" => $description);
+                }
+            } else {
+                $result = 'error';
+                $description = "Пользователя с таким email не существует";
+                return array("status" => $result, "desc" => $description);
+            }
+        }
+    }
+
+    private function attachUserToCompany($userId, $companyId) {
+        $compUserArr = [
+            "user_id" => $userId,
+            "company_id" => $companyId
+        ];
+        try {
+            PortalCompanyUser::insert($compUserArr);
+            $result = 'success';
+            $description = "Указанный аккаунт успешно привязан к магазину";
+            return array("status" => $result, "desc" => $description);
+        } catch (\Exception $e) {
+            $result = 'error';
+            $description = "Произошла ошибка при привязке пользователя";
+            return array("status" => $result, "desc" => $description);
+        }
+    }
+
+    private function linkCheck($compuser, $companyId) {
+        foreach ($compuser as $cpus) {
+            if($cpus->company_id == $companyId){
+                $result = 'error';
+                $description = "Указанный аккаунт уже привязан к магазину";
+                return array("status" => $result, "desc" => $description);
+            }
+        }
     }
 }

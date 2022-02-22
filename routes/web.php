@@ -45,6 +45,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('product/remove', [App\Http\Controllers\ProductController::class, 'destroy']);
     Route::post('page/edit/{page}', [App\Http\Controllers\PageController::class, 'update']);
     Route::post('company/edit/{company}', [App\Http\Controllers\CompanyController::class, 'update']);
+    Route::post('user/bind', [App\Http\Controllers\UserController::class, 'bindUser']);
 });
 
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);

@@ -27,4 +27,8 @@ class PortalCompanyUser extends Model
         return $users;
     }
 
+    public function getUsersId($id) {
+        return PortalCompanyUser::where('user_id', $id)->get();
+    }
+
 }

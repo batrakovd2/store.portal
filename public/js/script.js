@@ -28,7 +28,7 @@ $(document).ready(function () {
             });
         }
         if (response.data['status'] == 'error') {
-            if (response.data['desc'].length > 1) {
+            if (Array.isArray(response.data['desc'])) {
                 response.data['desc'].forEach(function (item) {
                     toastr.error(item)
                 });
@@ -277,6 +277,14 @@ $(document).ready(function () {
     deleteItemFromList('.remove-product-btn', '/api/product/remove');
 
     parentChecker("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
+
+    /* bind user page */
+    $('.bindUser').click(function (e) {
+        const params = getAnyPageParameters('#userSearcher');
+        const url = '/api/user/bind';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
 
 
 
