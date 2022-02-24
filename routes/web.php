@@ -59,6 +59,7 @@ Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionControlle
 
 
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
+Route::get('contacts', [App\Http\Controllers\PageController::class, 'contacts'])->name('contacts');
 
 
 

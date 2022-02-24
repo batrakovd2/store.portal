@@ -28,7 +28,8 @@
                         </a>
                     </li>
                     <li class="h-nav__item">
-                        <a href="contacts.html" class="h-nav__link link">
+                        @if(\Illuminate\Support\Facades\Route::is('contacts')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('contacts')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('contacts')) h-nav__link--is-active @endif">
                             Контакты
                         </a>
                     </li>
@@ -79,17 +80,20 @@
                 </a>
             </div>
             <ul class="h-contact__list">
+                @if($globalCompany->phone)
                 <li class="h-contact__item">
-                    <img src="./img/icon/phone-icon.svg" alt="" class="h-contact__icon">
-                    <a href='tel:84212929786' class="h-contact__link">8 (421) 292-97-86</a>
+                    <img src="{{asset('img/icon/phone-icon.svg')}}" alt="" class="h-contact__icon">
+                    <a href='tel:{{$globalCompany->phone}}' class="h-contact__link">{{$globalCompany->phone}}</a>
                 </li>
-
+                @endif
+                @if($globalCompany->email)
                 <li class="h-contact__item">
-                    <img src="./img/icon/at-icon.svg" alt="" class="h-contact__icon">
-                    <a href="mailto:vlad@htmlbook.ru" class="h-contact__link">hab@metall-as.ru</a>
+                    <img src="{{asset('img/icon/at-icon.svg')}}" alt="" class="h-contact__icon">
+                    <a href="mailto:{{$globalCompany->email}}" class="h-contact__link">{{$globalCompany->email}}</a>
                 </li>
+                @endif
                 <li class="h-contact__item">
-                    <img src="./img/icon/cloud-icon.svg" alt="" class="h-contact__icon">
+                    <img src="{{asset('img/icon/cloud-icon.svg')}}" alt="" class="h-contact__icon">
                     <span id='application' class="h-contact__text pointer">Онлайн - заявка</span>
                 </li>
             </ul>

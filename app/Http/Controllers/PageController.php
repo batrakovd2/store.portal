@@ -112,7 +112,14 @@ class PageController extends Controller
 
     public function about() {
         $page = Page::getPageBySlug('about');
-        return view('main-template.about', [
+        return view('main-template.static.about', [
+            'page' => $page
+        ]);
+    }
+
+    public function contacts() {
+        $page = Page::getPageBySlug('contacts');
+        return view('main-template.static.contacts', [
             'page' => $page
         ]);
     }

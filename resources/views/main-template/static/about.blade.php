@@ -9,7 +9,7 @@
                     <div class="path">
                         <a href="{{url('/')}}" class="path__link">Главная</a>
                         <span class="path__slash">/</span>
-                        <a href="#" class="path__link">О компании</a>
+                        <a href="#" class="path__link">{{$page->title}}</a>
                     </div>
                 </div>
                 <div class="cols-wrap">
