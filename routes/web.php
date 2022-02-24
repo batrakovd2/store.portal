@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'admin','middleware' => 'auth', 'as' => 'admin.'], function() {
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('index');
@@ -52,12 +52,15 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('review/remove', [App\Http\Controllers\ReviewController::class, 'destroy']);
 });
 
+/* public api */
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);
-
 Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getRubricChild']);
 Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
 
 
-//Route::post('api/product/fields/{id}', [App\Http\Controllers\ProductController::class, 'getProductFields']);
+Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
+
+
+
 
 

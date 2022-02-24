@@ -25,4 +25,8 @@ class Page extends Model
     public function getPage($id) {
         return Page::find($id);
     }
+
+    public function getPageBySlug($slug) {
+        return Page::where('slug', $slug)->first();
+    }
 }

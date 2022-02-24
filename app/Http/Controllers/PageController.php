@@ -109,4 +109,11 @@ class PageController extends Controller
             'meta_keywords' => ['max:255'],
         ]);
     }
+
+    public function about() {
+        $page = Page::getPageBySlug('about');
+        return view('main-template.about', [
+            'page' => $page
+        ]);
+    }
 }

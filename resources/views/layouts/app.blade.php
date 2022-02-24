@@ -16,14 +16,14 @@
             <nav class='h-nav'>
                 <ul class="h-nav__list">
                     <li class="h-nav__item">
-                        <span class="h-nav__marker"></span>
-                        <a href="index.html" class="h-nav__link h-nav__link--is-active">
+                        @if(\Illuminate\Support\Facades\Route::is('home')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{url('/')}}" class="h-nav__link @if(\Illuminate\Support\Facades\Route::is('home')) h-nav__link--is-active @endif">
                             Главная
                         </a>
                     </li>
                     <li class="h-nav__item">
-
-                        <a href="about.html" class="h-nav__link link">
+                        @if(\Illuminate\Support\Facades\Route::is('about')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('about')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('about')) h-nav__link--is-active @endif">
                             О компании
                         </a>
                     </li>
@@ -113,7 +113,9 @@
     </div>
 
 </header>
+
     @yield('content')
+
 <footer class="footer f">
     <div class="container">
         <nav class="f-nav">
