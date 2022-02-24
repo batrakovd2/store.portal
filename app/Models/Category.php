@@ -37,4 +37,34 @@ class Category extends Model
         return Category::where('parent_id', $id)->get();
     }
 
+    public function getCategoryNesting() {
+        $category = Category::get();
+        $result = [];
+        if($category) {
+            foreach($category as $rb) {
+                $child = [];
+                if($rb->parent_id == 0) {
+                    foreach ($category as $rbch) {
+                        if($rb->id == $rbch->parent_id) {
+                            $child[] = [
+                                "id" => $rbch->id,
+                                "title" => $rbch->title,
+                                "slug" => $rbch->slug,
+                                "parent_id" => $rbch->parent_id
+                            ];
+                        }
+                    }
+                    $result[] = [
+                        "id" => $rb->id,
+                        "title" => $rb->title,
+                        "slug" => $rb->slug,
+                        "parent_id" => $rb->parent_id,
+                        "children" => $child
+                    ];
+                }
+            }
+        }
+        return $result;
+    }
+
 }
