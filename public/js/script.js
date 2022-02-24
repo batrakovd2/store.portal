@@ -296,6 +296,7 @@ $(document).ready(function () {
         axiosPostRequest(url, params, modalSweetAlert);
     });
 
+    /* bind news page */
     $('.createNews').click(function () {
         const params = getAnyPageParameters('#newsForm');
         const url = '/api/news/add';
@@ -309,6 +310,16 @@ $(document).ready(function () {
     });
 
     deleteItemFromList('.remove-news-btn', '/api/news/remove');
+
+    /* bind review page */
+
+    $('.editReview').click(function () {
+        const params = getAnyPageParameters('#reviewForm');
+        const url = '/api/review/edit/' + params.get('reviewid');
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    deleteItemFromList('.remove-review-btn', '/api/review/remove');
 
 
 

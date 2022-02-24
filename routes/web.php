@@ -28,6 +28,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth', 'as' => 'admin.'], fun
     Route::resource('page', \App\Http\Controllers\PageController::class);
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('company', \App\Http\Controllers\CompanyController::class);
+    Route::resource('review', \App\Http\Controllers\ReviewController::class);
     Route::get('user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('user/add', [App\Http\Controllers\UserController::class, 'add'])->name('user.add');
 });
@@ -47,6 +48,8 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('news/add', [App\Http\Controllers\NewsController::class, 'store']);
     Route::post('news/edit/{news}', [App\Http\Controllers\NewsController::class, 'update']);
     Route::post('news/remove', [App\Http\Controllers\NewsController::class, 'destroy']);
+    Route::post('review/edit/{review}', [App\Http\Controllers\ReviewController::class, 'update']);
+    Route::post('review/remove', [App\Http\Controllers\ReviewController::class, 'destroy']);
 });
 
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);

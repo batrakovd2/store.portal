@@ -135,7 +135,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{route('admin.index')}}" class="nav-link ">
+                        <a href="{{route('admin.review.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/review/*') || \Illuminate\Support\Facades\Request::is('admin/review')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Отзывы
