@@ -41,8 +41,8 @@
                         </a>
                     </li>
                     <li class="h-nav__item">
-
-                        <a href="news.html" class="h-nav__link link">
+                        @if(\Illuminate\Support\Facades\Route::is('news')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('news')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('news')) h-nav__link--is-active @endif">
                             Новости
                         </a>
                     </li>
@@ -76,8 +76,8 @@
     <div class="h-contact">
         <div class="h-contact__inner container">
             <div class="logo">
-                <a href="index.html" class="logo__link">
-                    <img class='logo__img' src="./img/logo.svg" alt="Айсберг АС">
+                <a href="/" class="logo__link">
+                    <img class='logo__img' src="{{asset('img/logo.svg')}}" alt="Айсберг АС">
                 </a>
             </div>
             <ul class="h-contact__list">

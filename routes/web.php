@@ -61,6 +61,8 @@ Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionControlle
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
 Route::get('contacts', [App\Http\Controllers\PageController::class, 'contacts'])->name('contacts');
 Route::get('catalog', [App\Http\Controllers\CatalogController::class, 'catalog'])->name('catalog');
+Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
+Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 
 
 

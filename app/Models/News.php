@@ -19,4 +19,8 @@ class News extends Model
         return News::where("id", $id)->first();
     }
 
+    public function getNewsBySlug($slug) {
+        return News::where('slug', $slug)->first();
+    }
+
 }

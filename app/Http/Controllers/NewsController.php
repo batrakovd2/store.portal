@@ -9,6 +9,14 @@ use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
+
+    public function news() {
+        $news = News::getNews(20);
+        return view('main-template.news.index', [
+            'news' => $news
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,11 +69,14 @@ class NewsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $news = News::getNewsBySlug($slug);
+        return view('main-template.news.show', [
+            'news' => $news
+        ]);
     }
 
     /**

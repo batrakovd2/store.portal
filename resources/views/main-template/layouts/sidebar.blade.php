@@ -10,7 +10,7 @@
                 <div class="category__item dropdown-wrap">
                     <div class="category__name press-to-show ">
                         @if(!empty($category['children']) && $category['children'])
-                            <img src="./img/icon/catalog-arrow.svg" alt="" class="category__arrow arrow-show">
+                            <img src="{{asset('img/icon/catalog-arrow.svg')}}" alt="" class="category__arrow arrow-show">
                         @endif
                         <a href="/price/{{$category['slug']}}" class="category__title">{{$category['title']}}</a>
                     </div>
