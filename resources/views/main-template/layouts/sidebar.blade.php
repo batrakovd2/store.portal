@@ -12,14 +12,14 @@
                         @if(!empty($category['children']) && $category['children'])
                             <img src="./img/icon/catalog-arrow.svg" alt="" class="category__arrow arrow-show">
                         @endif
-                        <a href="{{$category['slug']}}" class="category__title">{{$category['title']}}</a>
+                        <a href="/price/{{$category['slug']}}" class="category__title">{{$category['title']}}</a>
                     </div>
                     @if(!empty($category['children']) && $category['children'])
                     <div class="product__dropdown dropdown">
                         <ul class="product__list hidden-el">
                             @foreach($category['children'] as $child)
                                 <li class="products__item">
-                                <a href="{{$child['slug']}}" class="product__link link">
+                                <a href="/price/{{$child['slug']}}" class="product__link link">
                                     {{$child['title']}}
                                 </a>
                             </li>

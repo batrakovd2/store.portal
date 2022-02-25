@@ -35,7 +35,8 @@
                     </li>
 
                     <li class="h-nav__item">
-                        <a href="catalog.html" class="h-nav__link link">
+                        @if(\Illuminate\Support\Facades\Route::is('catalog')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('catalog')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('catalog')) h-nav__link--is-active @endif">
                             Каталог
                         </a>
                     </li>
