@@ -22,7 +22,7 @@
     @endforeach
     @if ($paginator->hasMorePages())
         <a href="{{ $paginator->nextPageUrl() }}" class="pagination__link">
-            <img class='pagination__arrow' src="./img/control/pagination-next.svg" alt="<">
+            <img class='pagination__arrow' src="{{asset('img/control/pagination-next.svg')}}" alt="<">
         </a>
     @endif
 

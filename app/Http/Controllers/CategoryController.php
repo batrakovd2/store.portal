@@ -10,6 +10,17 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+
+    public function category($slug) {
+        $category = Category::getCategoryBySlug($slug);
+        $category->children = $category ? Category::getChildCategories($category->id) : [];
+        $products = $category->products()->paginate(2);
+        return view('main-template.category.category', [
+            'category' => $category,
+            'products' => $products
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
