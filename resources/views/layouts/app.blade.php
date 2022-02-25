@@ -462,6 +462,8 @@
 
 </div>
 <!--modal-windows-->
-
+@if(\Illuminate\Support\Facades\Route::is('contacts'))
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+@endif
 <script src='{{asset('/js/main.js')}}'></script>
 </body>

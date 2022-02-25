@@ -24,6 +24,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->nullable();
             $table->float('raiting')->nullable();
             $table->string('work_time')->nullable();
+            $table->string('data_coord')->nullable();
             $table->timestamps();
         });
     }

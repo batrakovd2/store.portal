@@ -48,6 +48,10 @@
         <label for="inputWorkTime">Время работы</label>
         <input type="text" id="inputWorkTime" name="work_time" class="form-control" placeholder="Время работы"  @if(!empty($company->work_time)) value="{{$company->work_time}}" @endif >
     </div>
+    <div class="form-group">
+        <label for="inputDataCoord">Координаты для карты</label>
+        <input type="text" id="inputDataCoord" name="data_coord" class="form-control" placeholder="55.75322, 37.622513"  @if(!empty($company->data_coord)) value="{{$company->data_coord}}" @endif >
+    </div>
 </form>
 
 
