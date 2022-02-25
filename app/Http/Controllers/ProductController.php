@@ -74,11 +74,20 @@ class ProductController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $product = Product::getProductBySlug($slug);
+        if(!empty($product)) {
+            $category = $product->category;
+            return view('main-template.product.show', [
+                'product' => $product,
+                'category' => $category
+            ]);
+        } else {
+            abort(404);
+        }
     }
 
     /**

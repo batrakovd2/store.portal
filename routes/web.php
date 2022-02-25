@@ -65,6 +65,7 @@ Route::get('catalog', [App\Http\Controllers\CatalogController::class, 'catalog']
 Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('price/{slug}', [App\Http\Controllers\CategoryController::class, 'category']);
+Route::get('product/{slug}', [App\Http\Controllers\ProductController::class, 'show']);
 
 
 

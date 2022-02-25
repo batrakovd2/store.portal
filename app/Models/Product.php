@@ -38,6 +38,10 @@ class Product extends Model
         return Product::where('id', $id)->first();
     }
 
+    public function getProductBySlug($slug) {
+        return Product::where('slug', $slug)->first();
+    }
+
     public function getProductByCategoryId($catId) {
         return Product::where('category_id', $catId)->paginate(20);
     }
@@ -48,6 +52,10 @@ class Product extends Model
 
     public function getProductFields($id) {
         return Product::where('id', $id)->select('fields')->get();
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
 
