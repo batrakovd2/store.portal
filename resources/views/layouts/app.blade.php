@@ -100,10 +100,10 @@
             </ul>
             <div class="h-mobile__btns">
                 <div id='searchBtn' class="h-mobile__btn-item">
-                    <img class="h-mobile__btn-img" src="./img/control/m-search-icon.svg" alt="">
+                    <img class="h-mobile__btn-img" src="{{asset('img/control/m-search-icon.svg')}}" alt="">
                 </div>
                 <div id='burgerBtn' class="h-mobile__btn-item">
-                    <img class="h-mobile__btn-img" src="./img/control/m-burger.svg" alt="">
+                    <img class="h-mobile__btn-img" src="{{asset('img/control/m-burger.svg')}}" alt="">
                 </div>
 
             </div>
@@ -126,28 +126,28 @@
         <nav class="f-nav">
             <ul class="f-nav__list">
                 <li class="f-nav__item">
-                    <a href="index.html" class="f-nav__link f-nav__link--is-active">
+                    <a href="/" class="f-nav__link @if(\Illuminate\Support\Facades\Route::is('home')) h-nav__link--is-active @endif">
                         Главная
                     </a>
                 </li>
                 <li class="f-nav__item">
-                    <a href="about.html" class="f-nav__link link">
+                    <a href="{{route('about')}}" class="f-nav__link link @if(\Illuminate\Support\Facades\Route::is('about')) h-nav__link--is-active @endif">
                         О компании
                     </a>
                 </li>
                 <li class="f-nav__item">
-                    <a href="contacts.html" class="f-nav__link link">
+                    <a href="{{route('contacts')}}" class="f-nav__link link @if(\Illuminate\Support\Facades\Route::is('contacts')) h-nav__link--is-active @endif">
                         Контакты
                     </a>
                 </li>
                 <li class="f-nav__item">
-                    <a href="catalog.html" class="f-nav__link link">
+                    <a href="{{route('catalog')}}" class="f-nav__link link @if(\Illuminate\Support\Facades\Route::is('catalog')) h-nav__link--is-active @endif">
                         Каталог
                     </a>
                 </li>
 
                 <li class="f-nav__item">
-                    <a href="news.html" class="f-nav__link link">
+                    <a href="{{route('news')}}" class="f-nav__link link @if(\Illuminate\Support\Facades\Route::is('news')) h-nav__link--is-active @endif">
                         Новости
                     </a>
                 </li>
@@ -160,7 +160,17 @@
 
             <div class="f-login">
           <span class="f-login__btn">
-            Авторизация
+            @if (Route::has('login'))
+                  @auth
+                      <a href="{{url('admin')}}" class="h-login">
+                                    <span class="h-login__btn">{{Auth::user()->name ? Auth::user()->name : 'Панель'}}</span>
+                                </a>
+                  @else
+                      <a href="https://authportal.loc/login" class="h-login">
+                                    <span class="h-login__btn">Авторизация</span>
+                                </a>
+                  @endauth
+              @endif
           </span>
             </div>
         </nav>
@@ -171,7 +181,7 @@
               <span class="close__word callback-close">
                 Закрыть
               </span>
-                        <img src="./img/control/close-modal.svg" alt="" class="close__icon callback-close">
+                        <img src="{{asset('img/control/close-modal.svg')}}" alt="" class="close__icon callback-close">
                     </div>
                     <h4 class='f__title'>
                         Обратная связь
@@ -204,33 +214,33 @@
 
                 <ul class="f-contacts__list">
                     <li class="f-contacts__item">
-                        <img src="./img/icon/f-point-icon.svg" alt="!" class="f-contacts__icon">
+                        <img src="{{asset('img/icon/f-point-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Адрес:</h5>
-                            <p class='f-contacts__desc'>Россия, Хабаровск,<br /> Производственный переулок, 3, оф.6</p>
+                            <p class='f-contacts__desc'>{{$globalCompany->address}}</p>
                         </div>
                     </li>
                     <li class="f-contacts__item">
-                        <img src="./img/icon/f-phone-icon.svg" alt="!" class="f-contacts__icon">
+                        <img src="{{asset('img/icon/f-phone-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Телефон:</h5>
 
-                            <p class='f-contacts__desc'>8 (421) 292-97-86</p>
+                            <p class='f-contacts__desc'>{{$globalCompany->phone}}</p>
                         </div>
                     </li>
                     <li class="f-contacts__item">
-                        <img src="./img/icon/f-at-icon.svg" alt="!" class="f-contacts__icon">
+                        <img src="{{asset('img/icon/f-at-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Электронная почта:</h5>
-                            <p class='f-contacts__desc'>hab@metall-as.ru</p>
+                            <p class='f-contacts__desc'>{{$globalCompany->email}}</p>
                         </div>
                     </li>
                 </ul>
             </div>
 
             <div class="f-logo">
-                <a href='index.html' class="f-logo__link">
-                    <img src="./img/white-logo.svg" alt="" class="f-logo__img">
+                <a href='/' class="f-logo__link">
+                    <img src="{{asset('img/white-logo.svg')}}" alt="" class="f-logo__img">
                 </a>
             </div>
         </div>
@@ -241,13 +251,13 @@
 
         <div class="f-socials">
             <a href="#!" class="f-socials__item">
-                <img src="./img/icon/whatsApp-icon.svg" alt="" class="f-socials__img">
+                <img src="{{asset('img/icon/whatsApp-icon.svg')}}" alt="" class="f-socials__img">
             </a>
             <a href="#!" class="f-socials__item">
-                <img src="./img/icon/instagram-icon.svg" alt="" class="f-socials__img">
+                <img src="{{asset('img/icon/instagram-icon.svg')}}" alt="" class="f-socials__img">
             </a>
             <a href="#!" class="f-socials__item">
-                <img src="./img/icon/telegram-icon.svg" alt="" class="f-socials__img">
+                <img src="{{asset('img/icon/telegram-icon.svg')}}" alt="" class="f-socials__img">
             </a>
         </div>
         <p class="copywrite">
@@ -258,8 +268,8 @@
 
 <div id='up' class='up'>
     <div id='upBtn' class="up-btn">
-        <img src="./img/control/up-icon.svg" alt="" class="up-btn__img">
-        <img src="./img/control/up-mobile-icon.svg" alt="" class="up-btn__img-mobile">
+        <img src="{{asset('img/control/up-icon.svg')}}" alt="" class="up-btn__img">
+        <img src="{{asset('img/control/up-mobile-icon.svg')}}" alt="" class="up-btn__img-mobile">
     </div>
 </div>
 
@@ -267,7 +277,7 @@
 <div id='mobileNav' class="mobile-menu">
     <div class="mobile-menu__inner">
         <div id='mobileMenuClose' class="mobile-menu__close">
-            <img src="./img/control/mobile-menu-close.svg" alt="" class="mobile-menu__close-btn">
+            <img src="{{asset('img/control/mobile-menu-close.svg')}}" alt="" class="mobile-menu__close-btn">
         </div>
         <div class="mobile__login">
             <a href="#!" class="mobile__item">
@@ -282,54 +292,33 @@
         <nav class="mobile-nav">
             <ul class="mobile-nav__list">
                 <li class="mobile-nav__item">
-                    <a href="index.html" class="mobile-nav__link mobile-nav__link--is-active">
+                    <a href="/" class="mobile-nav__link mobile-nav__link--is-active">
                         Главная
                     </a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a href="about.html" class="mobile-nav__link">
+                    <a href="{{route('about')}}" class="mobile-nav__link">
                         О компании
                     </a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a href="catalog.html" class="mobile-nav__link">
+                    <a href="{{route('contacts')}}" class="mobile-nav__link">
+                        Контакты
+                    </a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="{{route('catalog')}}" class="mobile-nav__link">
                         Каталог
                     </a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a href="#!" class="mobile-nav__link">
-                        Продукция
-                    </a>
-                </li>
-
-                <li class="mobile-nav__item">
-                    <a href="#!" class="mobile-nav__link">
-                        Производство
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a href="#!" class="mobile-nav__link">
-                        Услуги
+                    <a href="{{route('news')}}" class="mobile-nav__link">
+                        Новости
                     </a>
                 </li>
                 <li class="mobile-nav__item">
                     <a href="stock.html" class="mobile-nav__link">
                         Акции
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a href="contacts.html" class="mobile-nav__link">
-                        Контакты
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a href="news.html" class="mobile-nav__link">
-                        Новости
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a href="#!" class="mobile-nav__link">
-                        Отзовы
                     </a>
                 </li>
             </ul>
@@ -348,11 +337,11 @@
         <span class="close__word close-btn">
           Закрыть
         </span>
-            <img src="./img/control/close-modal.svg" alt="" class="close__icon close-btn">
+            <img src="{{asset('img/control/close-modal.svg')}}" alt="" class="close__icon close-btn">
         </div>
 
         <div class="modal__content modal-thanks ">
-            <img class='modal-thanks__icon' src="./img/icon/success-icon.svg" alt="">
+            <img class='modal-thanks__icon' src="{{asset('img/icon/success-icon.svg')}}" alt="">
             <div class="modal-thanks__text">
                 <h4 class="modal__title">Спасибо!</h4>
                 <p class='modal-thanks__desc'>
@@ -369,7 +358,7 @@
         <span class="close__word close-btn">
           Закрыть
         </span>
-            <img src="./img/control/close-modal.svg" alt="" class="close__icon close-btn">
+            <img src="{{asset('img/control/close-modal.svg')}}" alt="" class="close__icon close-btn">
         </div>
         <div class="modal__content">
             <h4 class="modal__title">Почти готово!</h4>
@@ -396,10 +385,10 @@
         <span class="close__word close-btn">
           Закрыть
         </span>
-            <img src="./img/control/close-modal.svg" alt="" class="close__icon close-btn">
+            <img src="{{asset('img/control/close-modal.svg')}}" alt="" class="close__icon close-btn">
         </div>
         <div class="modal__content modal-thanks ">
-            <img class='modal-thanks__icon' src="./img/icon/success-icon.svg" alt="">
+            <img class='modal-thanks__icon' src="{{asset('img/icon/success-icon.svg')}}" alt="">
             <div class="modal-thanks__text">
                 <h4 class="modal__title">Спасибо!</h4>
                 <p class='modal-thanks__desc'>
@@ -416,14 +405,14 @@
         <span class="close__word close-btn">
           Закрыть
         </span>
-            <img src="./img/control/close-modal.svg" alt="" class="close__icon close-btn">
+            <img src="{{asset('img/control/close-modal.svg')}}" alt="" class="close__icon close-btn">
         </div>
         <div class="modal__content">
             <h4 class="modal__title">Ваш заказ!</h4>
             <p class="modal__desc">Укажите количество товара, контактный телефон или почту</p>
             <form id='orderForm' class='order-modal__form' action="send.html" method="POST">
                 <div class="order-modal__item">
-                    <img src="./img/image/section-img.jpg" alt="" class="order-modal__img">
+                    <img src="{{asset('img/image/section-img.jpg')}}" alt="" class="order-modal__img">
                     <div class="order-modal__desc">
                         Труба холоднодеформированная 16х2.5мм ст. 20 ГОСТ 8734
                     </div>
@@ -441,11 +430,11 @@
                     <input id='orderQuantity' name='orderQuantity' type="text" class="modal__input counter__input" value='1'
                            placeholder="Количество">
                     <div id='incQuantity' class="counter__btn">
-                        <img src="./img/control/counter-inc.svg" alt="" class="counter__btn-img">
+                        <img src="{{asset('img/control/counter-inc.svg')}}" alt="" class="counter__btn-img">
 
                     </div>
                     <div id='decQuantity' class="counter__btn">
-                        <img src="./img/control/counter-dec.svg" alt="" class="counter__btn-img">
+                        <img src="{{asset('img/control/counter-dec.svg')}}" alt="" class="counter__btn-img">
                     </div>
                 </div>
                 <div class="order-modal__buy">
