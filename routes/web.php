@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth', 'as' => 'admin.'], fun
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('company', \App\Http\Controllers\CompanyController::class);
     Route::resource('review', \App\Http\Controllers\ReviewController::class);
+    Route::resource('gallery', \App\Http\Controllers\GalleryController::class);
     Route::get('user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('user/add', [App\Http\Controllers\UserController::class, 'add'])->name('user.add');
 });
@@ -50,6 +51,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('news/remove', [App\Http\Controllers\NewsController::class, 'destroy']);
     Route::post('review/edit/{review}', [App\Http\Controllers\ReviewController::class, 'update']);
     Route::post('review/remove', [App\Http\Controllers\ReviewController::class, 'destroy']);
+    Route::post('gallery/getHash', [App\Http\Controllers\GalleryController::class, 'getHash']);
 });
 
 /* public api */

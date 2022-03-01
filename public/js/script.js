@@ -9,6 +9,8 @@ $(document).ready(function () {
         });
     }
 
+    bsCustomFileInput.init();
+
     var Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -171,6 +173,7 @@ $(document).ready(function () {
         $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 
+
     /* User page events */
 
     $('.createUser').click(function () {
@@ -320,6 +323,29 @@ $(document).ready(function () {
     });
 
     deleteItemFromList('.remove-review-btn', '/api/review/remove');
+
+    $('#storeImage').click(function () {
+        const params = getAnyPageParameters('#imageInput');
+        if(params.get('inputImage') && params.get('inputImage').size != 0) {
+            const url = '/api/gallery/getHash';
+            axiosPostRequest(url, params, saveImage);
+        }
+    });
+
+    function saveImage(response) {
+        if (response.data['status'] == 'success') {
+            const url = 'http://img.portal.loc/api/gallery/add';
+            const crypt = response.data['crypt'];
+            const params = getAnyPageParameters('#imageInput');
+            params.append('crypt', crypt);
+            axiosPostRequest(url, params, resp);
+        }
+    }
+
+    function resp(response) {
+        console.log(response);
+    }
+
 
 
 

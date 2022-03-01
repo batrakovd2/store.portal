@@ -143,6 +143,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{route('admin.gallery.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/gallery/*') || \Illuminate\Support\Facades\Request::is('admin/gallery')) {{'active'}}  @endif">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Галлерея
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fa fa-cog"></i>
                             <p>
@@ -211,8 +219,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
-{{--<script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}"></script>--}}
-{{--<script src="{{ asset('plugins/jquery-validation/additional-methods.min.js') }}"></script>--}}
+
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <script src="{{ asset('plugins/summernote/summernote-bs4.js') }}"></script>
