@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Nette\Utils\Random;
@@ -22,11 +23,27 @@ class GalleryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string[]
      */
     public function store(Request $request)
     {
-        //
+        $path = $request->input('path');
+        try {
+            if($path) {
+                Gallery::create($request->all());
+                $status = "success";
+                $desc = "Файл добавлен";
+            } else {
+                $status = "error";
+                $desc = "Ошибка при добавлении файла";
+            }
+        } catch (\Exception $e) {
+            $status = "error";
+            $desc = "Ошибка при добавлении файла";
+        }
+
+        return array("status" => $status, "desc" => $desc);
+
     }
 
     public function getHash() {
@@ -43,48 +60,4 @@ class GalleryController extends Controller
         return array("status" => $status, "crypt" => $crypt);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -326,7 +326,7 @@ $(document).ready(function () {
 
     $('#storeImage').click(function () {
         const params = getAnyPageParameters('#imageInput');
-        if(params.get('inputImage') && params.get('inputImage').size != 0) {
+        if(params.get('file') && params.get('file').size != 0) {
             const url = '/api/gallery/getHash';
             axiosPostRequest(url, params, saveImage);
         }
@@ -343,7 +343,16 @@ $(document).ready(function () {
     }
 
     function resp(response) {
-        console.log(response);
+        if (response.data['status'] == 'success') {
+            const url = '/api/gallery/add';
+            const path = response.data['path'];
+            const params = {
+                photo: path,
+                description: '',
+                status: 0
+            };
+            axiosPostRequest(url, params, modalSweetAlert);
+        }
     }
 
 
