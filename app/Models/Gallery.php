@@ -12,4 +12,8 @@ class Gallery extends Model
 
     protected $fillable = ["photo", "description", "status"];
 
+    public function getPhoto($limit) {
+        return Gallery::orderBy('created_at', 'desc')->paginate($limit);
+    }
+
 }

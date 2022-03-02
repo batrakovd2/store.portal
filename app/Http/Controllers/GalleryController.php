@@ -16,7 +16,10 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        return view('admin.gallery.index');
+        $photo = Gallery::getPhoto(12);
+        return view('admin.gallery.index', [
+            'photo' => $photo
+        ]);
     }
 
     /**
@@ -27,9 +30,9 @@ class GalleryController extends Controller
      */
     public function store(Request $request)
     {
-        $path = $request->input('path');
+        $photo = $request->input('photo');
         try {
-            if($path) {
+            if($photo) {
                 Gallery::create($request->all());
                 $status = "success";
                 $desc = "Файл добавлен";

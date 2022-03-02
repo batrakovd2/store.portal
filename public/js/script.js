@@ -23,6 +23,8 @@ $(document).ready(function () {
     })
 
     function modalSweetAlert(response) {
+
+        console.log(response);
         if (response.data['status'] == 'success') {
             Toast.fire({
                 icon: 'success',

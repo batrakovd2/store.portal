@@ -13,7 +13,6 @@
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -21,38 +20,18 @@
                         <div class="card card-success">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-12 col-lg-6 col-xl-4">
-                                        <div class="card mb-2 bg-gradient-dark">
-                                            <img class="card-img-top" src="https://picsum.photos/517/346" alt="Dist Photo 1">
-                                            <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                <p class="card-text text-white pb-2 pt-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor.</p>
+                                    @if(!empty($photo))
+                                        @foreach($photo as $ph)
+                                            <div class="col-md-12 col-lg-6 col-xl-4">
+                                                <div class="card mb-2 bg-gradient-dark">
+                                                    <img class="card-img-top" src="http://img.portal.loc/{{$ph->photo}}" alt="Dist Photo 1">
+                                                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                        <p class="card-text text-white pb-2 pt-1">{{$ph->description}}</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-6 col-xl-4">
-                                        <div class="card mb-2">
-                                            <img class="card-img-top" src="https://picsum.photos/517/346" alt="Dist Photo 2">
-                                            <div class="card-img-overlay d-flex flex-column justify-content-center">
-                                                <p class="card-text pb-2 pt-1 text-white">
-                                                    Lorem ipsum dolor sit amet, <br>
-                                                    consectetur adipisicing elit <br>
-                                                    sed do eiusmod tempor.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-6 col-xl-4">
-                                        <div class="card mb-2">
-                                            <img class="card-img-top" src="https://picsum.photos/517/346" alt="Dist Photo 3">
-                                            <div class="card-img-overlay">
-                                                <p class="card-text pb-1 pt-1 text-white">
-                                                    Lorem ipsum dolor <br>
-                                                    sit amet, consectetur <br>
-                                                    adipisicing elit sed <br>
-                                                    do eiusmod tempor. </p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -60,7 +39,7 @@
                     <div class="col-lg-2">
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
-                                <a href="{{route('admin.news.create')}}" type="button" class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#modal-default">Добовить изображение</a>
+                                <a href="#" type="button" class="btn btn-block btn-primary btn-lg" data-toggle="modal" data-target="#modal-default">Добовить изображение</a>
 
                             </div>
                             <!-- /.card-body -->
