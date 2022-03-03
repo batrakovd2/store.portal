@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     const PORTAL = 'https://portal.loc/';
+    const IMG_PORTAL = 'http://img.portal.loc/';
 
     /* Common functions */
     function axiosPostRequest(api, params, responseFunc) {
@@ -23,8 +24,6 @@ $(document).ready(function () {
     })
 
     function modalSweetAlert(response) {
-
-        console.log(response);
         if (response.data['status'] == 'success') {
             Toast.fire({
                 icon: 'success',
@@ -336,17 +335,17 @@ $(document).ready(function () {
 
     function saveImage(response) {
         if (response.data['status'] == 'success') {
-            const url = 'http://img.portal.loc/api/gallery/add';
+            const url = 'api/gallery/add';
             const crypt = response.data['crypt'];
             const params = getAnyPageParameters('#imageInput');
             params.append('crypt', crypt);
-            axiosPostRequest(url, params, resp);
+            axiosPostRequest(url, params, addImageInGallery);
         }
     }
 
-    function resp(response) {
+    function addImageInGallery(response) {
         if (response.data['status'] == 'success') {
-            const url = '/api/gallery/add';
+            const url = IMG_PORTAL + '/api/gallery/add';
             const path = response.data['path'];
             const params = {
                 photo: path,
@@ -356,6 +355,8 @@ $(document).ready(function () {
             axiosPostRequest(url, params, modalSweetAlert);
         }
     }
+
+
 
 
 

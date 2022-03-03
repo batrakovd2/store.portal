@@ -60,7 +60,7 @@
                                     <span class="h-login__btn">{{Auth::user()->name ? Auth::user()->name : 'Панель'}}</span>
                                 </a>
                             @else
-                                <a href="https://authportal.loc/login" class="h-login">
+                                <a href="{{config('app.auth_portal')}}/login" class="h-login">
                                     <span class="h-login__btn">Авторизация</span>
                                 </a>
                             @endauth
@@ -166,7 +166,7 @@
                                     <span class="h-login__btn">{{Auth::user()->name ? Auth::user()->name : 'Панель'}}</span>
                                 </a>
                   @else
-                      <a href="https://authportal.loc/login" class="h-login">
+                      <a href="{{config('app.auth_portal')}}/login" class="h-login">
                                     <span class="h-login__btn">Авторизация</span>
                                 </a>
                   @endauth

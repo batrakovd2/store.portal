@@ -134,6 +134,10 @@ return [
     |
     */
 
+    'portal' => env('PORTAL'),
+    'img_portal' => env('PORTAL_IMG'),
+    'auth_portal' => env('PORTAL_AUTH'),
+
     'providers' => [
 
         /*

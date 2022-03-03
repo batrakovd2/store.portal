@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
 
 class PortalConnectionController extends Controller
 {
-    private $PORTAL_URL = 'http://portal.loc/';
+    private $PORTAL_URL;
+
+    public function __construct()
+    {
+        $this->PORTAL_URL = config('app.portal');
+    }
 
     public function getFields() {
         $api = $this->PORTAL_URL.'api/field/get';
