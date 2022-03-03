@@ -26,7 +26,7 @@ class CustomAuthController extends Controller
 
     private function checkingRelevanceToken($token) {
         $user = User::where('token', $token)->first();
-        $tokenTime = $user->token_live_time ? strtotime(date($user->token_live_time)) : 0;
+        $tokenTime = !empty($user->token_live_time) && $user->token_live_time ? strtotime(date($user->token_live_time)) : 0;
         $realTime = strtotime(date('Y-m-d H:i:s'));
         if($realTime - $tokenTime < 120) {
             return true;
