@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
     <div class="content-wrapper">
 
         <div class="content-header">
@@ -23,7 +24,7 @@
                                         @foreach($photo as $ph)
                                             <div class="col-md-12 col-lg-6 col-xl-4">
                                                 <div class="card mb-2 bg-gradient-dark">
-                                                    <img class="card-img-top" src="http://img.portal.loc/{{$ph->photo}}" alt="Dist Photo 1">
+                                                    <img class="card-img-top" src="@image({{$ph->photo}})" alt="Dist Photo 1">
                                                     <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                         <p class="card-text text-white pb-2 pt-1">{{$ph->description}}</p>
                                                     </div>
