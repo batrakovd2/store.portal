@@ -43,8 +43,25 @@
     </div>
     <div class="form-group">
         <label for="inputPhoto">Фото</label>
-        <input type="file" class="form-control" id="inputPhoto" name="photo"
-               value="@if(!empty($category)){{$category->photo}}@endif">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="#" type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addImage">Добовить изображение</a>
+            </div>
+            <div class="col-sm-6">
+                <a href="#" type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal-gallery">Выбрать из галереи</a>
+            </div>
+        </div>
+        <div class="row img-wrapper mt-3">
+            <div class="col-sm-3">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div class="inputPhotoWrap"></div>
+        @if(!empty($category->photo))
+            <input type="hidden" class="form-control" id="inputPhoto" name="photo" value="@if(!empty($category)){{$category->photo}}@endif">
+        @endif
+        <br>
+
     </div>
     <div class="form-group">
         <label for="inputMetaTitle">Мета заголовок</label>
@@ -62,4 +79,9 @@
                placeholder="Мета ключи страницы категории" value="@if(!empty($category)){{$category->meta_keywords}}@endif">
     </div>
 </form>
+
+<div class="edit-form">
+    @include('admin.layouts.modal-choose-file')
+</div>
+
 

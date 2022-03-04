@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    const PORTAL = 'https://portal.loc/';
+    const PORTAL = 'http://portal.loc/';
     const IMG_PORTAL = 'http://img.portal.loc/';
 
     /* Common functions */
@@ -8,6 +8,10 @@ $(document).ready(function () {
         axios.post(api, params).then((response) => {
             responseFunc(response);
         });
+    }
+
+    async function getAxiosPostRequest(api, params) {
+        return await axios.post(api, params);
     }
 
     bsCustomFileInput.init();
@@ -300,7 +304,7 @@ $(document).ready(function () {
         axiosPostRequest(url, params, modalSweetAlert);
     });
 
-    /* bind news page */
+    /*  news page */
     $('.createNews').click(function () {
         const params = getAnyPageParameters('#newsForm');
         const url = '/api/news/add';
@@ -315,7 +319,7 @@ $(document).ready(function () {
 
     deleteItemFromList('.remove-news-btn', '/api/news/remove');
 
-    /* bind review page */
+    /* review page */
 
     $('.editReview').click(function () {
         const params = getAnyPageParameters('#reviewForm');
@@ -325,36 +329,67 @@ $(document).ready(function () {
 
     deleteItemFromList('.remove-review-btn', '/api/review/remove');
 
-    $('#storeImage').click(function () {
+    /* gallery page */
+
+    $('#storeImage').click(async function () {
         const params = getAnyPageParameters('#imageInput');
         if(params.get('file') && params.get('file').size != 0) {
             const url = '/api/gallery/getHash';
-            axiosPostRequest(url, params, saveImage);
+            const crypt = await getAxiosPostRequest(url, params);
+            const urlImage = await saveImage(crypt);
+            const msg = await addImageInGallery(urlImage)
+            modalSweetAlert(msg);
         }
     });
 
-    function saveImage(response) {
+    async function saveImage(response) {
         if (response.data['status'] == 'success') {
-            const url = 'api/gallery/add';
+            const url = IMG_PORTAL + 'api/gallery/add';
             const crypt = response.data['crypt'];
             const params = getAnyPageParameters('#imageInput');
             params.append('crypt', crypt);
-            axiosPostRequest(url, params, addImageInGallery);
+            return await getAxiosPostRequest(url, params);
         }
     }
 
-    function addImageInGallery(response) {
+    async function addImageInGallery(response) {
         if (response.data['status'] == 'success') {
-            const url = IMG_PORTAL + '/api/gallery/add';
+            const url = '/api/gallery/add';
             const path = response.data['path'];
             const params = {
                 photo: path,
                 description: '',
                 status: 0
             };
-            axiosPostRequest(url, params, modalSweetAlert);
+            return await getAxiosPostRequest(url, params);
         }
     }
+
+    /* edit forms images */
+
+    $('.edit-form #storeImage').click(async () => {
+        const params = getAnyPageParameters('#imageInput');
+        if(params.get('file') && params.get('file').size != 0) {
+            const url = '/api/gallery/getHash';
+            const crypt = await getAxiosPostRequest(url, params);
+            const urlImage = await saveImage(crypt);
+            const msg = await addImageInGallery(urlImage);
+            modalSweetAlert(msg);
+            renderAddedImageOnEditForm(urlImage);
+        }
+    });
+
+    function renderAddedImageOnEditForm(response) {
+        if (response.data['status'] == 'success') {
+            const input = '<input type="hidden" class="form-control" id="inputPhoto" name="photo[]" value="' + response.data['path'] + '">'
+            const img   = ' <div class="col-sm-3">\n' +
+                '               <img src="' + IMG_PORTAL + response.data['path'] + '" alt="" width="100%"> \n' +
+                '            </div>\n' ;
+            $('.inputPhotoWrap').append(input);
+            $('.img-wrapper').append(img);
+        }
+    }
+
 
 
 
