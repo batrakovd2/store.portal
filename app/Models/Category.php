@@ -21,7 +21,8 @@ class Category extends Model
     ];
 
     public function getCategory($id) {
-        return Category::where('id', $id)->first();
+        $category = Category::where('id', $id)->first();
+        return $category;
     }
 
     public function getCategoryBySlug($slug) {

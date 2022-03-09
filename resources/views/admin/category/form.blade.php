@@ -41,6 +41,7 @@
         <input type="text" class="form-control" id="inputDescription" placeholder="Описание категории" name="description"
                value="@if(!empty($category)){{$category->description}}@endif">
     </div>
+
     <div class="form-group">
         <label for="inputPhoto">Фото</label>
         <div class="row">
@@ -52,14 +53,22 @@
             </div>
         </div>
         <div class="row img-wrapper mt-3">
-            <div class="col-sm-3">
-                <img src="" alt="">
-            </div>
+            @if(!empty($category->photo))
+                @foreach($category->photo as $ph)
+                    <div class="col-sm-3 position-relative">
+                        <img src="{{$ph}}" alt="" width="100%">
+                        <button type="button" aria-label="Close" data-path="{{$ph}}" class="close position-absolute "><span aria-hidden="true">×</span></button>
+                    </div>
+                @endforeach
+            @endif
         </div>
-        <div class="inputPhotoWrap"></div>
-        @if(!empty($category->photo))
-            <input type="hidden" class="form-control" id="inputPhoto" name="photo" value="@if(!empty($category)){{$category->photo}}@endif">
-        @endif
+        <div class="inputPhotoWrap">
+            @if(!empty($category->photo))
+                @foreach($category->photo as $ph)
+                    <input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="{{$ph}}" value="{{$ph}}">
+                @endforeach
+            @endif
+        </div>
         <br>
 
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Gallery;
 use Faker\Provider\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -57,6 +58,7 @@ class CategoryController extends Controller
     {
         $validator = $this->validator($request->all());
         $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
             $item = Category::create($request->all());
@@ -91,6 +93,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::getCategory($id);
+        $category = Gallery::getImagePath($category);
         $parentCategory = $category->parent_id ? Category::getCategory($category->parent_id) : 0;
         $parentCategory = $parentCategory ? $this->getCategoryChildChain($parentCategory->id) : 0;
         $categories = $parentCategory ? [] : Category::getAllParentCategories();
@@ -112,9 +115,9 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validator = $this->validator($request->all());
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
-            $category = Category::find($category->id);
             $category->update($request->except('slug'));
             $result = 'success';
             $description = "Категория изменена";
@@ -186,6 +189,22 @@ class CategoryController extends Controller
             'parent_id' => ['digits_between:0,11'],
             'categoryid' => ['digits_between:0,11']
         ]);
+    }
+
+    private function imageImplode(Request$request) {
+        $images = $request->input('photo');
+        $images = $this->removeImgDomainFromPath($images);
+        return !empty($images) ? implode(',', $images) : NULL;
+    }
+
+    private function removeImgDomainFromPath($images) {
+        $PORTAL_URL = config('app.img_portal').'/';
+        if(!empty($images)) {
+            foreach ($images as &$img) {
+                $img = str_replace($PORTAL_URL, "", $img);
+            }
+        }
+        return $images;
     }
 
 }

@@ -379,16 +379,36 @@ $(document).ready(function () {
         }
     });
 
+    $('body').on('click', '.img-wrapper button', function () {
+        const parent = $(this).closest('div');
+        const imgPath = $(this).data('path');
+        $('input.inputPhoto').each(function() {
+            if($(this).data('val') == imgPath) {
+                $(this).remove()
+            }
+        })
+        parent.remove();
+    });
+
     function renderAddedImageOnEditForm(response) {
         if (response.data['status'] == 'success') {
-            const input = '<input type="hidden" class="form-control" id="inputPhoto" name="photo[]" value="' + response.data['path'] + '">'
+            const input = '<input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="' + response.data['path'] + '" value="' + response.data['path'] + '">'
             const img   = ' <div class="col-sm-3">\n' +
                 '               <img src="' + IMG_PORTAL + response.data['path'] + '" alt="" width="100%"> \n' +
+                '               <button type="button" data-path="' + response.data['path'] + '" aria-label="Close" class="close position-absolute "><span aria-hidden="true">×</span></button> \n' +
                 '            </div>\n' ;
             $('.inputPhotoWrap').append(input);
             $('.img-wrapper').append(img);
         }
     }
+
+
+
+    // $('.class').each(function () {
+    //
+    // });
+
+
 
 
 

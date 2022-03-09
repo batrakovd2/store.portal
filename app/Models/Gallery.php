@@ -16,20 +16,34 @@ class Gallery extends Model
         return Gallery::orderBy('created_at', 'desc')->paginate($limit);
     }
 
-    public function getImagePath($gallery) {
+    public function getImagePathCollect($gallery) {
         if($gallery) {
             $PORTAL_URL = config('app.img_portal');
             $gallery->map(function($item) use ($PORTAL_URL) {
-                $fullUrl = !empty($item->photo) ? $PORTAL_URL. '/' .$item->photo : $item->photo;
-                $imgExist = Gallery::checkImage($fullUrl);
-                if($imgExist) {
-                    $item->photo = $fullUrl;
-                } else {
-                    $item->photo = asset('img/placeholder.jpg');
+                $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : "";
+                if(!empty($fullUrl) && count($fullUrl)) {
+                    foreach ($fullUrl as $key=>$url) {
+                        $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
+                    }
                 }
+                $item->photo = $fullUrl;
             });
         }
         return $gallery;
+    }
+
+    public function getImagePath($item) {
+        if($item) {
+            $PORTAL_URL = config('app.img_portal');
+                $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : "";
+                if(!empty($fullUrl) && count($fullUrl)) {
+                    foreach ($fullUrl as $key=>$url) {
+                        $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
+                    }
+                }
+            $item->photo = $fullUrl;
+        }
+        return $item;
     }
 
     public function checkImage($url) {

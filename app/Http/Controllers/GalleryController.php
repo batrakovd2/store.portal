@@ -18,7 +18,7 @@ class GalleryController extends Controller
     {
         //uploads/2022/03/622036f20d9ae.jpg
         $photo = Gallery::getPhoto(12);
-        $photo = Gallery::getImagePath($photo);
+        $photo = Gallery::getImagePathCollect($photo);
         return view('admin.gallery.index', [
             'photo' => $photo
         ]);
