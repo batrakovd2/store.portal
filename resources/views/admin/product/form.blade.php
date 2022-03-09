@@ -98,7 +98,35 @@
 
 <div class="form-group">
     <label for="inputPhoto">Фото</label>
-    <input type="file" class="form-control" id="inputPhoto" name="photo" value="@if(!empty($product) ){{$product->photo}}@endif" >
+    <div class="row">
+        <div class="col-sm-6">
+            <a href="#" type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addImage">Добовить изображение</a>
+        </div>
+        <div class="col-sm-6">
+            <a href="#" type="button" class="btn btn-block btn-success gallery-choose-btn" data-toggle="modal" >Выбрать из галереи</a>
+        </div>
+    </div>
+    <div class="row img-wrapper mt-3 sortable-form-img" >
+        @if(!empty($product->photo))
+            @foreach($product->photo as $ph)
+
+                <div class="col-sm-3  position-relative mt-2">
+                    @if($loop->first)
+                        <div class="ribbon-wrapper">
+                            <div class="ribbon bg-primary">
+                                Основное
+                            </div>
+                        </div>
+                    @endif
+                    <img src="{{$ph}}" alt="" width="100%">
+                    <button type="button" data-path="{{$ph}}" class="close position-absolute "><span aria-hidden="true">×</span></button>
+                    <input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="{{$ph}}" value="{{$ph}}">
+                </div>
+            @endforeach
+        @endif
+    </div>
+    <br>
+
 </div>
 <div class="form-group">
     <label for="inputStock">Наличие</label>
@@ -117,4 +145,9 @@
     <input type="text" class="form-control" id="inputMetaKeywords" name="meta_keywords" placeholder="Ключевые слова для страницы товара" value="@if(!empty($product) ){{$product->meta_keywords}}@endif" >
 </div>
 </form>
+
+<div class="edit-form">
+    @include('admin.layouts.modal-choose-file')
+    @include('admin.layouts.modal-gallery')
+</div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Gallery;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -56,6 +57,7 @@ class ProductController extends Controller
         $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
         $fields = $request->input('fields');
         $request['fields'] = $fields ? json_encode($fields) : NULL;
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
             $item = Product::create($request->all());
@@ -102,6 +104,7 @@ class ProductController extends Controller
         $fields = $prt->getFields();
         $units = $prt->getUnits();
         $product = Product::getProduct($id);
+        $product = Gallery::getImagePath($product);
         $request = new Request();
         $request['id'] = $product && $product->rubric_id ? $product->rubric_id : 0;
         $rubricChild = $prt->getRubricChild($request);
@@ -137,6 +140,7 @@ class ProductController extends Controller
         $validator = $this->validator($request->except('slug'));
         $fields = $request->input('fields');
         $request['fields'] = $fields ? json_encode($fields) : NULL;
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
             $prod = Product::find($product->id);
@@ -197,5 +201,21 @@ class ProductController extends Controller
             'priority' => ['digits_between:0,11'],
             'rating' => ['digits_between:0,11']
         ]);
+    }
+
+    private function imageImplode(Request$request) {
+        $images = $request->input('photo');
+        $images = $this->removeImgDomainFromPath($images);
+        return !empty($images) ? implode(',', $images) : NULL;
+    }
+
+    private function removeImgDomainFromPath($images) {
+        $PORTAL_URL = config('app.img_portal').'/';
+        if(!empty($images)) {
+            foreach ($images as &$img) {
+                $img = str_replace($PORTAL_URL, "", $img);
+            }
+        }
+        return $images;
     }
 }
