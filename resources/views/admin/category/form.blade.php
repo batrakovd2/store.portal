@@ -52,20 +52,22 @@
                 <a href="#" type="button" class="btn btn-block btn-success gallery-choose-btn" data-toggle="modal" >Выбрать из галереи</a>
             </div>
         </div>
-        <div class="row img-wrapper mt-3">
+        <div class="row img-wrapper mt-3 sortable-form-img" >
             @if(!empty($category->photo))
                 @foreach($category->photo as $ph)
-                    <div class="col-sm-3 position-relative mt-2">
+
+                    <div class="col-sm-3  position-relative mt-2">
+                        @if($loop->first)
+                            <div class="ribbon-wrapper">
+                                <div class="ribbon bg-primary">
+                                    Основное
+                                </div>
+                            </div>
+                        @endif
                         <img src="{{$ph}}" alt="" width="100%">
-                        <button type="button" aria-label="Close" data-path="{{$ph}}" class="close position-absolute "><span aria-hidden="true">×</span></button>
+                        <button type="button" data-path="{{$ph}}" class="close position-absolute "><span aria-hidden="true">×</span></button>
+                        <input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="{{$ph}}" value="{{$ph}}">
                     </div>
-                @endforeach
-            @endif
-        </div>
-        <div class="inputPhotoWrap">
-            @if(!empty($category->photo))
-                @foreach($category->photo as $ph)
-                    <input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="{{$ph}}" value="{{$ph}}">
                 @endforeach
             @endif
         </div>

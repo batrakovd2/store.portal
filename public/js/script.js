@@ -179,6 +179,7 @@ $(document).ready(function () {
     })
 
 
+
     /* User page events */
 
     $('.createUser').click(function () {
@@ -435,8 +436,8 @@ $(document).ready(function () {
             const img   = ' <div class="col-sm-3 mt-2">\n' +
                 '               <img src="' + imgurl + '" alt="" width="100%"> \n' +
                 '               <button type="button" data-path="' + response.data['path'] + '" aria-label="Close" class="close position-absolute "><span aria-hidden="true">×</span></button> \n' +
+                '               <input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="' + response.data['path'] + '" value="' + response.data['path'] + '"> \n' +
                 '            </div>\n' ;
-            $('.inputPhotoWrap').append(input);
             $('.img-wrapper').append(img);
         }
     }
@@ -454,6 +455,29 @@ $(document).ready(function () {
             }
         }
     }
+
+    $( ".sortable-form-img" ).sortable({
+        start: function() {
+            $(this).find('.ribbon-wrapper').remove();
+        },
+        stop: function () {
+            const ribbon = '<div class="ribbon-wrapper">\n' +
+                '                                <div class="ribbon bg-primary">\n' +
+                '                                    Основное\n' +
+                '                                </div>\n' +
+                '                            </div>';
+            $(this).children().first().append(ribbon);
+        }
+    });
+
+
+
+
+
+
+
+
+
 
     // $('.class').each(function () {
     //

@@ -18,6 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
@@ -213,6 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
+<script src="{{ asset('plugins/jquery-ui/jquery-ui.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 
