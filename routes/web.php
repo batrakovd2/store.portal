@@ -53,6 +53,8 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('review/remove', [App\Http\Controllers\ReviewController::class, 'destroy']);
     Route::post('gallery/getHash', [App\Http\Controllers\GalleryController::class, 'getHash']);
     Route::post('gallery/add', [App\Http\Controllers\GalleryController::class, 'store']);
+    Route::post('gallery/add', [App\Http\Controllers\GalleryController::class, 'store']);
+    Route::post('gallery/get/{count}', [App\Http\Controllers\GalleryController::class, 'getPhotos']);
 });
 
 /* public api */

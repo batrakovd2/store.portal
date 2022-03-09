@@ -65,4 +65,10 @@ class GalleryController extends Controller
         return array("status" => $status, "crypt" => $crypt);
     }
 
+    public function getPhotos($count) {
+        $photo = Gallery::getPhotos($count);
+        $photo = Gallery::getImagePathCollect($photo);
+        return $photo;
+    }
+
 }

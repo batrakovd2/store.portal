@@ -49,13 +49,13 @@
                 <a href="#" type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-addImage">Добовить изображение</a>
             </div>
             <div class="col-sm-6">
-                <a href="#" type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal-gallery">Выбрать из галереи</a>
+                <a href="#" type="button" class="btn btn-block btn-success gallery-choose-btn" data-toggle="modal" >Выбрать из галереи</a>
             </div>
         </div>
         <div class="row img-wrapper mt-3">
             @if(!empty($category->photo))
                 @foreach($category->photo as $ph)
-                    <div class="col-sm-3 position-relative">
+                    <div class="col-sm-3 position-relative mt-2">
                         <img src="{{$ph}}" alt="" width="100%">
                         <button type="button" aria-label="Close" data-path="{{$ph}}" class="close position-absolute "><span aria-hidden="true">×</span></button>
                     </div>
@@ -91,6 +91,7 @@
 
 <div class="edit-form">
     @include('admin.layouts.modal-choose-file')
+    @include('admin.layouts.modal-gallery')
 </div>
 
 

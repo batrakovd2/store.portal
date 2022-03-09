@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="content-wrapper">
+    <div class="content-wrapper gallery">
 
         <div class="content-header">
             <div class="container-fluid">

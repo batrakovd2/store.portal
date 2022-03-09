@@ -16,6 +16,10 @@ class Gallery extends Model
         return Gallery::orderBy('created_at', 'desc')->paginate($limit);
     }
 
+    public function getPhotos($count) {
+        return Gallery::orderBy('created_at', 'desc')->offset($count)->limit(24)->get();
+    }
+
     public function getImagePathCollect($gallery) {
         if($gallery) {
             $PORTAL_URL = config('app.img_portal');
@@ -26,7 +30,7 @@ class Gallery extends Model
                         $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
                     }
                 }
-                $item->photo = $fullUrl;
+                $item->photo = count($fullUrl) == 1 ? $fullUrl[0] : $fullUrl;
             });
         }
         return $gallery;

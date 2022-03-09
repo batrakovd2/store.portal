@@ -331,11 +331,12 @@ $(document).ready(function () {
 
     /* gallery page */
 
-    $('#storeImage').click(async function () {
+    $('.gallery #storeImage').click(async function () {
         const params = getAnyPageParameters('#imageInput');
         if(params.get('file') && params.get('file').size != 0) {
             const url = '/api/gallery/getHash';
             const crypt = await getAxiosPostRequest(url, params);
+
             const urlImage = await saveImage(crypt);
             const msg = await addImageInGallery(urlImage)
             modalSweetAlert(msg);
@@ -359,7 +360,7 @@ $(document).ready(function () {
             const params = {
                 photo: path,
                 description: '',
-                status: 0
+                status: 1
             };
             return await getAxiosPostRequest(url, params);
         }
@@ -390,11 +391,49 @@ $(document).ready(function () {
         parent.remove();
     });
 
+    $('.gallery-choose-btn').click(function () {
+        $('#modal-gallery').modal('show')
+        $('.btn-load-image').show();
+        const url = '/api/gallery/get/' + 0;
+        axiosPostRequest(url, {}, renderPhotosInModal)
+    });
+
+    $('.btn-load-image').click(function () {
+        const count = $('.gallery-modal .modal-body img').length
+        const url = '/api/gallery/get/' + count;
+        axiosPostRequest(url, {}, renderPhotosInModal)
+    })
+
+    $('body').on('click', '.gallery-modal .modal-body img', function () {
+        if($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            $(this).addClass('selected');
+        }
+    })
+
+    $('#modal-gallery').on('hide.bs.modal', function (e) {
+        $(this).find('.modal-body .row:first').children().remove()
+    })
+
+    $('#selectImage').click(function () {
+        $('.gallery-modal .modal-body img.selected').each(function() {
+            const item = {};
+            item.data = {};
+            item['status'] = 'success';
+            item.data['path'] = $(this).attr('src')
+            renderAddedImageOnEditForm(item)
+        })
+        $('#modal-gallery').modal('hide')
+    })
+
     function renderAddedImageOnEditForm(response) {
-        if (response.data['status'] == 'success') {
+        if (response.data['status'] == 'success' || response['status'] == 'success') {
+            let url = response.data['path'];
+            let imgurl = url.includes(IMG_PORTAL) ? response.data['path'] : IMG_PORTAL + response.data['path'];
             const input = '<input type="hidden" class="form-control inputPhoto" name="photo[]" data-val="' + response.data['path'] + '" value="' + response.data['path'] + '">'
-            const img   = ' <div class="col-sm-3">\n' +
-                '               <img src="' + IMG_PORTAL + response.data['path'] + '" alt="" width="100%"> \n' +
+            const img   = ' <div class="col-sm-3 mt-2">\n' +
+                '               <img src="' + imgurl + '" alt="" width="100%"> \n' +
                 '               <button type="button" data-path="' + response.data['path'] + '" aria-label="Close" class="close position-absolute "><span aria-hidden="true">×</span></button> \n' +
                 '            </div>\n' ;
             $('.inputPhotoWrap').append(input);
@@ -402,16 +441,23 @@ $(document).ready(function () {
         }
     }
 
-
+    function renderPhotosInModal(response) {
+        if (response.status == 200 && response.data) {
+            response.data.forEach(function(item) {
+                const img   = ' <div class="col-sm-2 mt-2">\n' +
+                    '               <img src="' + item.photo + '" alt="" width="100%"> \n' +
+                    '            </div>\n' ;
+                $('.gallery-modal .modal-body .row:first').append(img);
+            });
+            if(response.data.length < 24) {
+                $('.btn-load-image').hide();
+            }
+        }
+    }
 
     // $('.class').each(function () {
     //
     // });
-
-
-
-
-
 
 
 
