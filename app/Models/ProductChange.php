@@ -66,6 +66,14 @@ class ProductChange extends Model
         }
     }
 
+    public function deleteItems($ids) {
+        ProductChange::whereIn("product_id", $ids)->delete();
+    }
+
+    public function getChanges() {
+        return ProductChange::get();
+    }
+
 
 
 }

@@ -38,6 +38,14 @@ class Product extends Model
         return Product::where('id', $id)->first();
     }
 
+    public function getProductsByArr($id) {
+        $product = [];
+        if($id) {
+            $product = Product::whereIn('id', $id)->get()->toArray();
+        }
+        return $product;
+    }
+
     public function getProductBySlug($slug) {
         return Product::where('slug', $slug)->first();
     }

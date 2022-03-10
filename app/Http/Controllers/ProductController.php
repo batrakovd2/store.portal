@@ -224,4 +224,15 @@ class ProductController extends Controller
         }
         return $images;
     }
+
+    public function getSyncProducts(Request $request){
+        $ids = $request->input('id');
+        $ids = $ids ? explode(',', $ids) : [];
+        $products = Product::getProductsByArr($ids);
+        if($products) {
+            ProductChange::deleteItems($ids);
+        }
+        return $products;
+    }
+
 }

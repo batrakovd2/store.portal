@@ -60,6 +60,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);
 Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getRubricChild']);
 Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
+Route::get('api/changes/get', [App\Http\Controllers\ProductChangeController::class, 'getChanges']);
 
 /* public pages */
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
@@ -69,6 +70,7 @@ Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('price/{slug}', [App\Http\Controllers\CategoryController::class, 'category']);
 Route::get('product/{slug}', [App\Http\Controllers\ProductController::class, 'show']);
+
 
 
 
