@@ -36,6 +36,10 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="card-footer">
+                                {!! $photo->onEachSide(1)->appends(request()->query())->links('admin.layouts.pagination') !!}
+
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-2">

@@ -1,8 +1,5 @@
 $(document).ready(function () {
 
-    const PORTAL = 'http://portal.loc/';
-    const IMG_PORTAL = 'http://img.portal.loc/';
-
     /* Common functions */
     function axiosPostRequest(api, params, responseFunc) {
         axios.post(api, params).then((response) => {
@@ -469,22 +466,6 @@ $(document).ready(function () {
             $(this).children().first().append(ribbon);
         }
     });
-
-
-
-
-
-
-
-
-
-
-    // $('.class').each(function () {
-    //
-    // });
-
-
-
 
 
 
