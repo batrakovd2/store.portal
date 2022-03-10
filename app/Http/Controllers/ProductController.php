@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Product;
+use App\Models\ProductChange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -61,6 +62,9 @@ class ProductController extends Controller
         try {
             $validator->validate();
             $item = Product::create($request->all());
+            if($item) {
+                ProductChange::productCreated($item->id);
+            }
             $result = 'success';
             $description = "Товар добавлен";
         } catch (\Exception $e) {
@@ -145,6 +149,7 @@ class ProductController extends Controller
             $validator->validate();
             $prod = Product::find($product->id);
             $prod->update($request->except('slug'));
+            ProductChange::productChanged($prod->id);
             $result = 'success';
             $description = "Товар добавлен";
         } catch (\Exception $e) {
@@ -167,6 +172,7 @@ class ProductController extends Controller
         $id = $request->input('id');
         try {
             Product::where('id', $id)->delete();
+            ProductChange::productDeleted($id);
             $result = 'success';
             $description = "Товар удален";
         } catch (\Exception $e) {
