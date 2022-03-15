@@ -14,6 +14,15 @@
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
+if (isset($_SERVER['HTTP_HOST'])) {
+    $host = idn_to_utf8($_SERVER['HTTP_HOST'], 0, INTL_IDNA_VARIANT_UTS46);
+    $envFile = $host;// sprintf('site/%s', $host);
+    $path = $app['path.base']."\site";
+    if ($host && file_exists(sprintf('%s/%s', $path, $envFile))) {
+        $app->useEnvironmentPath($path);
+        $app->loadEnvironmentFrom($envFile);
+    }
+}
 
 /*
 |--------------------------------------------------------------------------

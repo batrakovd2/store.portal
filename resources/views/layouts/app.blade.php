@@ -81,13 +81,13 @@
                 </a>
             </div>
             <ul class="h-contact__list">
-                @if($globalCompany->phone)
+                @if(!empty($globalCompany->phone) && $globalCompany->phone)
                 <li class="h-contact__item">
                     <img src="{{asset('img/icon/phone-icon.svg')}}" alt="" class="h-contact__icon">
                     <a href='tel:{{$globalCompany->phone}}' class="h-contact__link">{{$globalCompany->phone}}</a>
                 </li>
                 @endif
-                @if($globalCompany->email)
+                @if(!empty($globalCompany->email) && $globalCompany->email)
                 <li class="h-contact__item">
                     <img src="{{asset('img/icon/at-icon.svg')}}" alt="" class="h-contact__icon">
                     <a href="mailto:{{$globalCompany->email}}" class="h-contact__link">{{$globalCompany->email}}</a>
@@ -217,22 +217,27 @@
                         <img src="{{asset('img/icon/f-point-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Адрес:</h5>
+                            @if(!empty($globalCompany->address))
                             <p class='f-contacts__desc'>{{$globalCompany->address}}</p>
+                                @endif
                         </div>
                     </li>
                     <li class="f-contacts__item">
                         <img src="{{asset('img/icon/f-phone-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Телефон:</h5>
-
+                            @if(!empty($globalCompany->phone))
                             <p class='f-contacts__desc'>{{$globalCompany->phone}}</p>
+                                @endif
                         </div>
                     </li>
                     <li class="f-contacts__item">
                         <img src="{{asset('img/icon/f-at-icon.svg')}}" alt="!" class="f-contacts__icon">
                         <div class="f-contacts__text">
                             <h5 class='f-contacts__title'>Электронная почта:</h5>
+                            @if(!empty($globalCompany->email))
                             <p class='f-contacts__desc'>{{$globalCompany->email}}</p>
+                                @endif
                         </div>
                     </li>
                 </ul>
