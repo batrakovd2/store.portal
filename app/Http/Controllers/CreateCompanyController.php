@@ -12,11 +12,15 @@ class CreateCompanyController extends Controller
     public function createCompany(Request $request) {
         $companyId = $request->input('id');
         $domain = $request->input('domain');
-        Log::info($domain);
-        $this->createEnvFile($domain, $companyId);
-        $this->createTables($companyId);
+        try{
+            $this->createEnvFile($domain, $companyId);
+            $this->createTables($companyId);
+            $result = array("status" => "success", "desc" => "Новый файл конфигураций и БД успешно созданы");
+        } catch (\Exception $e) {
+            $result = array("status" => "error", "desc" => "Произошла ошибка при создании файла конфигурации или БД");
+        }
 
-        return $request;// array("status" => 200);
+        return $result;
     }
 
     private function createTables($companyId) {
@@ -168,7 +172,14 @@ class CreateCompanyController extends Controller
     private function createEnvFile($domain, $companyId){
         $dir = "site/";
         $domain = str_replace(array("http://", "https://", "/"), "", $domain);
-        Log::info($domain);
+        $text = $this->getEnvFileText($domain, $companyId);
+        $path = public_path('../site/');
+        $file = fopen($path.$domain, "w");
+        fwrite($file, $text);
+        fclose($file);
+    }
+
+    private function getEnvFileText($domain, $companyId) {
         $text = "
 APP_NAME=". $domain ."
 APP_ENV=local
@@ -238,11 +249,6 @@ PORTAL_AUTH=http://authportal.loc
 PORTAL_IMG=http://img.portal.loc
 PORTAL=http://portal.loc
         ";
-        $path = public_path('../site/');
-        $file = fopen($path.$domain, "w");
-        fwrite($file, $text);
-        fclose($file);
-
     }
 
 }
