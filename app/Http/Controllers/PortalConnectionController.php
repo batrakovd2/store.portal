@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\CURLRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 
 class PortalConnectionController extends Controller
 {
+    use CURLRequest;
+
     private $PORTAL_URL;
 
     public function __construct()
@@ -23,6 +27,18 @@ class PortalConnectionController extends Controller
             return $fields = $response ? json_decode($response) : [];
         });
         return $fields;
+    }
+
+    public function getFieldsByIds(Request $request) {
+        $id = $request->input('id');
+        Log::info($id);
+        $id = $id ?? 0;
+        $params = array("id" => $id);
+        $api = $this->PORTAL_URL.'/api/fields/get';
+        $response = $this->postRequest($api, $params);
+//        dd($response);
+        $fields = $response ? json_decode($response) : [];
+        return $response;
     }
 
     public function getUnits() {

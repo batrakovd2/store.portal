@@ -105,9 +105,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $prt = new PortalConnectionController();
-        $fields = $prt->getFields();
         $units = $prt->getUnits();
         $product = Product::getProduct($id);
+        $fields = $product->fields ? json_decode($product->fields) : [];
         $product = Gallery::getImagePath($product);
         $request = new Request();
         $request['id'] = $product && $product->rubric_id ? $product->rubric_id : 0;
@@ -142,8 +142,6 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validator = $this->validator($request->except('slug'));
-        $fields = $request->input('fields');
-        $request['fields'] = $fields ? json_encode($fields) : NULL;
         $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();

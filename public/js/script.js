@@ -175,6 +175,106 @@ $(document).ready(function () {
         $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 
+    async function changeRubricWithFields(list, chips, fieldId, api) {
+        $(list).change(async function () {
+            const self = $(this);
+            const id = $(this).val();
+            const url = api;
+            const params = {id: id};
+            const response = await getAxiosPostRequest(url, params);
+            const rubric = await changeListResponse(response, list, chips, fieldId, self, id);
+            renderFieldsInFormByRubric(rubric);
+
+        });
+
+        $('body').on('click', chips + ' .chips-btn', async function () {
+            let block = $(this), count = 1;
+            $(list).attr('disabled', false);
+            $(chips + ' .chips-btn').each(function (i, f) {
+                if ($(f).data('id') == block.data('id')) {
+                    count = i;
+                }
+            });
+            let id = 0;
+            if ($(chips + ' .chips-btn:nth-child(' + (count) + ')').length) {
+                id = $(chips + ' .chips-btn:nth-child(' + (count) + ')').data('id');
+            }
+            url = api;
+            params = {id: id};
+            const response = await getAxiosPostRequest(url, params);
+            clickChipsResponse(response, fieldId, chips, list, id, count);
+        });
+    }
+
+    async function changeListResponse(response, list, chips, fieldId, self, id) {
+        $(chips).append('<div class="btn btn-info btn-sm mr-2 chips-btn" data-id="' + $(list + ' option:selected').val() + '">' + $(list + ' option:selected').text() + '</div>');
+        $(fieldId).val(id);
+        if (response.data && response.data.length > 0) {
+            $(list).children().remove();
+            optionStr = '<option value="0">Нет</option>';
+            response.data.forEach(function (item) {
+                optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
+            });
+            $(list).html(optionStr);
+            return null;
+        } else {
+            $(list).children().remove();
+            $(list).html('<option value="0">Нет</option>');
+            self.attr('disabled', true);
+            return response.data;
+        }
+    }
+
+    async function getFieldsForRubric(rubric) {
+        if(rubric && rubric.field) {
+            const api = '/api/field/get';
+            const params = {id : rubric.field}
+            const responseFields = await getAxiosPostRequest(api, params);
+            return  responseFields;
+        }
+    }
+
+    async function renderFieldsInFormByRubric(rubric) {
+        if(rubric) {
+            fields = await getFieldsForRubric(rubric);
+            if(fields.data && fields.data.length > 0) {
+                $('.fields-wrapper').children().remove();
+                let fieldStr = '';
+                fields.data.forEach(function (item) {
+                    fieldStr = fieldStr + '<label for="input-fields">' + item.title + '</label> ' +
+                        '<input type="text"  data-slug="' + item.title + '" value="" class="form-control input-fields">';
+                });
+                $('.fields-wrapper').html(fieldStr);
+            }
+        }
+    }
+
+    function clickChipsResponse(response, fieldId, chips, list, id, count) {
+        $(fieldId).val(id);
+        if (response.data && response.data.length > 0) {
+            $(list).children().remove();
+            optionStr = '<option value="0">Нет</option>';
+            response.data.forEach(function (item) {
+                optionStr = optionStr + '<option value="' + item.id + '">' + item.title + '</option>';
+            });
+            $(list).html(optionStr);
+            $(chips + ' .chips-btn').each(function (i, f) {
+                if (i >= count) {
+                    $(f).remove();
+                }
+            })
+            $('.fields-wrapper').children().remove();
+        }
+    }
+
+    function setFieldsParams(params) {
+        const result = {};
+        $('.input-fields').each(function() {
+            result[$(this).data('slug')] = $(this).val()
+        })
+        params.append("fields", JSON.stringify(result));
+        return params;
+    }
 
 
     /* User page events */
@@ -273,20 +373,23 @@ $(document).ready(function () {
     /* Product page events */
 
     $('.createProduct').click(function () {
-        const params = getAnyPageParameters('#productForm');
+        let params = getAnyPageParameters('#productForm');
+        params = setFieldsParams(params);
         const url = '/api/product/add';
         axiosPostRequest(url, params, addAdminItemList);
     });
 
     $('.editProduct').click(function () {
-        const params = getAnyPageParameters('#productForm');
+        let params = getAnyPageParameters('#productForm');
+        params = setFieldsParams(params);
         const url = '/api/product/edit/' + params.get('productid');
         axiosPostRequest(url, params, addAdminItemList);
     });
 
     deleteItemFromList('.remove-product-btn', '/api/product/remove');
 
-    parentChecker("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
+    // parentChecker("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
+    changeRubricWithFields("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
 
     /* bind user page */
     $('.bindUser').click(function (e) {

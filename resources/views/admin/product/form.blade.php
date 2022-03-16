@@ -25,7 +25,7 @@
     <input id="rubric-id" name="rubric_id" type="hidden" @if(!empty($rubric)) value="{{$prb->id}}" @else value="0"  @endif>
     <select id="rubric-list" class="form-control custom-select" @if(!empty($rubric)) disabled  @endif>
         <option value="0">Нет</option>
-        @if(!empty($rubricChild))
+        @if(!empty($rubricChild) && is_array($rubricChild))
             @foreach($rubricChild as $rb)
                 <option value="{{$rb->id}}">{{$rb->title}}</option>
             @endforeach
@@ -79,20 +79,13 @@
 </div>
 <div class="form-group">
     <label for="inputStatus">Характеристики</label>
-    <div class="row container">
+    <div class="row container fields-wrapper">
         @if(!empty($fields))
-            @foreach($fields as $fd)
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input class="form-check-input field-checkbox" name="fields[]" type="checkbox" id="flexCheckDefault_{{$fd->id}}" value="{{$fd->id}}" @if(!empty($checkedFields) && in_array($fd->id, $checkedFields)) checked @endif>
-                        <label class="form-check-label" for="flexCheckDefault_{{$fd->id}}">
-                            {{$fd->title}}
-                        </label>
-                    </div>
-                </div>
+            @foreach($fields as $key=>$fd)
+                    <label for="input-fields">{{$key}}</label>
+                    <input type="text"  data-slug="{{$key}}" value="{{$fd}}" class="form-control input-fields">
             @endforeach
         @endif
-
     </div>
 </div>
 

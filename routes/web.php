@@ -60,6 +60,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
 Route::get('api/auth/check', [App\Http\Controllers\Auth\CustomAuthController::class, 'checkToken']);
 Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getRubricChild']);
 Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
+Route::post('api/field/get', [App\Http\Controllers\PortalConnectionController::class, 'getFieldsByIds']);
 Route::get('api/changes/get', [App\Http\Controllers\ProductChangeController::class, 'getChanges']);
 
 /* public pages */
