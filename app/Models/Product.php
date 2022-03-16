@@ -66,5 +66,19 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getFieldsValuesForProduct($product, $fields) {
+        if($product && $product->fields && $fields) {
+            $prodFields = $product->fields ? json_decode($product->fields) : [];
+            foreach ($fields as $fd) {
+                foreach ($prodFields as $key=>$prf) {
+                    if($fd->id == $key) {
+                        $fd->value = $prf;
+                    }
+                }
+            }
+        }
+        return $fields;
+    }
+
 
 }

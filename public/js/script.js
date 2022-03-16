@@ -242,7 +242,7 @@ $(document).ready(function () {
                 let fieldStr = '';
                 fields.data.forEach(function (item) {
                     fieldStr = fieldStr + '<label for="input-fields">' + item.title + '</label> ' +
-                        '<input type="text"  data-slug="' + item.title + '" value="" class="form-control input-fields">';
+                        '<input type="text"  data-slug="' + item.id + '" value="" class="form-control input-fields">';
                 });
                 $('.fields-wrapper').html(fieldStr);
             }

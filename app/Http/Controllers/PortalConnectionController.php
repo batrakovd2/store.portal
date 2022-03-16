@@ -31,7 +31,6 @@ class PortalConnectionController extends Controller
 
     public function getFieldsByIds(Request $request) {
         $id = $request->input('id');
-        Log::info($id);
         $id = $id ?? 0;
         $params = array("id" => $id);
         $api = $this->PORTAL_URL.'/api/fields/get';

@@ -82,8 +82,8 @@
     <div class="row container fields-wrapper">
         @if(!empty($fields))
             @foreach($fields as $key=>$fd)
-                    <label for="input-fields">{{$key}}</label>
-                    <input type="text"  data-slug="{{$key}}" value="{{$fd}}" class="form-control input-fields">
+                    <label for="input-fields">{{$fd->title}}</label>
+                    <input type="text"  data-slug="{{$fd->id}}" value="@if(!empty($fd->value)){{$fd->value}}@endif" class="form-control input-fields">
             @endforeach
         @endif
     </div>

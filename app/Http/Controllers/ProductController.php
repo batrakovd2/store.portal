@@ -107,14 +107,17 @@ class ProductController extends Controller
         $prt = new PortalConnectionController();
         $units = $prt->getUnits();
         $product = Product::getProduct($id);
-        $fields = $product->fields ? json_decode($product->fields) : [];
+
         $product = Gallery::getImagePath($product);
         $request = new Request();
         $request['id'] = $product && $product->rubric_id ? $product->rubric_id : 0;
         $rubricChild = $prt->getRubricChild($request);
         $rubric = $product->rubric_id ? $prt->getRubric($product->rubric_id) : [];
+        $request['id'] = $rubric->field;
+        $fields = $rubric->field ? $prt->getFieldsByIds($request) : [];
+        $fields = $fields ? json_decode($fields) : [];
+        $fields = Product::getFieldsValuesForProduct($product, $fields);
         $rubric = $rubric ? $prt->getRubricChildChain($product->rubric_id) : [];
-        $checkedFields = $product && $product->fields ? json_decode($product->fields) : 0;
         $categoryId = $product ? $product->category_id : 0;
         $parentCategory = Category::getCategory($categoryId);
         $parentCategory = $parentCategory ? CategoryController::getCategoryChildChain($parentCategory->id) : 0;
@@ -124,7 +127,6 @@ class ProductController extends Controller
             'parentCategory' => $parentCategory,
             'categories' => $categories,
             'fields' => $fields,
-            'checkedFields' => $checkedFields,
             'units' => $units,
             'rubricChild' => $rubricChild,
             'rubric' => $rubric,
