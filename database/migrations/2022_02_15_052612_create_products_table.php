@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('up_text', 300)->nullable();
             $table->text('down_text')->nullable();
             $table->string('price', 100)->nullable();
+            $table->json('advanced_price')->nullable();
             $table->json('fields')->nullable();
             $table->integer('units')->nullable();
             $table->integer('view')->nullable();

@@ -380,16 +380,50 @@ $(document).ready(function () {
     });
 
     $('.editProduct').click(function () {
-        let params = getAnyPageParameters('#productForm');
+        params = getAnyPageParameters('#productForm');
         params = setFieldsParams(params);
+        params = setPriceParams(params);
         const url = '/api/product/edit/' + params.get('productid');
         axiosPostRequest(url, params, addAdminItemList);
     });
+
+    function setPriceParams(params){
+        let price = 0
+        let priceOld = 0
+        let priceType = $('#priceType').val();
+        params.delete('price');
+        params.delete('old_price');
+        const advPrice = {};
+        if(priceType == 1) {
+            price = $('#vert-tabs-price input[name="price"]').val()
+        }
+        if(priceType == 2) {
+            price = $('#vert-tabs-price-interval input[name="price"]').val()
+            priceOld = $('#vert-tabs-price-interval input[name="old_price"]').val()
+            advPrice['type'] = "2";
+            advPrice['old_price'] = priceOld;
+        }
+        if(priceType == 3) {
+            price = $('#vert-tabs-price-sale input[name="price"]').val()
+            priceOld = $('#vert-tabs-price-sale input[name="old_price"]').val()
+            advPrice['type'] = "3";
+            advPrice['old_price'] = priceOld;
+        }
+        params.append('advanced_price',  JSON.stringify(advPrice));
+        params.append('price', price);
+        return params;
+    }
 
     deleteItemFromList('.remove-product-btn', '/api/product/remove');
 
     // parentChecker("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
     changeRubricWithFields("#rubric-list", "#rubric_array", "#rubric-id", "/api/rubric/getChild");
+
+    $('.price-tab').click(function() {
+        const type = $(this).data('type');
+        $('#priceType').val(type);
+    });
+
 
     /* bind user page */
     $('.bindUser').click(function (e) {

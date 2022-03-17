@@ -18,6 +18,7 @@ class Product extends Model
         'up_text',
         'down_text',
         'price',
+        'advanced_price',
         'fields',
         'units',
         'view',
@@ -78,6 +79,13 @@ class Product extends Model
             }
         }
         return $fields;
+    }
+
+    public function getPrices($product) {
+        if($product && !empty($product->advanced_price)) {
+            $product->advanced_price = json_decode($product->advanced_price);
+        }
+        return $product;
     }
 
 

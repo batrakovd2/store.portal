@@ -1,2 +1,2 @@
-const PORTAL = 'http://portal.v-assortimente.ru/';
-const IMG_PORTAL = 'http://image.v-assortimente.ru/';
+const PORTAL = 'http://portal.loc/';
+const IMG_PORTAL = 'http://img.portal.loc/';

@@ -104,19 +104,22 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $fields = [];
         $prt = new PortalConnectionController();
         $units = $prt->getUnits();
         $product = Product::getProduct($id);
-
         $product = Gallery::getImagePath($product);
+        $product = Product::getPrices($product);
         $request = new Request();
         $request['id'] = $product && $product->rubric_id ? $product->rubric_id : 0;
         $rubricChild = $prt->getRubricChild($request);
         $rubric = $product->rubric_id ? $prt->getRubric($product->rubric_id) : [];
-        $request['id'] = $rubric->field;
-        $fields = $rubric->field ? $prt->getFieldsByIds($request) : [];
-        $fields = $fields ? json_decode($fields) : [];
-        $fields = Product::getFieldsValuesForProduct($product, $fields);
+        if($rubric) {
+            $request['id'] = $rubric->field;
+            $fields = $rubric->field ? $prt->getFieldsByIds($request) : [];
+            $fields = $fields ? json_decode($fields) : [];
+            $fields = Product::getFieldsValuesForProduct($product, $fields);
+        }
         $rubric = $rubric ? $prt->getRubricChildChain($product->rubric_id) : [];
         $categoryId = $product ? $product->category_id : 0;
         $parentCategory = Category::getCategory($categoryId);

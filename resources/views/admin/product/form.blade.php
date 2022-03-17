@@ -62,8 +62,69 @@
     <input type="text" class="form-control" id="inputDownText" name="down_text"  placeholder="Описание товара" value="@if(!empty($product) ){{$product->down_text}}@endif" >
 </div>
 <div class="form-group">
-    <label for="inputPrice">Цена</label>
-    <input type="text" class="form-control" id="inputPrice" name="price" placeholder="1000" value="@if(!empty($product) ){{$product->price}}@endif" >
+    <label>Цена</label>
+    <div class="row mt-3">
+        <div class="col-5 col-sm-3">
+            <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 1 || empty($product->advanced_price->type)) {{'active'}} @endif price-tab" id="vert-tabs-price-tab" data-type="1" data-toggle="pill" href="#vert-tabs-price" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Точная</a>
+                <a class="nav-link @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 2) {{'active'}} @endif  price-tab" id="vert-tabs-price-interval-tab" data-type="2" data-toggle="pill" href="#vert-tabs-price-interval" role="tab" aria-controls="vert-tabs-profile" aria-selected="true">От - до</a>
+                <a class="nav-link @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 3) {{'active'}} @endif  price-tab" id="vert-tabs-price-sale-tab" data-type="3" data-toggle="pill" href="#vert-tabs-price-sale" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">Скидка</a>
+            </div>
+        </div>
+        <div class="col-7 col-sm-9">
+            <div class="tab-content" id="vert-tabs-tabContent">
+                <input type="hidden" id="priceType" class="form-control d-none price-type-input" name="type_price" value="@if(!empty($product->advanced_price->type)){{$product->advanced_price->type}}@else{{'1'}}@endif">
+                <div class="tab-pane text-left fade @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 1 || empty($product->advanced_price->type)){{'show active'}}@endif" id="vert-tabs-price" role="tabpanel" aria-labelledby="vert-tabs-price-tab">
+                    <label>Точная цена</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="price" placeholder="1000" value="@if(!empty($product->advanced_price->type) && $product->advanced_price->type == 1 || empty($product->advanced_price->type) && !empty($product->price) ){{$product->price}}@endif">
+                        <div class="input-group-append">
+                            <span class="input-group-text">руб.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 2){{'show active'}}@endif " id="vert-tabs-price-interval" role="tabpanel" aria-labelledby="vert-tabs-price-interval-tab">
+                    <label>Цена от</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="price" placeholder="800" value="@if(!empty($product->price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 2){{$product->price}}@endif">
+                        <div class="input-group-append">
+                            <span class="input-group-text">руб.</span>
+                        </div>
+                    </div>
+                    <label>Цена до</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="old_price" placeholder="1000" value="@if(!empty($product->advanced_price->old_price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 2 ){{$product->advanced_price->old_price}}@endif">
+                        <div class="input-group-append">
+                            <span class="input-group-text">руб.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 3){{'show active'}}@endif" id="vert-tabs-price-sale" role="tabpanel" aria-labelledby="vert-tabs-price-sale-tab">
+                    <label>Старая цена</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="old_price" placeholder="1000" value="@if(!empty($product->advanced_price->old_price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->advanced_price->old_price}}@endif">
+                        <div class="input-group-append">
+                            <span class="input-group-text">руб.</span>
+                        </div>
+                    </div>
+                    <label>Новая цена</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="price" placeholder="900" value="@if(!empty($product->price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->price}}@endif">
+                        <div class="input-group-append">
+                            <span class="input-group-text">руб.</span>
+                        </div>
+                    </div>
+                    <label>Скидка %</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="10" value="">
+                        <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="form-group">
     <label for="inputStatus">Единицы</label>
@@ -85,6 +146,8 @@
                     <label for="input-fields">{{$fd->title}}</label>
                     <input type="text"  data-slug="{{$fd->id}}" value="@if(!empty($fd->value)){{$fd->value}}@endif" class="form-control input-fields">
             @endforeach
+        @else
+            <p>Характеристик для выбранной рубрики не имеется</p>
         @endif
     </div>
 </div>
