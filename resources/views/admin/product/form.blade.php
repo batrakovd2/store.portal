@@ -102,21 +102,24 @@
                 <div class="tab-pane fade @if(!empty($product->advanced_price->type) && $product->advanced_price->type == 3){{'show active'}}@endif" id="vert-tabs-price-sale" role="tabpanel" aria-labelledby="vert-tabs-price-sale-tab">
                     <label>Старая цена</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="old_price" placeholder="1000" value="@if(!empty($product->advanced_price->old_price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->advanced_price->old_price}}@endif">
+                        <input type="number" class="form-control" name="old_price" placeholder="1000" value="@if(!empty($product->advanced_price->old_price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->advanced_price->old_price}}@endif">
                         <div class="input-group-append">
                             <span class="input-group-text">руб.</span>
                         </div>
                     </div>
                     <label>Новая цена</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="price" placeholder="900" value="@if(!empty($product->price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->price}}@endif">
+                        <input type="number" class="form-control" name="price" placeholder="900" value="@if(!empty($product->price) && !empty($product->advanced_price->type) && $product->advanced_price->type == 3 ){{$product->price}}@endif">
                         <div class="input-group-append">
                             <span class="input-group-text">руб.</span>
                         </div>
                     </div>
                     <label>Скидка %</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="10" value="">
+                        <input type="number" class="form-control sale" placeholder="10" value="@if(!empty($product->price) &&
+                            !empty($product->advanced_price->type) &&
+                            !empty($product->advanced_price->old_price) &&
+                            $product->advanced_price->type == 3 ){{100 - 100*$product->price/$product->advanced_price->old_price}}@endif">
                         <div class="input-group-append">
                             <span class="input-group-text">%</span>
                         </div>

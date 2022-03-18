@@ -276,6 +276,32 @@ $(document).ready(function () {
         return params;
     }
 
+    function setPriceParams(params){
+        let price = 0
+        let priceOld = 0
+        let priceType = $('#priceType').val();
+        params.delete('price');
+        params.delete('old_price');
+        const advPrice = {};
+        if(priceType == 1) {
+            price = $('#vert-tabs-price input[name="price"]').val()
+        }
+        if(priceType == 2) {
+            price = $('#vert-tabs-price-interval input[name="price"]').val()
+            priceOld = $('#vert-tabs-price-interval input[name="old_price"]').val()
+            advPrice['type'] = "2";
+            advPrice['old_price'] = priceOld;
+        }
+        if(priceType == 3) {
+            price = $('#vert-tabs-price-sale input[name="price"]').val()
+            priceOld = $('#vert-tabs-price-sale input[name="old_price"]').val()
+            advPrice['type'] = "3";
+            advPrice['old_price'] = priceOld;
+        }
+        params.append('advanced_price',  JSON.stringify(advPrice));
+        params.append('price', price);
+        return params;
+    }
 
     /* User page events */
 
@@ -387,31 +413,33 @@ $(document).ready(function () {
         axiosPostRequest(url, params, addAdminItemList);
     });
 
-    function setPriceParams(params){
-        let price = 0
-        let priceOld = 0
-        let priceType = $('#priceType').val();
-        params.delete('price');
-        params.delete('old_price');
-        const advPrice = {};
-        if(priceType == 1) {
-            price = $('#vert-tabs-price input[name="price"]').val()
+    $('#vert-tabs-price-sale input[name="price"]').keyup(function () {
+        saleRender();
+    });
+
+    $('#vert-tabs-price-sale input[name="old_price"]').keyup(function () {
+        saleRender();
+    });
+
+    $('#vert-tabs-price-sale input.sale').keyup(function () {
+        saleRender();
+    });
+
+    function saleRender() {
+        let oldPrice = $('#vert-tabs-price-sale input[name="old_price"]').val()
+        oldPrice = parseInt(oldPrice);
+        let price = $('#vert-tabs-price-sale input[name="price"]').val();
+        price = parseInt(price);
+        if(oldPrice) {
+            if(oldPrice > price) {
+                let percent = 100 - (price/oldPrice)*100;
+                $('#vert-tabs-price-sale input.sale').val(percent.toFixed(2));
+            } else {
+                toastr.error("Старая цена должна быть больше новой")
+            }
+        } else {
+            toastr.error("Старая цена не может быть пустой")
         }
-        if(priceType == 2) {
-            price = $('#vert-tabs-price-interval input[name="price"]').val()
-            priceOld = $('#vert-tabs-price-interval input[name="old_price"]').val()
-            advPrice['type'] = "2";
-            advPrice['old_price'] = priceOld;
-        }
-        if(priceType == 3) {
-            price = $('#vert-tabs-price-sale input[name="price"]').val()
-            priceOld = $('#vert-tabs-price-sale input[name="old_price"]').val()
-            advPrice['type'] = "3";
-            advPrice['old_price'] = priceOld;
-        }
-        params.append('advanced_price',  JSON.stringify(advPrice));
-        params.append('price', price);
-        return params;
     }
 
     deleteItemFromList('.remove-product-btn', '/api/product/remove');
