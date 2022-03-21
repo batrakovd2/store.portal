@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
@@ -11,10 +12,11 @@ class CreateCompanyController extends Controller
 {
     public function createCompany(Request $request) {
         $companyId = $request->input('id');
+
         $domain = $request->input('domain');
         try{
             $this->createEnvFile($domain, $companyId);
-            $this->createTables($companyId);
+            $this->createTables($request);
             $result = array("status" => "success", "desc" => "Новый файл конфигураций и БД успешно созданы");
         } catch (\Exception $e) {
             $result = array("status" => "error", "desc" => "Произошла ошибка при создании файла конфигурации или БД");
@@ -23,16 +25,19 @@ class CreateCompanyController extends Controller
         return $result;
     }
 
-    private function createTables($companyId) {
+    private function createTables($request) {
+        $companyId = $request->input('id');
+        $userId = $request->input('user_id');
         $this->createCategoryTable($companyId);
         $this->createProductTable($companyId);
-        $this->createCompanyTable($companyId);
+        $this->createCompanyTable($request);
         $this->createPageTable($companyId);
         $this->createNewsTable($companyId);
         $this->createReviewTable($companyId);
         $this->createGalleryTable($companyId);
         $this->createProductChange($companyId);
         $this->createSessionTable($companyId);
+        $this->createUserRoleTable($companyId, $userId);
     }
 
     private function createCategoryTable($companyId) {
@@ -73,9 +78,19 @@ class CreateCompanyController extends Controller
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
         });
+
+        Log::info("createProductTable created");
     }
 
-    private function createCompanyTable($companyId) {
+    private function createCompanyTable($request) {
+        $companyId = $request->input('id');
+        $companyTitle = $request->input('title');
+        $companyDomain = $request->input('domain');
+        $companyCityid = $request->input('city_id');
+        $companyAddress = $request->input('address');
+        $companyPhone = $request->input('phone');
+        $companyEmail = $request->input('email');
+        $companyWorktime = $request->input('work_time');
         Schema::create($companyId.'_companies', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -90,6 +105,18 @@ class CreateCompanyController extends Controller
             $table->string('data_coord')->nullable();
             $table->timestamps();
         });
+        DB::table($companyId.'_companies')->insert([
+            "title" => $companyTitle,
+            "domain" => $companyDomain,
+            "city_id" => $companyCityid,
+            "address" => $companyAddress,
+            "phone" => $companyPhone,
+            "email" => $companyEmail,
+            "work_time" => $companyWorktime,
+        ]);
+
+        Log::info("createCompanyTable created");
+
     }
 
     private function createPageTable($companyId) {
@@ -103,6 +130,8 @@ class CreateCompanyController extends Controller
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
         });
+
+        Log::info("createPageTable created");
     }
 
     private function createNewsTable($companyId) {
@@ -119,6 +148,8 @@ class CreateCompanyController extends Controller
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
         });
+
+        Log::info("createNewsTable created");
     }
 
     private function createReviewTable($companyId) {
@@ -136,6 +167,8 @@ class CreateCompanyController extends Controller
             $table->integer('status')->nullable();
             $table->timestamps();
         });
+
+        Log::info("createReviewTable created");
     }
 
     private function createGalleryTable($companyId) {
@@ -146,6 +179,8 @@ class CreateCompanyController extends Controller
             $table->integer('status')->default(0);
             $table->timestamps();
         });
+
+        Log::info("createGalleryTable created");
     }
 
     private function createProductChange($companyId){
@@ -156,6 +191,8 @@ class CreateCompanyController extends Controller
             $table->integer('status')->nullable();
             $table->timestamps();
         });
+
+        Log::info("createProductChange created");
     }
 
     private function createSessionTable($companyId) {
@@ -167,6 +204,23 @@ class CreateCompanyController extends Controller
             $table->text('payload');
             $table->integer('last_activity')->index();
         });
+
+        Log::info("createSessionTable created");
+    }
+
+    private function createUserRoleTable($companyId, $user_id) {
+        Schema::create($companyId.'_user_roles', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
+            $table->integer('role_id');
+            $table->timestamps();
+        });
+        DB::table($companyId.'_user_roles')->insert([
+            "user_id" => $user_id,
+            "role_id" => 4
+        ]);
+
+        Log::info($user_id." - createUserRoleTable created");
     }
 
     private function createEnvFile($domain, $companyId){
@@ -179,9 +233,9 @@ class CreateCompanyController extends Controller
         fclose($file);
     }
 
+
     private function getEnvFileText($domain, $companyId) {
-        $text = "
-APP_NAME=". $domain ."
+        return $text = "APP_NAME=". $domain ."
 APP_ENV=local
 APP_KEY=base64:YvfONjxzne/n9/LM+YiIX8J3yiv/k8EzHKBdJYJImrY=
 APP_DEBUG=true
@@ -247,8 +301,7 @@ PUSHER_APP_CLUSTER=mt1
 
 PORTAL_AUTH=http://authportal.loc
 PORTAL_IMG=http://img.portal.loc
-PORTAL=http://portal.loc
-        ";
+PORTAL=http://portal.loc";
     }
 
 }
