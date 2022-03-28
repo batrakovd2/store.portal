@@ -23,20 +23,20 @@
                                 @foreach($globalCategories as $category)
                                 <div class='sections-card'>
                                     <div class="sections-card__desc">
-                                        <a href='/price/{{$category['slug']}}' class="sections-card__title link">
+                                        <a href='/catalog/{{$category['slug']}}' class="sections-card__title link">
                                             {{$category['title']}}
                                         </a>
                                         @if(!empty($category['children']) && $category['children'])
                                         <ul class='sections-card__list'>
                                             @foreach($category['children'] as $child)
                                             <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="/price/{{$child['slug']}}">
+                                                <a class="sections-card__link-item link" href="/catalog/{{$child['slug']}}">
                                                     {{$child['title']}}
                                                 </a>
                                             </li>
                                             @endforeach
                                         </ul>
-                                        <a href="/price/{{$category['slug']}}" class="sections-card__link">Посмотреть все
+                                        <a href="/catalog/{{$category['slug']}}" class="sections-card__link">Посмотреть все
                                             <img src="{{asset('img/icon/arrow-more.svg')}}" alt="->" class="sections-card__arrow">
                                         </a>
                                         @endif

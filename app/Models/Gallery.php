@@ -24,7 +24,7 @@ class Gallery extends Model
         if($gallery) {
             $PORTAL_URL = config('app.img_portal');
             $gallery->map(function($item) use ($PORTAL_URL) {
-                $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : "";
+                $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : [];
                 if(!empty($fullUrl) && count($fullUrl)) {
                     foreach ($fullUrl as $key=>$url) {
                         $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
@@ -39,16 +39,64 @@ class Gallery extends Model
     public function getImagePath($item) {
         if($item) {
             $PORTAL_URL = config('app.img_portal');
-                $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : "";
-                if(!empty($fullUrl) && count($fullUrl)) {
-                    foreach ($fullUrl as $key=>$url) {
-                        $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
-                    }
+            $fullUrl = !empty($item->photo) ? explode(',', $item->photo) : "";
+            if(!empty($fullUrl) && count($fullUrl)) {
+                foreach ($fullUrl as $key=>$url) {
+                    $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $url;
                 }
+            }
             $item->photo = $fullUrl;
         }
         return $item;
     }
+
+    /* получение полного пути первой картинки. возвращает строку. */
+    public function getPhotoByUrl($url) {
+        $placeholder = asset("img/placeholder.jpg");
+        $fullUrl = "";
+        if(!empty($url) && !is_array($url)) {
+            $PORTAL_URL = config('app.img_portal');
+            $urlArr = explode(',', $url);
+            $fullUrl = !empty($urlArr[0]) ? $PORTAL_URL. '/' .$urlArr[0] : $placeholder;
+        }
+        return $fullUrl ? $fullUrl : $placeholder;
+    }
+
+    /* получение полных путей картинок из строки. возвращает массив со строками путями. */
+    public function getPhotosByUrl($url) {
+        $placeholder = asset("img/placeholder.jpg");
+        $fullUrl = "";
+        if(!empty($url) && !is_array($url)) {
+            $PORTAL_URL = config('app.img_portal');
+            $fullUrl = explode(',', $url);
+            if(!empty($fullUrl) && count($fullUrl)) {
+                foreach ($fullUrl as $key=>$url) {
+                    $fullUrl[$key] = !empty($url) ? $PORTAL_URL. '/' .$url : $placeholder;
+                }
+            }
+        }
+        return $fullUrl ? $fullUrl : [$placeholder];
+    }
+
+    public function getOncePhotoForCollectionItems($collect) {
+        if(!empty($collect) && $collect) {
+            $collect->map(function($item) {
+                $item->photo = Gallery::getPhotoByUrl($item->photo);
+            });
+        }
+        return $collect;
+    }
+
+    public function getPhotosForCollectionItems($collect) {
+        if(!empty($collect) && $collect) {
+            $collect->map(function($item) {
+                $item->photo = Gallery::getPhotosByUrl($item->photo);
+            });
+        }
+        return $collect;
+    }
+
+
 
     public function checkImage($url) {
         $curl = curl_init();

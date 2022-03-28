@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductChange;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,6 +18,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $popCategories = Category::getPopRootCategories(6);
+        return view('home', compact("popCategories", $popCategories));
     }
 }

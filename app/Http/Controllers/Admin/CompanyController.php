@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\PortalConnectionController;
 use App\Models\Company;
 use App\Models\PortalCompany;
 use Illuminate\Http\Request;

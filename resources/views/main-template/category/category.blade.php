@@ -11,7 +11,18 @@
                         <span class="path__slash">/</span>
                         <a href="{{route('catalog')}}" class="path__link">Каталог</a>
                         <span class="path__slash">/</span>
-                        <a href="{{$category->slug}}" class="path__link">{{$category->title}}</a>
+                        @if(!empty($breadcrumbs))
+                            @foreach($breadcrumbs as $br)
+                                @if($loop->last)
+                                    <a href="#" class="path__link">{{$br['title']}}</a>
+                                @else
+                                    <a href="{{$br['slug']}}" class="path__link">{{$br['title']}}</a>
+                                    <span class="path__slash">/</span>
+                                @endif
+                            @endforeach
+                        @endif
+
+
                     </div>
                 </div>
                 <div class="cols-wrap">
@@ -26,7 +37,7 @@
                                             @if(!empty($category->children))
                                                 @foreach($category->children as $child)
                                                     <li class="desc-block__item">
-                                                        <a href="/price/{{$child->slug}}"
+                                                        <a href="/catalog/{{$child->slug}}"
                                                            class="desc-block__link link">{{$child->title}}</a>
                                                     </li>
                                                 @endforeach
@@ -55,7 +66,7 @@
                                         @if(!empty($category->children))
                                             @foreach($category->children as $child)
                                                 <li class="m-sectoin__item">
-                                                    <a href="/price/{{$child->slug}}"
+                                                    <a href="/catalog/{{$child->slug}}"
                                                        class="m-sectoin__link">{{$child->title}}</a>
                                                 </li>
                                             @endforeach

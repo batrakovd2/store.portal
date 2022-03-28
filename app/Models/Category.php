@@ -18,6 +18,7 @@ class Category extends Model
         'meta_name',
         'meta_description',
         'meta_keywords',
+        'view'
     ];
 
     public function getCategory($id) {
@@ -40,6 +41,7 @@ class Category extends Model
     public function getChildCategories($id) {
         return Category::where('parent_id', $id)->get();
     }
+
 
     public function getCategoryNesting() {
         $category = Category::get();
@@ -73,6 +75,28 @@ class Category extends Model
 
     public function products() {
         return $this->hasMany(Product::class);
+    }
+
+    public function getPopRootCategories($limit) {
+        $categories = Category::whereNotNull("view")->where("parent_id", 0)->orderBy("view", "desc")->limit($limit)->get();
+        $categories = Gallery::getOncePhotoForCollectionItems($categories);
+        return $categories;
+    }
+
+    public function addViewed($category) {
+        if(!empty($category)){
+            $category->view = $category->view + 1;
+            if(!empty($category->children)) unset($category->children);
+            $category->save();
+        }
+    }
+
+    public function addViewedById($id) {
+        $category = Category::getCategory($id);
+        if(!empty($category)) {
+            $category->view = $category->view + 1;
+            $category->save();
+        }
     }
 
 

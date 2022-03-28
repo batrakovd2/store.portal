@@ -2,6 +2,7 @@
 
 @section('content')
     <!--main-carousel-->
+{{--    @dd($popCategories)--}}
     <div id='mainCarousel' data-interval='10' class='main-carousel m-c'>
         <div id="mainCarouselSlidesWrap" class='m-c__slides main-slider'>
             <div class="m-c-slide main-slider__item">
@@ -142,6 +143,7 @@
                     <!--col-content-->
                     <div class="col-content">
 
+                        @if(!empty($popCategories))
                         <!--sections-->
                         <div class="sections">
                             <h2 class="section-title h2">
@@ -149,185 +151,18 @@
                                 <img src="./img/icon/sections-arrow.svg" alt="" class="sections__arrow">
                             </h2>
                             <div class="sections-list">
+                                @foreach($popCategories as $pcat)
                                 <div class='sections-card'>
                                     <div class="sections-card__desc">
-                                        <a href='product-categories.html' class="sections-card__title link">
-                                            Проволока оцинкованная
+                                        <a href="/catalog/{{$pcat->slug}}" class="sections-card__title link">
+                                            {{$pcat->title}}
                                         </a>
-                                        <ul class='sections-card__list'>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Опоры освещения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Дорожные ограждения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Резервуары
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Молниеотводы
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <a href="#!" class="sections-card__link">Посмотреть все <img
-                                                src="./img/icon/arrow-more.svg"
-                                                alt="->" class="sections-card__arrow"></a>
                                     </div>
                                     <div class="sections-card__preview">
-                                        <img src="./img/image/section-img.jpg" alt="" class="sections-card__img">
+                                        <img src="{{$pcat->photo}}" alt="" class="sections-card__img">
                                     </div>
                                 </div>
-
-                                <div class='sections-card'>
-                                    <div class="sections-card__desc">
-                                        <a href='product-categories.html' class="sections-card__title link">
-                                            Проволока оцинкованная
-                                        </a>
-                                        <ul class='sections-card__list'>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Опоры освещения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Дорожные ограждения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Резервуары
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Молниеотводы
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <a href="#!" class="sections-card__link">Посмотреть все <img
-                                                src="./img/icon/arrow-more.svg"
-                                                alt="->" class="sections-card__arrow"></a>
-                                    </div>
-                                    <div class="sections-card__preview">
-                                        <img src="./img/image/section-img.jpg" alt="" class="sections-card__img">
-                                    </div>
-                                </div>
-
-                                <div class='sections-card'>
-                                    <div class="sections-card__desc">
-                                        <a href='product-categories.html' class="sections-card__title link">
-                                            Проволока оцинкованная
-                                        </a>
-                                        <ul class='sections-card__list'>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Опоры освещения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Дорожные ограждения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Резервуары
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Молниеотводы
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <a href="#!" class="sections-card__link">Посмотреть все <img
-                                                src="./img/icon/arrow-more.svg"
-                                                alt="->" class="sections-card__arrow"></a>
-                                    </div>
-                                    <div class="sections-card__preview">
-                                        <img src="./img/image/section-img.jpg" alt="" class="sections-card__img">
-                                    </div>
-                                </div>
-
-                                <div class='sections-card'>
-                                    <div class="sections-card__desc">
-                                        <a href='product-categories.html' class="sections-card__title link">
-                                            Проволока оцинкованная
-                                        </a>
-                                        <ul class='sections-card__list'>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Опоры освещения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Дорожные ограждения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Резервуары
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Молниеотводы
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <a href="#!" class="sections-card__link">Посмотреть все <img
-                                                src="./img/icon/arrow-more.svg"
-                                                alt="->" class="sections-card__arrow"></a>
-                                    </div>
-                                    <div class="sections-card__preview">
-                                        <img src="./img/image/section-img.jpg" alt="" class="sections-card__img">
-                                    </div>
-                                </div>
-
-                                <div class='sections-card'>
-                                    <div class="sections-card__desc">
-                                        <a href='product-categories.html' class="sections-card__title link">
-                                            Проволока оцинкованная
-                                        </a>
-                                        <ul class='sections-card__list'>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Опоры освещения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Дорожные ограждения
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Резервуары
-                                                </a>
-                                            </li>
-                                            <li class="sections-card__item">
-                                                <a class="sections-card__link-item link" href="#!">
-                                                    Молниеотводы
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <a href="#!" class="sections-card__link">Посмотреть все <img
-                                                src="./img/icon/arrow-more.svg"
-                                                alt="->" class="sections-card__arrow"></a>
-                                    </div>
-                                    <div class="sections-card__preview">
-                                        <img src="./img/image/section-img.jpg" alt="" class="sections-card__img">
-                                    </div>
-                                </div>
+                                @endforeach
 
                             </div>
 
@@ -337,6 +172,8 @@
 
                         </div>
                         <!--sections-->
+
+                        @endif
 
                         <!--products-->
                         <div class="products">

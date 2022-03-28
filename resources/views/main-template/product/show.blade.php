@@ -9,7 +9,7 @@
                     <div class="path">
                         <a href="{{url('/')}}" class="path__link">Главная</a>
                         <span class="path__slash">/</span>
-                        <a href="/price/{{$category->slug}}" class="path__link">{{$category->title}}</a>
+                        <a href="/catalog/{{$category->slug}}" class="path__link">{{$category->title}}</a>
                         <span class="path__slash">/</span>
                         <a href="#" class="path__link">{{$product->title}}</a>
                     </div>

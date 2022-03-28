@@ -55,9 +55,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validator = $this->validator($request->all());
-        $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
-        $fields = $request->input('fields');
-        $request['fields'] = $fields ? json_encode($fields) : NULL;
+        $request['slug'] = $this->generateSlug($request->input('title'));
         $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
@@ -71,6 +69,7 @@ class ProductController extends Controller
             $errors = $validator->errors();
             $result = 'error';
             $description = $errors ? $errors->all() : "Произошла ошибка при добавлении товара";
+            $item = [];
         }
 
         return array("status" => $result, "desc" => $description, "item" => $item);
@@ -236,6 +235,12 @@ class ProductController extends Controller
             ProductChange::deleteItems($ids);
         }
         return $products;
+    }
+
+    public function generateSlug($title) {
+        $last = Product::orderBy("id", "desc")->select('id')->first();
+        $last = !empty($last) && $last ? $last->id + 1 : "";
+        return Str::slug(mb_substr($title, 0, 30))."-".$last;
     }
 
 }

@@ -3,163 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Gallery;
-use Faker\Provider\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-
-    public function category($slug) {
+    public function index($slug) {
         $category = Category::getCategoryBySlug($slug);
-        $category->children = $category ? Category::getChildCategories($category->id) : [];
-        $products = $category->products()->paginate(2);
-        return view('main-template.category.category', [
-            'category' => $category,
-            'products' => $products
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index()
-    {
-        $category = Category::getCategories(20);
-        return view('admin.category.index', [
-            'category' => $category
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function create()
-    {
-        return view('admin.category.create',[
-            'categories' => Category::getAllParentCategories(),
-            'categoryList' => Category::getCategories(5)
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string[]
-     */
-    public function store(Request $request)
-    {
-        $validator = $this->validator($request->all());
-        $request['slug'] = Str::slug(mb_substr($request->input('title'), 0, 30));
-        $request['photo'] = $this->imageImplode($request);
-        try {
-            $validator->validate();
-            $item = Category::create($request->all());
-            $result = 'success';
-            $description = "Категория добавлена";
-        } catch (\Exception $e) {
-            $errors = $validator->errors();
-            $result = 'error';
-            $description = $errors ? $errors->all() : "Произошла ошибка при добавлении категории";
+        if($category) {
+            $category->children = $category ? Category::getChildCategories($category->id) : [];
+            $products = $category->products()->paginate(2);
+            $breadcrumbs = $this->getCategoryChildChain($category->id);
+            $this->addViewed($category, $breadcrumbs);
+            return view('main-template.category.category', [
+                'category' => $category,
+                'products' => $products,
+                'breadcrumbs' => $breadcrumbs
+            ]);
+        } else {
+            abort(404);
         }
 
-        return array("status" => $result, "desc" => $description, "item" => $item);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function edit($id)
-    {
-        $category = Category::getCategory($id);
-        $category = Gallery::getImagePath($category);
-        $parentCategory = $category->parent_id ? Category::getCategory($category->parent_id) : 0;
-        $parentCategory = $parentCategory ? $this->getCategoryChildChain($parentCategory->id) : 0;
-        $categories = $parentCategory ? [] : Category::getAllParentCategories();
-        return view('admin.category.edit', [
-            'category' => $category,
-            'parentCategory' => $parentCategory,
-            'categories' => $categories,
-            'categoryList' => Category::getCategories(5)
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return string[]
-     */
-    public function update(Request $request, Category $category)
-    {
-        $validator = $this->validator($request->all());
-        $request['photo'] = $this->imageImplode($request);
-        try {
-            $validator->validate();
-            $category->update($request->except('slug'));
-            $result = 'success';
-            $description = "Категория изменена";
-        } catch (\Exception $e) {
-            $errors = $validator->errors();
-            $result = 'error';
-            $description = $errors ? $errors->all() : "Произошла ошибка при изменении категории";
-        }
-
-        return array("status" => $result, "desc" => $description, "item" => $category);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return string[]
-     */
-    public function destroy(Request $request)
-    {
-        $id = $request->input('id');
-        try {
-            Category::where('id', $id)->delete();
-            $result = 'success';
-            $description = "Категория удалена";
-        } catch (\Exception $e) {
-            $result = 'error';
-            $description = "Произошла ошибка при удалении категории";
-        }
-
-        return array("status" => $result, "desc" => $description);
+    public function addViewed($category, $breadcrumbs) {
+        Category::addViewed($category);
+        $rootCategory = array_shift($breadcrumbs);
+        if(!empty($rootCategory['id'])) Category::addViewedById($rootCategory['id']);
     }
 
     public static function getCategoryChildChain($id, $chain_ch = []) {
         if($id) {
-            $chain = Category::where('id', $id)->select('id', 'title', 'parent_id')->first();
+            $chain = Category::where('id', $id)->select('id', 'title', 'parent_id', 'slug')->first();
             if($chain) {
                 $chain = $chain->toArray();
                 array_unshift($chain_ch, [
                     'parent_id' => $chain['parent_id'],
                     'title' => $chain['title'],
-//                'url' => $chain['url'],
+                    'slug' => $chain['slug'],
                     'id' => $id
                 ]);
             }
@@ -168,43 +48,6 @@ class CategoryController extends Controller
             }
             return $chain_ch;
         }
-
-    }
-
-    public function getChildCategory(Request $request) {
-        $id = $request->input('id');
-        $id = $id ? $id : 0;
-        $category = Category::where('parent_id', $id)->get();
-        return $category;
-    }
-
-    private function validator($data) {
-        return Validator::make($data, [
-            'title' => ['required', 'max:250'],
-            'description' => ['max:800'],
-            'photo' => ['max:500'],
-            'meta_title' => ['max:255'],
-            'meta_description' => ['max:255'],
-            'meta_keywords' => ['max:255'],
-            'parent_id' => ['digits_between:0,11'],
-            'categoryid' => ['digits_between:0,11']
-        ]);
-    }
-
-    private function imageImplode(Request$request) {
-        $images = $request->input('photo');
-        $images = $this->removeImgDomainFromPath($images);
-        return !empty($images) ? implode(',', $images) : NULL;
-    }
-
-    private function removeImgDomainFromPath($images) {
-        $PORTAL_URL = config('app.img_portal').'/';
-        if(!empty($images)) {
-            foreach ($images as &$img) {
-                $img = str_replace($PORTAL_URL, "", $img);
-            }
-        }
-        return $images;
     }
 
 }
