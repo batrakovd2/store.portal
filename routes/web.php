@@ -68,6 +68,7 @@ Route::get('api/changes/get', [App\Http\Controllers\ProductChangeController::cla
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
 Route::get('contacts', [App\Http\Controllers\PageController::class, 'contacts'])->name('contacts');
 Route::get('catalog', [App\Http\Controllers\CatalogController::class, 'catalog'])->name('catalog');
+Route::get('sales', [App\Http\Controllers\PageController::class, 'sales'])->name('sales');
 Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('catalog/{slug}', [App\Http\Controllers\CategoryController::class, 'index']);

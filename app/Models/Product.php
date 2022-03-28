@@ -88,5 +88,11 @@ class Product extends Model
         return $product;
     }
 
+    public function getSaleProducts() {
+        $products = Product::whereNotNull("advanced_price")->paginate(12);
+        $products = Gallery::getOncePhotoForCollectionItems($products);
+        return $products;
+    }
+
 
 }

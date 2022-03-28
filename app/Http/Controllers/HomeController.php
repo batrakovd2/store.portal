@@ -19,6 +19,10 @@ class HomeController extends Controller
     public function index()
     {
         $popCategories = Category::getPopRootCategories(6);
-        return view('home', compact("popCategories", $popCategories));
+        $saleProducts = Product::getSaleProducts();
+        return view('home', compact([
+            ["popCategories", $popCategories],
+            ["saleProducts", $saleProducts]
+        ]));
     }
 }

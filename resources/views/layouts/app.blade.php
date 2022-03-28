@@ -47,7 +47,8 @@
                         </a>
                     </li>
                     <li class="h-nav__item">
-                        <a href="stock.html" class="h-nav__link link">
+                        @if(\Illuminate\Support\Facades\Route::is('sales')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('sales')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('sales')) h-nav__link--is-active @endif">
                             Акции
                         </a>
                     </li>

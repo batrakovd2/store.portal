@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -123,4 +124,12 @@ class PageController extends Controller
             'page' => $page
         ]);
     }
+
+    public function sales() {
+        $products = Product::getSaleProducts();
+        return view('main-template.static.sales', [
+            'saleProducts' => $products
+        ]);
+    }
+
 }
