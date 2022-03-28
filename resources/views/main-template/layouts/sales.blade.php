@@ -12,7 +12,7 @@
                     <div class="product-card__desc">
                         <div class="product-card__text">
                             <h3 class="product-card__title h3">
-                                <a class="product-card__link link" href="{{$sprod->slug}}">{{$sprod->title}}</a>
+                                <a class="product-card__link link" href="/cena/{{$sprod->slug}}">{{$sprod->title}}</a>
                             </h3>
                             <p class='product-card__price'>
                                 Цена:

@@ -86,9 +86,11 @@ class ProductController extends Controller
         $product = Product::getProductBySlug($slug);
         if(!empty($product)) {
             $category = $product->category;
+            $breadcrumps = CategoryController::getCategoryChildChain($category->id);
             return view('main-template.product.show', [
                 'product' => $product,
-                'category' => $category
+                'category' => $category,
+                'breadcrumps' => $breadcrumps
             ]);
         } else {
             abort(404);
@@ -116,7 +118,7 @@ class ProductController extends Controller
         if($rubric) {
             $request['id'] = $rubric->field;
             $fields = $rubric->field ? $prt->getFieldsByIds($request) : [];
-            $fields = $fields ? json_decode($fields) : [];
+//            $fields = $fields ? json_decode($fields) : [];
             $fields = Product::getFieldsValuesForProduct($product, $fields);
         }
         $rubric = $rubric ? $prt->getRubricChildChain($product->rubric_id) : [];
@@ -149,9 +151,9 @@ class ProductController extends Controller
         $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
-            $prod = Product::find($product->id);
-            $prod->update($request->except('slug'));
-            ProductChange::productChanged($prod->id);
+//            $prod = Product::find($product->id);
+            $product->update($request->except('slug'));
+            ProductChange::productChanged($product->id);
             $result = 'success';
             $description = "Товар добавлен";
         } catch (\Exception $e) {
@@ -160,7 +162,7 @@ class ProductController extends Controller
             $description = $errors ? $errors->all() : "Произошла ошибка при добавлении товара";
         }
 
-        return array("status" => $result, "desc" => $description, "item" => $prod);
+        return array("status" => $result, "desc" => $description, "item" => $product);
     }
 
     /**

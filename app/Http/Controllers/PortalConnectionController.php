@@ -35,9 +35,8 @@ class PortalConnectionController extends Controller
         $params = array("id" => $id);
         $api = $this->PORTAL_URL.'/api/fields/get';
         $response = $this->postRequest($api, $params);
-//        dd($response);
         $fields = $response ? json_decode($response) : [];
-        return $response;
+        return $fields;
     }
 
     public function getUnits() {

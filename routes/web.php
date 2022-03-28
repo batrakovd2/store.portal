@@ -72,7 +72,7 @@ Route::get('sales', [App\Http\Controllers\PageController::class, 'sales'])->name
 Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('catalog/{slug}', [App\Http\Controllers\CategoryController::class, 'index']);
-Route::get('product/{slug}', [App\Http\Controllers\ProductController::class, 'show']);
+Route::get('cena/{slug}', [App\Http\Controllers\ProductController::class, 'show']);
 
 
 

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PortalConnectionController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Product extends Model
 {
@@ -48,7 +50,33 @@ class Product extends Model
     }
 
     public function getProductBySlug($slug) {
-        return Product::where('slug', $slug)->first();
+        $product = Product::where('slug', $slug)->first();
+        $product = Product::getPrices($product);
+        $product->photo = Gallery::getPhotosByUrl($product->photo);
+        $product->fields = Product::getProductFieldsValue($product);
+        return $product;
+    }
+
+    public function getProductFieldsValue($product) {
+        $result = [];
+        if(!empty($product) && $product->fields){
+            $arrFieldsId = [];
+            $fields = json_decode($product->fields);
+            if($fields) {
+                foreach ($fields as $key => $field) {
+                    $arrFieldsId[] = $key;
+                }
+            }
+            $request = new Request();
+            $prt = new PortalConnectionController();
+            $request['id'] = implode(',', $arrFieldsId);
+            $portalFields = $prt->getFieldsByIds($request);
+            $fields = (array) $fields;
+            foreach ($portalFields as $item) {
+                $result[$item->title] = !empty($fields[$item->id]) ? $fields[$item->id] : "";
+            }
+        }
+        return $result;
     }
 
     public function getProductByCategoryId($catId) {
