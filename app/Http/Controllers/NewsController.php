@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,6 +53,7 @@ class NewsController extends Controller
         $status = $request->input('status');
         $request['status'] = !empty($status) && $status == 'on' ? 1 : 0;
         $validator = $this->validator($request->all());
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
             $item = News::create($request->all());
@@ -88,6 +90,7 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::getOnceNews($id);
+        $news = Gallery::getImagePath($news);
         return view('admin.news.edit', [
             'news' => $news
         ]);
@@ -105,6 +108,7 @@ class NewsController extends Controller
         $status = $request->input('status');
         $request['status'] = !empty($status) && $status == 'on' ? 1 : 0;
         $validator = $this->validator($request->except('slug'));
+        $request['photo'] = $this->imageImplode($request);
         try {
             $validator->validate();
             $news->update($request->except('slug'));
@@ -150,5 +154,21 @@ class NewsController extends Controller
             'meta_description' => ['max:255'],
             'meta_keywords' => ['max:255']
         ]);
+    }
+
+    private function imageImplode(Request$request) {
+        $images = $request->input('photo');
+        $images = $this->removeImgDomainFromPath($images);
+        return !empty($images) ? implode(',', $images) : NULL;
+    }
+
+    private function removeImgDomainFromPath($images) {
+        $PORTAL_URL = config('app.img_portal').'/';
+        if(!empty($images)) {
+            foreach ($images as &$img) {
+                $img = str_replace($PORTAL_URL, "", $img);
+            }
+        }
+        return $images;
     }
 }

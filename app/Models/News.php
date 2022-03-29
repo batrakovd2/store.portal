@@ -12,7 +12,9 @@ class News extends Model
     protected $fillable = ['title', 'slug', 'description', 'status', 'date', 'photo', 'meta_title', 'meta_description', 'meta_keywords'];
 
     public function getNews($limit) {
-        return News::orderBy('created_at', 'desc')->paginate($limit);
+        $news = News::orderBy('created_at', 'desc')->paginate($limit);
+        $news = Gallery::getOncePhotoForCollectionItems($news);
+        return $news;
     }
 
     public function getOnceNews($id) {
@@ -20,7 +22,9 @@ class News extends Model
     }
 
     public function getNewsBySlug($slug) {
-        return News::where('slug', $slug)->first();
+        $news = News::where('slug', $slug)->first();
+        $news->photo = Gallery::getPhotosByUrl($news->photo);
+        return $news;
     }
 
 }
