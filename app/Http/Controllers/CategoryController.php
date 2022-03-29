@@ -10,10 +10,11 @@ class CategoryController extends Controller
     public function index($slug) {
         $category = Category::getCategoryBySlug($slug);
         if($category) {
-            $category->children = $category ? Category::getChildCategories($category->id) : [];
-            $products = $category->products()->paginate(2);
+
+            $products = $category->products()->paginate(10);
             $breadcrumbs = $this->getCategoryChildChain($category->id);
             $this->addViewed($category, $breadcrumbs);
+            $category->children = $category ? Category::getChildCategories($category->id) : [];
             return view('main-template.category.category', [
                 'category' => $category,
                 'products' => $products,

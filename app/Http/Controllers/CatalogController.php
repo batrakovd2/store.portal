@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
     public function catalog() {
-        return view('main-template.static.catalog');
+        $categories = Category::getAllParentCategories();
+        return view('main-template.static.catalog', compact('categories', $categories));
     }
 }

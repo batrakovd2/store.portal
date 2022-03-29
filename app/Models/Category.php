@@ -35,13 +35,14 @@ class Category extends Model
     }
 
     public function getAllParentCategories() {
-        return Category::where("parent_id", null)->orWhere("parent_id", 0)->get();
+        $category = Category::where("parent_id", null)->orWhere("parent_id", 0)->get();
+        $category = Gallery::getOncePhotoForCollectionItems($category);
+        return $category;
     }
 
     public function getChildCategories($id) {
         return Category::where('parent_id', $id)->get();
     }
-
 
     public function getCategoryNesting() {
         $category = Category::get();

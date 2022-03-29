@@ -55,9 +55,11 @@
                                                     Старая цена <span class="desc-block__price-num desc-block__price-num--blue">{{$product->advanced_price->old_price}}</span>
                                                 @endif
                                             </p>
+                                            @if(!empty($product->updated_at))
                                             <p class=" desc-block__date desc-block__price-text ">
                                                 Актуально: <span class="desc-block__price-num">{{date_format($product->updated_at, "d.m.Y")}}</span>
                                             </p>
+                                            @endif
                                         </div>
                                     </div>
 

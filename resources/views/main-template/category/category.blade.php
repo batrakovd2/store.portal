@@ -77,8 +77,7 @@
 
                             </div>
                         @endif
-
-                        @if(!empty($products) && $products)
+                        @if(!empty($products) && count($products))
                         <div class="products">
                             <h3 class="other-products">Товары</h3>
                             <div class="products__wrap">
@@ -91,7 +90,7 @@
                                     <div class="product-card__desc">
                                         <div class="product-card__text">
                                             <h3 class="product-card__title h3">
-                                                <a href="/product/{{$prod->slug}}" class="link">{{$prod->title}}</a>
+                                                <a href="/cena/{{$prod->slug}}" class="link">{{$prod->title}}</a>
                                             </h3>
                                             <p class='product-card__price'>
                                                 Цена за штуку:
@@ -129,7 +128,7 @@
                         @endif
                         <div class="block-info">
                             <div class="block-info__item">
-                                {{$category->description}}
+                                {!! $category->description !!}
                             </div>
                         </div>
 
