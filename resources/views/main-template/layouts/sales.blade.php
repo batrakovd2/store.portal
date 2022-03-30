@@ -49,5 +49,8 @@
             @endforeach
         </div>
     </div>
+    <div class="products__btn right-edge">
+        <a href="{{route('sales')}}" class="more-btn light-btn">Посмотреть все</a>
+    </div>
 @endif
 <!--products-->

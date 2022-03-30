@@ -21,37 +21,46 @@
                             Главная
                         </a>
                     </li>
+                    @if($appSettings['menu_about']['value'])
                     <li class="h-nav__item">
                         @if(\Illuminate\Support\Facades\Route::is('about')) <span class="h-nav__marker"></span> @endif
                         <a href="{{route('about')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('about')) h-nav__link--is-active @endif">
                             О компании
                         </a>
                     </li>
+                    @endif
+                    @if($appSettings['menu_contants']['value'])
                     <li class="h-nav__item">
                         @if(\Illuminate\Support\Facades\Route::is('contacts')) <span class="h-nav__marker"></span> @endif
                         <a href="{{route('contacts')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('contacts')) h-nav__link--is-active @endif">
                             Контакты
                         </a>
                     </li>
-
+                    @endif
+                    @if($appSettings['menu_catalog']['value'])
                     <li class="h-nav__item">
                         @if(\Illuminate\Support\Facades\Route::is('catalog')) <span class="h-nav__marker"></span> @endif
                         <a href="{{route('catalog')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('catalog')) h-nav__link--is-active @endif">
                             Каталог
                         </a>
                     </li>
+                    @endif
+                    @if($appSettings['menu_news']['value'])
                     <li class="h-nav__item">
                         @if(\Illuminate\Support\Facades\Route::is('news')) <span class="h-nav__marker"></span> @endif
                         <a href="{{route('news')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('news')) h-nav__link--is-active @endif">
                             Новости
                         </a>
                     </li>
+                    @endif
+                    @if($appSettings['menu_sales']['value'])
                     <li class="h-nav__item">
                         @if(\Illuminate\Support\Facades\Route::is('sales')) <span class="h-nav__marker"></span> @endif
                         <a href="{{route('sales')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('sales')) h-nav__link--is-active @endif">
                             Акции
                         </a>
                     </li>
+                    @endif
                 </ul>
                 <div class="h-login">
                     <span class="h-login__btn">
