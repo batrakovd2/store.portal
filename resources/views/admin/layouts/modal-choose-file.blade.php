@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="#" id="imageInput">
+                <form action="#" class="imageInput" id="imageInput">
                     <div class="form-group">
                         <div class="input-group">
                             <div class="custom-file">

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Setting;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
 
             $host = $_SERVER['HTTP_HOST'];
+
+            $settings = Cache::remember('global_settings_'.$host, now()->addDay(1), function () {
+                return Setting::getSettings();
+            });
+
             $company = Cache::remember('global_company_'.$host, now()->addDay(1), function () {
                 return Company::getCompany();
             });
@@ -39,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
                 return Category::getCategoryNesting();
             });
 
+            $view->appSettings = $settings;
             $view->globalCategories = $category;
             $view->globalCompany = $company;
         });

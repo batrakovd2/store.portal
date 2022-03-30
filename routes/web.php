@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin','middleware' => 'admin', 'as' => 'admin.'], fu
     Route::resource('company', App\Http\Controllers\Admin\CompanyController::class);
     Route::resource('review', App\Http\Controllers\ReviewController::class);
     Route::resource('gallery', App\Http\Controllers\GalleryController::class);
+    Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index']);
     Route::get('user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
     Route::get('user/add', [App\Http\Controllers\Admin\UserController::class, 'add'])->name('user.add');
 });
@@ -55,6 +56,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('gallery/getHash', [App\Http\Controllers\GalleryController::class, 'getHash']);
     Route::post('gallery/add', [App\Http\Controllers\GalleryController::class, 'store']);
     Route::post('gallery/get/{count}', [App\Http\Controllers\GalleryController::class, 'getPhotos']);
+    Route::post('settings/update', [App\Http\Controllers\Admin\SettingController::class, 'update']);
 });
 
 /* public api */

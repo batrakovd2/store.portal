@@ -506,11 +506,11 @@ $(document).ready(function () {
         }
     });
 
-    async function saveImage(response) {
+    async function saveImage(response, selector = '#imageInput') {
         if (response.data['status'] == 'success') {
             const url = IMG_PORTAL + 'api/gallery/add';
             const crypt = response.data['crypt'];
-            const params = getAnyPageParameters('#imageInput');
+            const params = getAnyPageParameters(selector);
             params.append('crypt', crypt);
             return await getAxiosPostRequest(url, params);
         }
@@ -527,6 +527,33 @@ $(document).ready(function () {
             };
             return await getAxiosPostRequest(url, params);
         }
+    }
+
+    /* settings page */
+
+    $('#saveSettings').click(function () {
+        params = getAnyPageParameters('#formSettings');
+        // params = setFieldsParams(params);
+        const url = '/api/settings/update';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    $('.settings-modal #storeImage').click(async () => {
+        const params = getAnyPageParameters('.settings-modal .imageInput');
+        if(params.get('file') && params.get('file').size != 0) {
+            const url = '/api/gallery/getHash';
+            const crypt = await getAxiosPostRequest(url, params);
+            const urlImage = await saveImage(crypt, '.settings-modal .imageInput');
+            const msg = await addImageInGallery(urlImage);
+            await renderAddBackgroundSetting(urlImage);
+            modalSweetAlert(msg);
+        }
+    });
+
+    async function renderAddBackgroundSetting(urlImage) {
+        $('input.background').val(urlImage.data['path']);
+        $('.background-setting').children().remove();
+        $('.background-setting').append('<img src="' + IMG_PORTAL + urlImage.data['path'] + '" alt="" width="100%" />');
     }
 
     /* edit forms images */

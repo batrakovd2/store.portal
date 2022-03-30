@@ -167,9 +167,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{url('admin/product/create')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/company/create*') || \Illuminate\Support\Facades\Request::is('admin/company/create')) {{'active'}}  @endif">
+                                <a href="{{url('admin/settings/')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/settings/index*') || \Illuminate\Support\Facades\Request::is('admin/settings/index')) {{'active'}}  @endif">
                                     <i class="nav-icon fa fa-picture-o"></i>
-                                    <p>Дизайн</p>
+                                    <p>Настройки</p>
                                 </a>
                             </li>
                         </ul>

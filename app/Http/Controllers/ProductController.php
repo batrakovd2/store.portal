@@ -32,14 +32,12 @@ class ProductController extends Controller
     public function create()
     {
         $prt = new PortalConnectionController();
-        $fields = $prt->getFields();
         $units = $prt->getUnits();
         $request = new Request();
         $request['id'] = 0;
         $rubricChild = $prt->getRubricChild($request);
         return view('admin.product.create', [
             'categories' => Category::getAllParentCategories(),
-            'fields' => $fields,
             'units' => $units,
             'rubricChild' => $rubricChild,
             'products' => Product::getAllProducts(5)
