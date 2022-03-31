@@ -143,13 +143,13 @@ class CategoryController extends Controller
 
     public static function getCategoryChildChain($id, $chain_ch = []) {
         if($id) {
-            $chain = Category::where('id', $id)->select('id', 'title', 'parent_id')->first();
+            $chain = Category::where('id', $id)->select('id', 'title', 'parent_id', 'slug')->first();
             if($chain) {
                 $chain = $chain->toArray();
                 array_unshift($chain_ch, [
                     'parent_id' => $chain['parent_id'],
                     'title' => $chain['title'],
-//                'url' => $chain['url'],
+                    'slug' => $chain['slug'],
                     'id' => $id
                 ]);
             }

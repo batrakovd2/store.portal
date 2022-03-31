@@ -38,15 +38,20 @@ class AppServiceProvider extends ServiceProvider
                 return Setting::getSettings();
             });
 
+            $template = Cache::remember('global_template_'.$host, now()->addDay(1), function () use ($settings) {
+                return $settings['template']['value'] ? $settings['template']['value'] : 'main-template';
+            });
+
             $company = Cache::remember('global_company_'.$host, now()->addDay(1), function () {
                 return Company::getCompany();
             });
+
             $category = Cache::remember('global_category_nesting_'.$host, now()->addDay(1), function () {
                 return Category::getCategoryNesting();
             });
 
             $view->appSettings = $settings;
-            $view->appTemplate = $settings['template']['value'] ? $settings['template']['value'] : 'main-template';
+            $view->appTemplate = $template;
             $view->globalCategories = $category;
             $view->globalCompany = $company;
         });

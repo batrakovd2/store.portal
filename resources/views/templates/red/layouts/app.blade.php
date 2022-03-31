@@ -470,5 +470,5 @@
 @if(\Illuminate\Support\Facades\Route::is('contacts'))
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 @endif
-<script src='{{asset('templates/'. $appTemplate .'/js/main.js')}}'></script>
+<script src='{{asset('templates'. $appTemplate .'js/main.js')}}'></script>
 </body>

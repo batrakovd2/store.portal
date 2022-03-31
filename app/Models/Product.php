@@ -59,10 +59,10 @@ class Product extends Model
 
     public function getProductFieldsValue($product) {
         $result = [];
-        if(!empty($product) && $product->fields){
+        if(!empty($product) && $product->fields) {
             $arrFieldsId = [];
             $fields = json_decode($product->fields);
-            if($fields) {
+            if ($fields) {
                 foreach ($fields as $key => $field) {
                     $arrFieldsId[] = $key;
                 }
@@ -71,9 +71,11 @@ class Product extends Model
             $prt = new PortalConnectionController();
             $request['id'] = implode(',', $arrFieldsId);
             $portalFields = $prt->getFieldsByIds($request);
-            $fields = (array) $fields;
-            foreach ($portalFields as $item) {
-                $result[$item->title] = !empty($fields[$item->id]) ? $fields[$item->id] : "";
+            $fields = (array)$fields;
+            if ($portalFields && is_array($portalFields)){
+                foreach ($portalFields as $item) {
+                    $result[$item->title] = !empty($fields[$item->id]) ? $fields[$item->id] : "";
+                }
             }
         }
         return $result;

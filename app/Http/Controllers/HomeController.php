@@ -32,7 +32,7 @@ class HomeController extends Controller
         if($settings['sales_products']['value'])
             $saleProducts = Product::getSaleProducts();
 
-        return view('templates.main-template.home', compact([
+        return view('templates.'. $this->template .'.home', compact([
             ["popCategories", $popCategories],
             ["saleProducts", $saleProducts]
         ]));
