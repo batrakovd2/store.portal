@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href='{{asset('/css/style.min.css')}}'>
+    <link rel="stylesheet" href='{{asset('templates/'. $appTemplate .'/css/style.min.css')}}'>
     <title>Store Portal</title>
 </head>
 
@@ -470,5 +470,5 @@
 @if(\Illuminate\Support\Facades\Route::is('contacts'))
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 @endif
-<script src='{{asset('/js/main.js')}}'></script>
+<script src='{{asset('templates'. $appTemplate .'js/main.js')}}'></script>
 </body>

@@ -1,4 +1,4 @@
-@extends('main-template.layouts.app')
+@extends('templates.main-template.layouts.app')
 
 @section('content')
     <div class="content-wrap">
@@ -33,10 +33,10 @@
                                 </div>
                             @endforeach
                         @endif
-                        {!! $news->links('main-template.layouts.pagination') !!}
+                        {!! $news->links('templates.main-template.layouts.pagination') !!}
                     </div>
                     <!--col-content-->
-                    @include('main-template.layouts.sidebar')
+                    @include('templates.main-template.layouts.sidebar')
                 </div>
 
             </div>

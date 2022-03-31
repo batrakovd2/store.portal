@@ -1,4 +1,4 @@
-@extends('main-template.layouts.app')
+@extends('templates.main-template.layouts.app')
 
 @section('content')
     <div class="content-wrap">
@@ -126,7 +126,7 @@
 
                     </div>
                     <!--col-content-->
-                    @include('main-template.layouts.sidebar')
+                    @include('templates.main-template.layouts.sidebar')
                 </div>
 
             </div>

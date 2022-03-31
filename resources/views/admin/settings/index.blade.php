@@ -159,8 +159,30 @@
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
-                                                Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
-                                            </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-2 m-4 ">
+
+                                                            <label class="form-check-label" for="mainTemplate">
+                                                                <img src="http://img.portal.loc/uploads/2022/03/624545abd6fc7.jpg" alt="" width="100%">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="mainTemplate" name="template" value="main-template" @if($settings['template']['value'] == "main-template") checked @endif>
+                                                                </div>
+                                                                <span class="ml-4">Основной</span>
+                                                            </label>
+
+                                                        </div>
+                                                        <div class="col-sm-2 m-4 ">
+                                                            <label class="form-check-label" for="redTemplate">
+                                                                <img src="http://img.portal.loc/uploads/2022/03/62456e24d8a71.jpg" alt="" width="100%">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" id="redTemplate" name="template" value="red" @if($settings['template']['value'] == "red") checked @endif>
+                                                                </div>
+                                                                <span class="ml-4">Красный</span>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                         <a class="btn btn-primary" href="#" id="saveSettings">Сохранить</a>
                                     </form>

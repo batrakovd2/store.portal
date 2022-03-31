@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
             });
 
             $view->appSettings = $settings;
+            $view->appTemplate = $settings['template']['value'] ? $settings['template']['value'] : 'main-template';
             $view->globalCategories = $category;
             $view->globalCompany = $company;
         });

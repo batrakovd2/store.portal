@@ -15,7 +15,7 @@ class CategoryController extends Controller
             $breadcrumbs = $this->getCategoryChildChain($category->id);
             $this->addViewed($category, $breadcrumbs);
             $category->children = $category ? Category::getChildCategories($category->id) : [];
-            return view('main-template.category.category', [
+            return view('templates.main-template.category.category', [
                 'category' => $category,
                 'products' => $products,
                 'breadcrumbs' => $breadcrumbs

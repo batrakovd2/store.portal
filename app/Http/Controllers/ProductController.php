@@ -85,7 +85,7 @@ class ProductController extends Controller
         if(!empty($product)) {
             $category = $product->category;
             $breadcrumps = CategoryController::getCategoryChildChain($category->id);
-            return view('main-template.product.show', [
+            return view('templates.main-template.product.show', [
                 'product' => $product,
                 'category' => $category,
                 'breadcrumps' => $breadcrumps

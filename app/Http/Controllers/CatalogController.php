@@ -9,6 +9,6 @@ class CatalogController extends Controller
 {
     public function catalog() {
         $categories = Category::getAllParentCategories();
-        return view('main-template.static.catalog', compact('categories', $categories));
+        return view('templates.main-template.static.catalog', compact('categories', $categories));
     }
 }

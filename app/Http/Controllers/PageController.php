@@ -113,21 +113,21 @@ class PageController extends Controller
 
     public function about() {
         $page = Page::getPageBySlug('about');
-        return view('main-template.static.about', [
+        return view('templates.main-template.static.about', [
             'page' => $page
         ]);
     }
 
     public function contacts() {
         $page = Page::getPageBySlug('contacts');
-        return view('main-template.static.contacts', [
+        return view('templates.main-template.static.contacts', [
             'page' => $page
         ]);
     }
 
     public function sales() {
         $products = Product::getSaleProducts();
-        return view('main-template.static.sales', [
+        return view('templates.main-template.static.sales', [
             'saleProducts' => $products
         ]);
     }

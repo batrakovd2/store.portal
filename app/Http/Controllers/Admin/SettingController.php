@@ -47,6 +47,9 @@ class SettingController extends Controller
             if($key == "background") {
                 return $request->input("background") ? $request->input("background") : [];
             }
+            if($key == "template") {
+                return $request->input("template") ? $request->input("template") : [];
+            }
             return 0;
         }
 

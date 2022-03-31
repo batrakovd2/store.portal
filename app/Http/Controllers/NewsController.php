@@ -13,7 +13,7 @@ class NewsController extends Controller
 
     public function news() {
         $news = News::getNews(20);
-        return view('main-template.news.index', [
+        return view('templates.main-template.news.index', [
             'news' => $news
         ]);
     }
@@ -76,7 +76,7 @@ class NewsController extends Controller
     public function show($slug)
     {
         $news = News::getNewsBySlug($slug);
-        return view('main-template.news.show', [
+        return view('templates.main-template.news.show', [
             'news' => $news
         ]);
     }
