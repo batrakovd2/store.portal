@@ -15,7 +15,9 @@ class PortalCompanyUser extends Model
     public function getUsersByCompany($company) {
         if($company) {
             $users = [];
+
             $compusers = PortalCompanyUser::where("company_id", $company->id)->get();
+
             $userIdArr = [];
             if($compusers) {
                 foreach ($compusers as $cus){

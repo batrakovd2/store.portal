@@ -556,6 +556,21 @@ $(document).ready(function () {
         $('.background-setting').append('<img src="' + IMG_PORTAL + urlImage.data['path'] + '" alt="" width="100%" />');
     }
 
+    /*  FAQ page */
+    $('.createFAQ').click(function () {
+        const params = getAnyPageParameters('#faqForm');
+        const url = '/api/faq/add';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    $('.editFAQ').click(function () {
+        const params = getAnyPageParameters('#faqForm');
+        const url = '/api/faq/edit/' + params.get('faqid');
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    deleteItemFromList('.remove-faq-btn', '/api/faq/remove');
+
     /* edit forms images */
 
     $('.edit-form #storeImage').click(async () => {

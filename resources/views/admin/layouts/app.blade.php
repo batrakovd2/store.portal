@@ -144,6 +144,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{route('admin.faq.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/faq/*') || \Illuminate\Support\Facades\Request::is('admin/faq')) {{'active'}}  @endif">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Вопросы/ответы
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{route('admin.gallery.index')}}" class="nav-link @if(\Illuminate\Support\Facades\Request::is('admin/gallery/*') || \Illuminate\Support\Facades\Request::is('admin/gallery')) {{'active'}}  @endif">
                             <i class="nav-icon fas fa-users"></i>
                             <p>

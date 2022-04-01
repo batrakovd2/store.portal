@@ -224,6 +224,35 @@ class CreateCompanyController extends Controller
         Log::info($user_id." - createUserRoleTable created");
     }
 
+    private function createSettingsTable($companyId, $user_id) {
+        Schema::create($companyId.'_settings', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('value');
+            $table->timestamps();
+        });
+        DB::table($companyId.'_settings')->insert([
+            ["name" => "banner_available", "value" => 1],
+            ["name" => "background", "value" => 0],
+            ["name" => "menu", "value" => 0],
+            ["name" => "banner_items", "value" => 0],
+            ["name" => "template", "value" => "main-template"],
+            ["name" => "popular_categories", "value" => 1],
+            ["name" => "sales_products", "value" => 1],
+            ["name" => "faq_block", "value" => 0],
+            ["name" => "faq_block", "value" => 1],
+            ["name" => "review_block", "value" => 0],
+            ["name" => "menu_about", "value" => 1],
+            ["name" => "menu_contants", "value" => 1],
+            ["name" => "menu_catalog", "value" => 1],
+            ["name" => "menu_news", "value" => 1],
+            ["name" => "menu_sales", "value" => 1],
+            ["name" => "menu_reviews", "value" => 1]
+        ]);
+
+        Log::info($user_id." - createUserRoleTable created");
+    }
+
     private function createEnvFile($domain, $companyId){
         $dir = "site/";
         $domain = str_replace(array("http://", "https://", "/"), "", $domain);

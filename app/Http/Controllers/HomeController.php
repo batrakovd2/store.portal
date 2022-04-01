@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\FAQ;
 use App\Models\Product;
 use App\Models\ProductChange;
 use App\Models\Setting;
@@ -32,9 +33,13 @@ class HomeController extends Controller
         if($settings['sales_products']['value'])
             $saleProducts = Product::getSaleProducts();
 
+        if($settings['faq_block']['value'])
+            $faqs = FAQ::getActiveFAQs(10);
+
         return view('templates.'. $this->template .'.home', compact([
             ["popCategories", $popCategories],
-            ["saleProducts", $saleProducts]
+            ["saleProducts", $saleProducts],
+            ["faqs", $faqs]
         ]));
     }
 }
