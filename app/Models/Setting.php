@@ -21,4 +21,8 @@ class Setting extends Model
         return Setting::where("name", $name)->first();
     }
 
+    public function getSettingCity() {
+        return Setting::where('name', 'city')->first()->toArray();
+    }
+
 }

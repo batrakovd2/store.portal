@@ -1,5 +1,11 @@
 @extends('templates.main-template.layouts.app')
 
+@if(!empty($news))
+    @section('title', $news->meta_title)
+    @section('description', $news->meta_description)
+    @section('keywords', $news->meta_keywords)
+@endif
+
 @section('content')
     <div class="content-wrap">
         <div class="content">

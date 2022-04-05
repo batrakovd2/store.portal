@@ -1,5 +1,11 @@
 @extends('templates.main-template.layouts.app')
 
+@if(!empty($category))
+    @section('title', $category->meta_title)
+    @section('description', $category->meta_description)
+    @section('keywords', $category->meta_keywords)
+@endif
+
 @section('content')
     <div class="content-wrap">
         <div class="content">

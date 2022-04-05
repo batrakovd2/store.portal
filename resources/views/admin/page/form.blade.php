@@ -21,7 +21,7 @@
     <div class="form-group">
         <label for="inputMetaTitle">Мета заголовок</label>
         <input type="text" class="form-control" id="inputMetaTitle" name="meta_title" placeholder="Мета заголовок"
-               value="@if(!empty($page)){{$page->meta_name}}@endif">
+               value="@if(!empty($page)){{$page->meta_title}}@endif">
     </div>
     <div class="form-group">
         <label for="inputMetaDescription">Мета Описание</label>

@@ -61,17 +61,32 @@
     <div class="form-group">
         <label for="inputMetaTitle">Мета заголовок</label>
         <input type="text" class="form-control" id="inputMetaTitle" name="meta_title" placeholder="Мета заголовок"
-               value="@if(!empty($news)){{$news->meta_name}}@endif">
+               value="@if(!empty($news)){{$news->meta_title}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
     <div class="form-group">
         <label for="inputMetaDescription">Мета Описание</label>
         <input type="text" class="form-control" id="inputMetaDescription" name="meta_description"
                placeholder="Мета описание" value="@if(!empty($news)){{$news->meta_description}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
     <div class="form-group">
         <label for="inputMetaKeywords">Мета ключевые слова</label>
         <input type="text" class="form-control" id="inputMetaKeywords" name="meta_keywords"
                placeholder="Мета ключи страницы" value="@if(!empty($news)){{$news->meta_keywords}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
 </form>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\SeoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,7 @@ class News extends Model
 
     public function getNewsBySlug($slug) {
         $news = News::where('slug', $slug)->first();
+        $news = SeoController::tagReplacer($news);
         $news->photo = Gallery::getPhotosByUrl($news->photo);
         return $news;
     }

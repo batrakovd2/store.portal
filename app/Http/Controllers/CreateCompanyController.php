@@ -49,7 +49,7 @@ class CreateCompanyController extends Controller
             $table->integer('parent_id')->nullable();
             $table->string('description', 800)->nullable();
             $table->string('photo', 500)->nullable();
-            $table->string('meta_name')->nullable();
+            $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
@@ -247,7 +247,8 @@ class CreateCompanyController extends Controller
             ["name" => "menu_catalog", "value" => 1],
             ["name" => "menu_news", "value" => 1],
             ["name" => "menu_sales", "value" => 1],
-            ["name" => "menu_reviews", "value" => 1]
+            ["name" => "menu_reviews", "value" => 1],
+            ["name" => "city", "value" => 0]
         ]);
 
         Log::info($user_id." - createUserRoleTable created");

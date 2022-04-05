@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\SeoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ class Category extends Model
         'description',
         'parent_id',
         'photo',
-        'meta_name',
+        'meta_title',
         'meta_description',
         'meta_keywords',
         'view'
@@ -27,7 +28,9 @@ class Category extends Model
     }
 
     public function getCategoryBySlug($slug) {
-        return Category::where('slug', $slug)->first();
+        $category = Category::where('slug', $slug)->first();
+        $category = SeoController::tagReplacer($category);
+        return $category;
     }
 
     public function getCategories($limit = 20) {

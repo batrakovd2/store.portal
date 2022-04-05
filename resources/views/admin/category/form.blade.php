@@ -76,18 +76,33 @@
     </div>
     <div class="form-group">
         <label for="inputMetaTitle">Мета заголовок</label>
-        <input type="text" class="form-control" id="inputMetaTitle" name="meta_name" placeholder="Мета заголовок категории"
-               value="@if(!empty($category)){{$category->meta_name}}@endif">
+        <input type="text" class="form-control" id="inputMetaTitle" name="meta_title" placeholder="Мета заголовок категории"
+               value="@if(!empty($category)){{$category->meta_title}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
     <div class="form-group">
         <label for="inputMetaDescription">Мета Описание</label>
         <input type="text" class="form-control" id="inputMetaDescription" name="meta_description"
                placeholder="Мета описание категории" value="@if(!empty($category)){{$category->meta_description}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
     <div class="form-group">
         <label for="inputMetaKeywords">Мета ключевые слова</label>
         <input type="text" class="form-control" id="inputMetaKeywords" name="meta_keywords"
                placeholder="Мета ключи страницы категории" value="@if(!empty($category)){{$category->meta_keywords}}@endif">
+        <div class="block-inp-seo">
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%title%%">Название</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%gorod%%">Город</div>
+            <div class="btn btn-success btn-sm m-2 seo-teg" data-teg="%%vgorode%%">В городе</div>
+        </div>
     </div>
 </form>
 

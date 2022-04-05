@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\PortalConnectionController;
+use App\Http\Controllers\SeoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -52,6 +53,7 @@ class Product extends Model
     public function getProductBySlug($slug) {
         $product = Product::where('slug', $slug)->first();
         $product = Product::getPrices($product);
+        $product = SeoController::tagReplacer($product);
         $product->photo = Gallery::getPhotosByUrl($product->photo);
         $product->fields = Product::getProductFieldsValue($product);
         return $product;

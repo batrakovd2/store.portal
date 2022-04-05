@@ -674,6 +674,13 @@ $(document).ready(function () {
         }
     });
 
+    $('.seo-teg').click(function () {
+        const teg = $(this).data('teg');
+        let value = $(this).closest('.form-group').find('input').val();
+        value = value + teg;
+        $(this).closest('.form-group').find('input').val(value);
+    })
+
 
 
 });

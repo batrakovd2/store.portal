@@ -79,6 +79,17 @@ class PortalConnectionController extends Controller
         return $rubric;
     }
 
+    public function getCity($id) {
+        $host = $_SERVER['HTTP_HOST'];
+        $id = $id ?? 0;
+        $api =  $this->PORTAL_URL.'/api/city/get/'.$id;
+        $city = Cache::remember('global_city_'.$host, now()->addDay(1), function () use ($api) {
+            $response = file_get_contents($api);
+            return $city = $response ? json_decode($response) : [];
+        });
+        return $city;
+    }
+
     public function getCities(Request $request) {
         $id = $request->input('id');
         $id = $id ?? 0;

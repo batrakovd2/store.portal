@@ -1,132 +1,25 @@
-@if($appSettings['faq_block']['value'])
-<!--faq-->
-<div class="faq">
-    <h2 class="section-title h2">Часто задаваемые вопросы</h2>
-    <div class="faq-questions">
+@if($appSettings['faq_block']['value'] && !empty($faqs) && count($faqs))
+    <!--faq-->
+    <div class="faq">
+        <h2 class="section-title h2">Часто задаваемые вопросы</h2>
+        <div class="faq-questions">
 
-        <div class="faq-question dropdown-wrap">
-            <div class="question__header press-to-show">
-                <div class="question__arrow-wrap">
-                    <img class='question__arrow arrow-show' src="./img/icon/arrow-down.svg"
-                         alt="+">
+            @foreach($faqs as $faq)
+                <div class="faq-question dropdown-wrap">
+                    <div class="question__header press-to-show">
+                        <div class="question__arrow-wrap">
+                            <img class='question__arrow arrow-show' src="{{asset('img/icon/arrow-down.svg')}}" alt="+">
+                        </div>
+
+                        <p class="question__title">{{$faq->question}}</p>
+                    </div>
+                    <div class="question__dropdown dropdown">
+                        <p class="question__answer hidden-el ">{{$faq->answer}}</p>
+                    </div>
                 </div>
+            @endforeach
 
-                <p class="question__title">Какие размеры оцинкованной полосы нужны для
-                    строительства?</p>
-            </div>
-            <div class="question__dropdown dropdown">
-                <p class="question__answer hidden-el ">
-                    Для постоянных клиентов, имеющих хорошую репутацию и платежную историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры
-                </p>
-            </div>
         </div>
-        <div class="faq-question dropdown-wrap">
-            <div class="question__header press-to-show">
-                <div class="question__arrow-wrap"><img class='question__arrow arrow-show '
-                                                       src="./img/icon/arrow-down.svg" alt="+">
-                </div>
-
-                <p class="question__title">Какие размеры оцинкованной полосы нужны для
-                    строительства?</p>
-            </div>
-            <div class="question__dropdown dropdown">
-                <p class="question__answer hidden-el ">
-                    Для постоянных клиентов, имеющих хорошую репутацию и платежную историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры Для постоянных клиентов, имеющих хорошую
-                    репутацию и платежную
-                    историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры
-                </p>
-            </div>
-        </div>
-        <div class="faq-question dropdown-wrap">
-            <div class="question__header press-to-show">
-                <div class="question__arrow-wrap"><img class='question__arrow arrow-show '
-                                                       src="./img/icon/arrow-down.svg" alt="+">
-                </div>
-
-                <p class="question__title">Какие размеры оцинкованной полосы нужны для
-                    строительства?</p>
-            </div>
-            <div class="question__dropdown dropdown">
-                <p class="question__answer hidden-el ">
-                    Для постоянных клиентов, имеющих хорошую репутацию и платежную историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры Для постоянных клиентов, имеющих хорошую
-                    репутацию и платежную
-                    историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры
-                </p>
-            </div>
-        </div>
-        <div class="faq-question dropdown-wrap">
-            <div class="question__header press-to-show">
-                <div class="question__arrow-wrap"><img class='question__arrow arrow-show '
-                                                       src="./img/icon/arrow-down.svg" alt="+">
-                </div>
-
-                <p class="question__title">Какие размеры оцинкованной полосы нужны для
-                    строительства?</p>
-            </div>
-            <div class="question__dropdown dropdown">
-                <p class="question__answer hidden-el ">
-                    Для постоянных клиентов, имеющих хорошую репутацию и платежную историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры Для постоянных клиентов, имеющих хорошую
-                    репутацию и платежную
-                    историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры
-                </p>
-            </div>
-        </div>
-        <div class="faq-question dropdown-wrap">
-            <div class="question__header press-to-show">
-                <div class="question__arrow-wrap"><img class='question__arrow arrow-show '
-                                                       src="./img/icon/arrow-down.svg" alt="+">
-                </div>
-
-                <p class="question__title">Какие размеры оцинкованной полосы нужны для
-                    строительства?</p>
-            </div>
-            <div class="question__dropdown dropdown">
-                <p class="question__answer hidden-el
-                  ">
-                    Для постоянных клиентов, имеющих хорошую репутацию и платежную историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры Для постоянных клиентов, имеющих хорошую
-                    репутацию и платежную
-                    историю,
-                    мы можем предоставить
-                    отсрочку платежа на срок до одного месяца. Подробную информацию об этой
-                    услуге вам всегда
-                    предоставят наши менеджеры
-                </p>
-            </div>
-        </div>
-
-
     </div>
 
     <form id='faqForm' action="send.html" method="POST" class="faq-form form">

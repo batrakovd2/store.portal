@@ -21,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('product/getsync', [App\Http\Controllers\ProductController::class, 'getSyncProducts']);
 Route::get('company/create', [App\Http\Controllers\CreateCompanyController::class, 'createCompany']);
+
+Route::post('send', [App\Http\Controllers\EmailController::class, 'send']);

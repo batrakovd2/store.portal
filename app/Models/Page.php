@@ -13,7 +13,7 @@ class Page extends Model
         'title',
         'slug',
         'description',
-        'meta_name',
+        'meta_title',
         'meta_description',
         'meta_keywords',
     ];

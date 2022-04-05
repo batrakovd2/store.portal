@@ -1,6 +1,8 @@
 "use strict";
-
+const _token = getToken();
 const body = document.querySelector('body');
+const POST = 'GET';
+const GET = 'GET';
 const KEY_ESC = 27;
 const mobileSearchWrap = document.querySelector('#mobileSearchWrap');
 const mobileSearchBtn = document.querySelector('#searchBtn');
@@ -56,6 +58,10 @@ window.addEventListener('scroll', changePosition);
 // Добовлям фунцию для отображекния эл.
 // с кнопкой upBtn
 window.addEventListener('scroll', showUp)
+
+
+document.addEventListener('click', addFavorite);
+document.addEventListener('click', addBasket);
 
 // Добовлям фунцию для прокрутки сраницы вверх
 upBtn.addEventListener('click', goUp);
@@ -122,8 +128,6 @@ if (reviews) {
   window.addEventListener(`resize`, () => {
     setHeightreviewSlide();
   }, false);
-
-
 }
 
 //Начало slider
@@ -398,7 +402,6 @@ function mainSlider(el, autoplay) {
     newLastIdx = newSlides.length - 1;
     newSlides[0].classList.add('main-slider__item--is-right');
     newSlides[1].classList.add('main-slider__item--is-active');
-    //добовляем который переносит слайде вправо от лнка карусели
 
   }
 
@@ -519,7 +522,7 @@ setBgModalHeight(bgModal);
 window.addEventListener(`resize`, () => {
   setBgModalHeight(bgModal);
   //setBgModalHeight(callbackFormBg);
-  adaptDropdownsHeight();
+  // adaptDropdownsHeight();
 }, false);
 if (faqModal) {
   window.addEventListener(`resize`, () => {
@@ -535,7 +538,7 @@ application.addEventListener('click', () => {
 
 // добовляем фунцию отктрытия окна заказ
 Array.from(orderBtns).forEach((el) => {
-  el.addEventListener('click', () => { showModal(order) });
+  el.addEventListener('click', (e) => { showOrderModal(el) });
 });
 
 // Добовляем функцию закрытия для модульных окон
@@ -612,6 +615,44 @@ function showModal(idModal) {
   body.classList.add('is-no-scroll');
 }
 
+function showOrderModal(el) {
+  setProductInModal(el)
+  showModal(order);
+}
+
+function setProductInModal(el) {
+  const card = el.closest('[data-product-card]');
+  const data = getProductInfo(card);
+  setDataInModal(data)
+
+
+}
+
+function getProductInfo(card) {
+  return {
+    title: card.querySelector('.product-card__link').innerHTML.trim(),
+    price: card.querySelector('.product-card__price--blue').innerHTML.trim(),
+    img: card.querySelector('.product-card__img').src,
+    id: card.id
+  }
+}
+
+function setDataInModal(data) {
+  const inputId = order.querySelector('[name="id"]');
+  const title = order.querySelector('.order-modal__desc');
+  const price = order.querySelector('#orderPrice');
+  const img = order.querySelector('.order-modal__img');
+
+
+  const numPrice = data.price.replace(/\s/g, '');
+
+  inputId.value = data.id;
+  price.innerHTML = data.price;
+  price.dataset.price = numPrice;
+  title.innerHTML = data.title;
+  img.src = data.img;
+}
+
 // Функция закрытия модульных окон
 function closeModal(el) {
   const modal = el.closest('.modal');
@@ -635,7 +676,6 @@ document.onclick = function (e) {
     slow(el);
   }
 }
-
 
 // Открываем/закрываем выподоющие эл
 function slow(el) {
@@ -688,7 +728,6 @@ function setValueCountInput(value) {
   }
   orderPrice.innerHTML = totalPrice(price, inputValue).toLocaleString();
 }
-
 
 function applicationFormCheck() {
   hideErrorMessages(applicationForm);
@@ -789,13 +828,9 @@ function callbackFormSend() {
     } else {
       let response = JSON.parse(xhr.response);
       if (response == 1) {
-        bgModal.classList.add('shading--is-show')
-        applicationThanks.classList.add('modal--is-show');
-        callbackFormModal.classList.remove('callback-form__wrap--is-show')
         console.log("Форма отправилась");
-        clearInputs(inputs);
+
       } else {
-        noSend(callbackForm);
         console.log("Неудачная отправка");
       }
     }
@@ -1087,4 +1122,132 @@ function strLength(classEl, length) {
     }
   });
 
+}
+
+async function addBasket(e) {
+
+  const btn = e.target.closest('[data-add-basket]');
+  if (!btn) {
+    return;
+  }
+  const id = btn.dataset.id;
+  const api = btn.dataset.link;
+  let response;
+  const data = {
+    '_token': _token,
+    'id': id
+  }
+
+  const formData = appendData(data);
+
+  response = await getData(POST, formData, api);
+  setInBasketBtn(btn, response.toggle, response.desc)
+}
+
+function setInBasketBtn(el, toggle, desc) {
+  const parent = el.closest('[data-product-card]');
+  const iconBtn = parent.querySelector('[data-img-basket]');
+  const btn = parent.querySelector('[data-btn-basket]');
+  if (btn) {
+    toggleInBasketBtn(btn, toggle, desc)
+  }
+  if (iconBtn) {
+    toggleInBasketIconBtn(iconBtn, toggle)
+  }
+
+
+}
+
+function toggleInBasketIconBtn(btn, toggle = false) {
+  const pathToImage = './img/icon/basket-icon.svg';
+  const pathToImageActive = './img/icon/check-mark.svg';
+  if (toggle) {
+    btn.src = pathToImageActive;
+    return;
+  }
+  btn.src = pathToImage;
+
+}
+
+function toggleInBasketBtn(btn, toggle = false, desc) {
+  if (toggle) {
+    btn.innerHTML = desc;
+    return;
+  }
+  btn.innerHTML = desc;
+}
+
+async function addFavorite(e) {
+
+  const btn = e.target.closest('[data-add-favorite]');
+  if (!btn) {
+    return;
+  }
+  const id = btn.dataset.id;
+  const api = btn.dataset.link;
+  let response;
+  const data = {
+    '_token': _token,
+    'id': id
+  }
+
+  const formData = appendData(data)
+  response = await getData(POST, formData, api);
+  setFavoriteIcon(btn, response.toggle);
+
+
+}
+
+function setFavoriteIcon(el, boolean) {
+  const imgEl = el.querySelector('[data-img-favorite]');
+  const pathToImage = './img/icon/favorite-icon.svg';
+  const pathToImageActive = './img/icon/favorite-icon-active.svg';
+  if (!boolean) {
+    imgEl.src = pathToImage;
+    return;
+  }
+  imgEl.src = pathToImageActive;
+}
+
+function getToken() {
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  return meta.getAttribute('content')
+}
+
+function appendData(data) {
+  const formData = new FormData()
+  for (let key in data) {
+    formData.append(`${key}`, data[key])
+  }
+  return formData;
+}
+
+function getData(method, data, api) {
+
+  return new Promise(function (resolve, reject) {
+
+    const xhr = new XMLHttpRequest();
+    let response = null
+
+    xhr.open(method, api, true);
+    xhr.send(data);
+
+    xhr.onload = function () {
+      if (xhr.status != 200) {
+        console.log('Ошибка: ' + xhr.status);
+        return false;
+      } else {
+        response = JSON.parse(xhr.response);
+        resolve(response);
+        if (response) {
+          console.log("Запрос отправлен");
+        } else {
+          console.log("Неудачная отправка");
+        }
+      }
+    };
+    xhr.onerror = function () {
+      reject(new Error("Network Error"))
+    };
+  })
 }

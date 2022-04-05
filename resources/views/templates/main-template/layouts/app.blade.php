@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='{{asset('templates/'. $appTemplate .'/css/style.min.css')}}'>
-    <title>Store Portal</title>
+    <meta name="csrf-token" content="{{csrf_token()}}">
+    <title>@hasSection('title')@yield('title')@else Вассортименте @endif</title>
+    <meta name="description" content="@hasSection('description')@yield('description')@else Вассортименте @endif" />
+    <meta name="keywords" content="@hasSection('keywords')@yield('keywords')@else Купить, цена, производство, оптом, розница @endif" />
 </head>
 
 <body>
@@ -186,7 +189,7 @@
         </nav>
         <div class="f-content">
             <div id='callbackFormModal' class="callback-form__wrap">
-                <form id="callbackForm" action="send.html" method="POST" class="f__form callback-form form">
+                <form id="callbackForm" action="{{url('api/send')}}" method="POST" class="f__form callback-form form">
                     <div class="callback-close__wrap close">
               <span class="close__word callback-close">
                 Закрыть
@@ -208,14 +211,15 @@
                     <p class="f__error error mail">Неправильна указана почта</p>
                     <div class="callback-form__input-wrap">
                         <input name='name' class="callback-form__input input" type="text" data-type='name' placeholder="Ваше имя">
-                        <input name='tel' class="callback-form__input input" data-type='tel' type="text"
+                        <input id='callbackTel' name='tel' class="callback-form__input input" data-type='tel' type="text"
                                placeholder="Ваш телефон">
-                        <input name='mail' class="callback-form__input input" data-type="email" type="text"
+                        <input id='callbackMail' name='mail' class="callback-form__input input" data-type="email" type="text"
                                placeholder="Ваша почта">
                         <input class="callback-form__submit submit-form light-btn" type="submit" value="Оставить заявку">
                     </div>
                 </form>
             </div>
+
 
             <div class="f-contacts">
                 <h4 class='f__title'>
@@ -332,7 +336,7 @@
                     </a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a href="stock.html" class="mobile-nav__link">
+                    <a href="{{route('sales')}}" class="mobile-nav__link">
                         Акции
                     </a>
                 </li>
@@ -425,7 +429,8 @@
         <div class="modal__content">
             <h4 class="modal__title">Ваш заказ!</h4>
             <p class="modal__desc">Укажите количество товара, контактный телефон или почту</p>
-            <form id='orderForm' class='order-modal__form' action="send.html" method="POST">
+            <form id='orderForm' class='order-modal__form' action="send.html" method="POST">.
+                <input type="text" style="display: none;" name="id" value="">
                 <div class="order-modal__item">
                     <img src="{{asset('img/image/section-img.jpg')}}" alt="" class="order-modal__img">
                     <div class="order-modal__desc">
