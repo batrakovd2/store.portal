@@ -110,4 +110,13 @@ class PortalConnectionController extends Controller
         });
         return $city;
     }
+
+    public function getDeliveries() {
+        $api =  $this->PORTAL_URL.'/api/delivery/get';
+        $deliveries = Cache::remember('portal_deliveries', now()->addDay(1), function () use ($api) {
+            $response = file_get_contents($api);
+            return $city = $response ? json_decode($response) : [];
+        });
+        return $deliveries;
+    }
 }

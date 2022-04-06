@@ -43,6 +43,8 @@ const callbackFormModal = document.querySelector('#callbackFormModal')
 const callbackForm = document.querySelector('#callbackForm');
 const callbackClose = document.querySelectorAll('.callback-close');
 const callbackOpenBtn = document.querySelector('#callbackBtn');
+const basket = document.querySelector('#basket');
+const basketForm = document.querySelector('#basketForm');
 const sensitivity = 20; // кол пикселей для регистрации движения
 let touchStart = null; // начало движение по сенсеру
 let touchPosition = null; // растояние пройденое по сенсеру
@@ -63,6 +65,20 @@ window.addEventListener('scroll', showUp)
 document.addEventListener('click', addFavorite);
 document.addEventListener('click', addBasket);
 
+
+if (basket) {
+  basket.addEventListener('click', removeBasketCard);
+  basket.addEventListener('click', counterCard);
+  basket.addEventListener('input', sendValue);
+}
+
+if (basketForm) {
+  basketForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+  })
+  sendBasketForm()
+}
+
 // Добовлям фунцию для прокрутки сраницы вверх
 upBtn.addEventListener('click', goUp);
 let timeOut;
@@ -73,7 +89,7 @@ function goUp() {
     timeOut = setTimeout('goUp()', 5);
   } else clearTimeout(timeOut);
 }
-// Обрезаем длину ссылок в популярных разделай
+// Обрезаем длину ссылок в популярных разделай 
 strLength('sections-card__link-item', 20);
 //strLength('sections-card__title', 34);
 
@@ -522,7 +538,7 @@ setBgModalHeight(bgModal);
 window.addEventListener(`resize`, () => {
   setBgModalHeight(bgModal);
   //setBgModalHeight(callbackFormBg);
-  // adaptDropdownsHeight();
+  adaptDropdownsHeight();
 }, false);
 if (faqModal) {
   window.addEventListener(`resize`, () => {
@@ -700,7 +716,7 @@ function slow(el) {
   dropdownHeader.classList.add('is-active')
 }
 
-//Адаптирует высоту dropdown
+//Адаптирует высоту dropdown 
 function adaptDropdownsHeight() {
 
   Array.from(dropdownWraps).forEach((el) => {
@@ -1013,8 +1029,8 @@ if (yandexmap) {
   let map;
   let marker;
   // Координаты
-  // Для изменение координат, необходимо
-  // записать новое значенить в атребуте
+  // Для изменение координат, необходимо 
+  // записать новое значенить в атребуте 
   // "data-coord" в блоке id='yandexmap'
   // певое значение ширина, второе долгота
   // через запятую
@@ -1050,7 +1066,7 @@ function showSearch() {
 function changePosition() {
   const mainBgCoord = mainBg.getBoundingClientRect();
   const footerCoord = footer.getBoundingClientRect();
-  // Взависимости от условия
+  // Взависимости от условия 
   if (footerCoord.y <= mainBgCoord.height) {
     // позиция absolute для прижития bg  к футеру
     mainBg.classList.add('main-bg--absolute');
@@ -1208,6 +1224,239 @@ function setFavoriteIcon(el, boolean) {
   }
   imgEl.src = pathToImageActive;
 }
+
+async function sendValue(e) {
+
+  const input = e.target.closest('[data-input]');
+  if (!input) {
+    return;
+  }
+  const api = input.dataset.link;
+  const id = input.dataset.id;
+  const card = input.closest('[data-product-card]');
+  const msg = card.querySelector('[data-card-msg]');
+  const data = {
+    '_token': _token,
+    'id': id,
+  }
+  const totalBasketCount = document.querySelector('#totalBasketCount');
+  const totalBasketPrice = document.querySelector('#totalBasketPrice');
+  let response = null;
+
+
+  const value = input.value.trim();
+  if (isNaN(value)) {
+    msg.classList.add('basket-card__msg--is-show');
+    msg.innerHTML = 'Введите число';
+    return;
+  }
+
+  if (value <= 0) {
+    input.value = 1;
+    msg.classList.remove('basket-card__msg--is-show');
+  }
+
+  data.count = value;
+  response = await getData(POST, data, api);
+
+  if (!response.res) {
+    msg.classList.add('basket-card__msg--is-show');
+    msg.innerHTML = response.desc;
+    return;
+  }
+
+  msg.classList.remove('basket-card__msg--is-show');
+  input.value = response.count;
+
+  totalBasketCount.innerHTML = response.card.count;
+  totalBasketPrice.innerHTML = response.card.total_price;
+}
+
+async function counterCard(e) {
+  const btn = e.target.closest('[data-count-btn]');
+  if (!btn) {
+    return;
+  }
+  const totalBasketCount = document.querySelector('#totalBasketCount');
+  const totalBasketPrice = document.querySelector('#totalBasketPrice');
+  const card = btn.closest('[data-product-card]');
+  const msg = card.querySelector('[data-card-msg]');
+  const counter = btn.closest('[data-counter]');
+  const id = counter.dataset.id;
+  const api = counter.dataset.link;
+  const input = counter.querySelector('[data-input]');
+  const value = input.value;
+  let res = 0;
+  let response = null;
+  const data = {
+    '_token': _token,
+    'id': id,
+  };
+
+  input.addEventListener('input', sendValue);
+  if (btn.hasAttribute('data-inc')) {
+
+    res = +value + 1;
+    data.count = res;
+
+    const formData = appendData(data)
+    response = await getData(POST, formData, api);
+
+    if (!response.res) {
+      console.log(msg)
+      msg.classList.add('basket-card__msg--is-show');
+      msg.innerHTML = response.desc;
+      return;
+    }
+    input.value = response.count;
+    msg.classList.remove('basket-card__msg--is-show');
+    totalBasketCount.innerHTML = response.card.count;
+    totalBasketPrice.innerHTML = response.card.total_price;
+  }
+  if (btn.hasAttribute('data-dec')) {
+    res = value - 1;
+    if (res <= 0) {
+      input.value = 1
+      return
+    }
+
+    data.count = res;
+    const formData = appendData(data)
+    response = await getData(POST, formData, api);
+    if (!response.res) {
+      console.log(msg)
+      msg.classList.add('basket-card__msg--is-show');
+      msg.innerHTML = response.desc;
+      return;
+    }
+    input.value = response.count;
+    msg.classList.remove('basket-card__msg--is-show');
+    totalBasketCount.innerHTML = response.card.count;
+    totalBasketPrice.innerHTML = response.card.total_price;
+  }
+}
+
+
+async function removeBasketCard(e) {
+  const btn = e.target.closest('[data-remove]');
+  if (!btn) {
+    return;
+  }
+  const card = btn.closest('[data-product-card]');
+  const basketList = document.querySelector('#basketList');
+  const totalBasketCount = document.querySelector('#totalBasketCount');
+  const totalBasketPrice = document.querySelector('#totalBasketPrice');
+  const api = btn.dataset.link;
+  const id = btn.dataset.id;
+  const data = {
+    '_token': _token,
+    'id': id
+  }
+
+  const formData = appendData(data);
+  const response = await getData(POST, formData, api);
+
+  if (response.res) {
+    totalBasketCount.innerHTML = response.card.count;
+    totalBasketPrice.innerHTML = response.card.total_price.toLocaleString();
+    basketList.removeChild(card);
+  }
+
+}
+
+function sendBasketForm() {
+  const inputTel = basketForm.querySelector('[name="tel"]');
+  const inputMail = basketForm.querySelector('[name="mail"]');
+  const inputName = basketForm.querySelector('[name="name"]');
+  const submit = basketForm.querySelector('#subminBasket');
+  inputTel.addEventListener('blur', () => {
+    const value = inputTel.value.trim();
+    const res = regexСheck(value, regTel);
+
+    if (!res) {
+      inputTel.classList.add('basket-form__input--is-error')
+    }
+    if (res) {
+      inputTel.classList.remove('basket-form__input--is-error')
+    }
+  })
+
+  inputMail.addEventListener('blur', () => {
+    const value = inputMail.value.trim();
+    const res = regexСheck(value, regMail);
+    if (!res) {
+      inputMail.classList.add('basket-form__input--is-error')
+    }
+    if (res) {
+      inputMail.classList.remove('basket-form__input--is-error')
+    }
+  })
+
+  submit.addEventListener('click', sendBasket)
+
+  async function sendBasket() {
+    const api = submit.dataset.link;
+    const valueTel = inputTel.value.trim();
+    const valueMail = inputMail.value.trim();
+    const basketList = document.querySelector('#basketList');
+    const basketFormMsg = basketForm.querySelector('#basketFormMsg');
+    const totalBasketCount = document.querySelector('#totalBasketCount');
+    const totalBasketPrice = document.querySelector('#totalBasketPrice');
+    let response = null;
+    let res = true;
+    let data = null;
+    if (!valueTel) {
+      inputTel.classList.add('basket-form__input--is-error');
+      res = false;
+    } else {
+      res = regexСheck(valueTel, regTel) && res;
+      if (!res) {
+        inputTel.classList.add('basket-form__input--is-error');
+      }
+    }
+
+    if (!valueMail) {
+      res = false;
+      inputMail.classList.add('basket-form__input--is-error')
+    } else {
+      res = regexСheck(valueMail, regMail) && res;
+      if (!res) {
+        inputMail.classList.add('basket-form__input--is-error');
+      }
+    }
+
+
+    if (!res) {
+      return
+    }
+
+    data = new FormData(basketForm);
+    data.append('_token', _token);
+
+    response = await getData(POST, data, api)
+
+    if (response.rez) {
+      inputTel.value = ''
+      inputTel.classList.remove('basket-form__input--is-error');
+      inputMail.value = ''
+      inputMail.classList.remove('basket-form__input--is-error');
+      inputName.value = ''
+      inputName.classList.remove('basket-form__input--is-error');
+      basketFormMsg.innerHTML = response.desc;
+      basketFormMsg.classList.add('basket-form__message--is-show');
+      basketList.innerHTML = '<p class="basket__empty">Ваша корзина пустая</p>';
+      totalBasketCount.innerHTML = 0;
+      totalBasketPrice.innerHTML = 0;
+    } else {
+      basketFormMsg.innerHTML = response.desc;
+      basketFormMsg.classList.add('basket-form__message--is-show');
+    }
+
+
+
+  }
+}
+
 
 function getToken() {
   const meta = document.querySelector('meta[name="csrf-token"]');

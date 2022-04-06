@@ -29,4 +29,8 @@ class PageController extends Controller
             'saleProducts' => $products
         ]);
     }
+
+    public function cart() {
+        return view('templates.'. $this->template .'.static.cart');
+    }
 }

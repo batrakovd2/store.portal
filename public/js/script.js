@@ -674,12 +674,46 @@ $(document).ready(function () {
         }
     });
 
+    /* seo tags */
+
     $('.seo-teg').click(function () {
         const teg = $(this).data('teg');
         let value = $(this).closest('.form-group').find('input').val();
         value = value + teg;
         $(this).closest('.form-group').find('input').val(value);
     })
+
+    /* delivery page */
+
+    $('input[name="delivery_type"]').click(function(){
+        const target = $(this).val();
+        if(target == 3) {
+            $('.delivery-price').show();
+        } else {
+            $('.delivery-price').hide();
+        }
+    });
+
+    $('.createDelivery').click(function () {
+        const params = getAnyPageParameters("#formDelivery");
+        url = '/api/delivery/add';
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    $('.editDelivery').click(function () {
+        const params = getAnyPageParameters("#formDelivery");
+        url = '/api/delivery/edit/' + params.get('deliveryid');
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
+    $('body').on('click', '.remove-delivery-btn', function () {
+        const id = $(this).data('id');
+        url = '/api/delivery/remove';
+        params = { id: id };
+        $(this).closest('tr').remove();
+        axiosPostRequest(url, params, modalSweetAlert);
+    });
+
 
 
 

@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin','middleware' => 'admin', 'as' => 'admin.'], fu
     Route::resource('review', App\Http\Controllers\ReviewController::class);
     Route::resource('faq', App\Http\Controllers\Admin\FAQController::class);
     Route::resource('gallery', App\Http\Controllers\GalleryController::class);
+    Route::resource('delivery', App\Http\Controllers\Admin\DeliveryController::class);
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index']);
     Route::get('user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
     Route::get('user/add', [App\Http\Controllers\Admin\UserController::class, 'add'])->name('user.add');
@@ -61,6 +62,9 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('faq/add', [App\Http\Controllers\Admin\FAQController::class, 'store']);
     Route::post('faq/edit/{faq}', [App\Http\Controllers\Admin\FAQController::class, 'update']);
     Route::post('faq/remove', [App\Http\Controllers\Admin\FAQController::class, 'destroy']);
+    Route::post('delivery/add', [App\Http\Controllers\Admin\DeliveryController::class, 'store']);
+    Route::post('delivery/remove', [App\Http\Controllers\Admin\DeliveryController::class, 'destroy']);
+    Route::post('delivery/edit/{delivery}', [App\Http\Controllers\Admin\DeliveryController::class, 'update']);
 });
 
 /* public api */
@@ -75,6 +79,7 @@ Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name
 Route::get('contacts', [App\Http\Controllers\PageController::class, 'contacts'])->name('contacts');
 Route::get('catalog', [App\Http\Controllers\CatalogController::class, 'catalog'])->name('catalog');
 Route::get('sales', [App\Http\Controllers\PageController::class, 'sales'])->name('sales');
+Route::get('cart', [App\Http\Controllers\PageController::class, 'cart'])->name('cart');
 Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('catalog/{slug}', [App\Http\Controllers\CategoryController::class, 'index']);

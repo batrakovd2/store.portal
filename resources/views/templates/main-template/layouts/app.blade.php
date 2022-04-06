@@ -64,6 +64,12 @@
                         </a>
                     </li>
                     @endif
+                    <li class="h-nav__item">
+                        @if(\Illuminate\Support\Facades\Route::is('cart')) <span class="h-nav__marker"></span> @endif
+                        <a href="{{route('cart')}}" class="h-nav__link link @if(\Illuminate\Support\Facades\Route::is('cart')) h-nav__link--is-active @endif">
+                            Корзина
+                        </a>
+                    </li>
                 </ul>
                 <div class="h-login">
                     <span class="h-login__btn">
