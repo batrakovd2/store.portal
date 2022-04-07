@@ -50,6 +50,14 @@ class Product extends Model
         return $product;
     }
 
+    public function getProductsByIds($id) {
+        $product = [];
+        if($id) {
+            $product = Product::whereIn('id', $id)->get();
+        }
+        return $product;
+    }
+
     public function getProductBySlug($slug) {
         $product = Product::where('slug', $slug)->first();
         $product = Product::getPrices($product);

@@ -30,7 +30,4 @@ class PageController extends Controller
         ]);
     }
 
-    public function cart() {
-        return view('templates.'. $this->template .'.static.cart');
-    }
 }

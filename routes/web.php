@@ -65,6 +65,7 @@ Route::group(['prefix' => 'api','middleware' => 'auth', 'as' => 'api.'], functio
     Route::post('delivery/add', [App\Http\Controllers\Admin\DeliveryController::class, 'store']);
     Route::post('delivery/remove', [App\Http\Controllers\Admin\DeliveryController::class, 'destroy']);
     Route::post('delivery/edit/{delivery}', [App\Http\Controllers\Admin\DeliveryController::class, 'update']);
+
 });
 
 /* public api */
@@ -73,13 +74,15 @@ Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionControl
 Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
 Route::post('api/field/get', [App\Http\Controllers\PortalConnectionController::class, 'getFieldsByIds']);
 Route::get('api/changes/get', [App\Http\Controllers\ProductChangeController::class, 'getChanges']);
+Route::get('api/cart/add/{id}', [App\Http\Controllers\CartController::class, 'addToCart']);
+Route::get('api/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'removeFromCart']);
 
 /* public pages */
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');
 Route::get('contacts', [App\Http\Controllers\PageController::class, 'contacts'])->name('contacts');
 Route::get('catalog', [App\Http\Controllers\CatalogController::class, 'catalog'])->name('catalog');
 Route::get('sales', [App\Http\Controllers\PageController::class, 'sales'])->name('sales');
-Route::get('cart', [App\Http\Controllers\PageController::class, 'cart'])->name('cart');
+Route::get('cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
 Route::get('news', [App\Http\Controllers\NewsController::class, 'news'])->name('news');
 Route::get('news/{slug}', [App\Http\Controllers\NewsController::class, 'show']);
 Route::get('catalog/{slug}', [App\Http\Controllers\CategoryController::class, 'index']);
