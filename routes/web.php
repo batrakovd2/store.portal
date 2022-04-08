@@ -74,8 +74,9 @@ Route::post('api/rubric/getChild', [App\Http\Controllers\PortalConnectionControl
 Route::post('api/city/getChild', [App\Http\Controllers\PortalConnectionController::class, 'getCities']);
 Route::post('api/field/get', [App\Http\Controllers\PortalConnectionController::class, 'getFieldsByIds']);
 Route::get('api/changes/get', [App\Http\Controllers\ProductChangeController::class, 'getChanges']);
-Route::get('api/cart/add/{id}', [App\Http\Controllers\CartController::class, 'addToCart']);
-Route::get('api/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'removeFromCart']);
+Route::post('api/cart/add', [App\Http\Controllers\CartController::class, 'addToCart']);
+Route::post('api/cart/remove', [App\Http\Controllers\CartController::class, 'removeFromCart']);
+Route::post('api/cart/count', [App\Http\Controllers\CartController::class, 'countProductCart']);
 
 /* public pages */
 Route::get('about', [App\Http\Controllers\PageController::class, 'about'])->name('about');

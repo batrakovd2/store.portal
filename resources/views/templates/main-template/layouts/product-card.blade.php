@@ -22,19 +22,29 @@
                     <img data-img-favorite src="{{asset('img/icon/favorite-icon.svg')}}" alt="" class="product-card__item-img">
                 </span>
 
-                <span class='product-card__add-item product-card__add-basket' data-id="{{$prod->id}}" data-link="{{url('api/cart/add', $prod->id)}}" data-add-basket>
-                    <img data-img-basket src="{{asset('img/icon/basket-icon.svg')}}" alt="" class="product-card__item-img">
+                <span class='product-card__add-item product-card__add-basket' data-id="{{$prod->id}}" data-link="{{url('api/cart/add')}}"
+                      @if(!empty($prod->in_cart)) data-remove @else data-add-basket @endif  >
+                    @if(!empty($prod->in_cart))
+                        <img data-img-basket="" src="{{asset('img/icon/check-mark.svg')}}" alt="" class="product-card__item-img">
+                    @else
+                        <img data-img-basket src="{{asset('img/icon/basket-icon.svg')}}" alt="" class="product-card__item-img">
+                    @endif
                 </span>
 
-                <button class="mobile-product-card__in-basket dark-btn" data-id="{{$prod->id}}" data-link="api/cart/add/{{$prod->id}}" data-add-basket data-btn-basket>
-                    В корзину
+                <button class="mobile-product-card__in-basket dark-btn" data-id="{{$prod->id}}" data-link="{{url('api/cart/add')}}" data-add-basket data-btn-basket>
+                    @if(!empty($prod->in_cart))
+                        В корзине
+                    @else
+                        В корзину
+                    @endif
+
                 </button>
             </div>
 
-            <button class="product-card__btn product-card__order dark-btn" data-id="{{$prod->id}}" data-link="api/cart/add/{{$prod->id}}" data-fast-order>
+            <button class="product-card__btn product-card__order dark-btn" data-id="{{$prod->id}}" data-link="{{url('api/cart/add')}}" data-fast-order>
                 Заказать
             </button>
-            <button class="product-card__btn mobile-product-card__order dark-btn" data-id="{{$prod->id}}" data-link="api/cart/add/{{$prod->id}}" data-fast-order>
+            <button class="product-card__btn mobile-product-card__order dark-btn" data-id="{{$prod->id}}" data-link="{{url('api/cart/add')}}" data-fast-order>
                 Заказать
             </button>
         </div>

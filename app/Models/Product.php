@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PortalConnectionController;
 use App\Http\Controllers\SeoController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -131,8 +132,17 @@ class Product extends Model
     public function getSaleProducts() {
         $products = Product::whereNotNull("advanced_price")->paginate(12);
         $products = Gallery::getOncePhotoForCollectionItems($products);
+        $crt = new CartController();
+        $products = $crt->getItemInCart($products);
         return $products;
     }
+
+    public function getPriceById($id) {
+        $price = Product::where('id', $id)->select('price')->first();
+        return $price && $price->price ? $price->price : 0;
+    }
+
+
 
 
 }

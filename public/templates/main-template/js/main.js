@@ -1,7 +1,7 @@
 "use strict";
 const _token = getToken();
 const body = document.querySelector('body');
-const POST = 'GET';
+const POST = 'POST';
 const GET = 'GET';
 const KEY_ESC = 27;
 const mobileSearchWrap = document.querySelector('#mobileSearchWrap');
@@ -89,7 +89,7 @@ function goUp() {
     timeOut = setTimeout('goUp()', 5);
   } else clearTimeout(timeOut);
 }
-// Обрезаем длину ссылок в популярных разделай 
+// Обрезаем длину ссылок в популярных разделай
 strLength('sections-card__link-item', 20);
 //strLength('sections-card__title', 34);
 
@@ -716,7 +716,7 @@ function slow(el) {
   dropdownHeader.classList.add('is-active')
 }
 
-//Адаптирует высоту dropdown 
+//Адаптирует высоту dropdown
 function adaptDropdownsHeight() {
 
   Array.from(dropdownWraps).forEach((el) => {
@@ -1029,8 +1029,8 @@ if (yandexmap) {
   let map;
   let marker;
   // Координаты
-  // Для изменение координат, необходимо 
-  // записать новое значенить в атребуте 
+  // Для изменение координат, необходимо
+  // записать новое значенить в атребуте
   // "data-coord" в блоке id='yandexmap'
   // певое значение ширина, второе долгота
   // через запятую
@@ -1066,7 +1066,7 @@ function showSearch() {
 function changePosition() {
   const mainBgCoord = mainBg.getBoundingClientRect();
   const footerCoord = footer.getBoundingClientRect();
-  // Взависимости от условия 
+  // Взависимости от условия
   if (footerCoord.y <= mainBgCoord.height) {
     // позиция absolute для прижития bg  к футеру
     mainBg.classList.add('main-bg--absolute');

@@ -24,7 +24,7 @@
                                     @if(!empty($products) && count($products))
                                         @foreach($products as $prod)
                                             <div id='{{$prod->id}}' class="basket-card" data-product-card>
-                                                <div data-link='{{url('api/cart/remove', $prod->id)}}' class="basket-card__remove" data-remove data-id='{{$prod->id}}'>
+                                                <div data-link='{{url('api/cart/remove')}}' class="basket-card__remove" data-remove data-id='{{$prod->id}}'>
                                                     <img src="{{asset('img/control/remove.svg')}}" alt="" class="basket-card__remove-img">
                                                 </div>
                                                 <div class="basket-card__preview">
@@ -42,10 +42,10 @@
                                                     </div>
                                                     <p data-card-msg class='basket-card__msg'>Здесь будет текст ошибки</p>
                                                     <div class="basket-card__footer">
-                                                        <div data-id="{{$prod->id}}" data-link='./test-ajax/counter.json' class="counter basket-card__counter" data-counter>
+                                                        <div data-id="{{$prod->id}}" data-link='{{url('api/cart/count')}}' class="counter basket-card__counter" data-counter>
                                                             <div class="counter__wrap"></div>
                                                             <input name='count' type="text" class="modal__input basket-card__counter-input counter__input"
-                                                                   value='1' placeholder="Количество" data-link='./test-ajax/counter.json' data-id='{{$prod->id}}' data-input>
+                                                                   value='@if(!empty($prod->count)) {{$prod->count}} @else 1 @endif' placeholder="Количество" data-link='{{url('api/cart/count')}}' data-id='{{$prod->id}}' data-input>
 
                                                             <div class="counter__btn basket-card__counter-btn" data-inc data-count-btn>
                                                                 <img src="{{asset('img/control/counter-inc.svg')}}" alt="" class="counter__btn-img">
@@ -56,7 +56,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="basket-card__add">
-                                                            <span class='product-card__add-item' data-id="{{$prod->id}}" data-link="./test-ajax/in-favorite.json" data-add-favorite>
+                                                            <span class='product-card__add-item' data-id="{{$prod->id}}" data-link="{{url('api/cart/count')}}" data-add-favorite>
                                                             <img data-img-favorite src="{{asset('img/icon/favorite-icon.svg')}}" alt="" class="product-card__item-img">
                                                           </span>
                                                         </div>
